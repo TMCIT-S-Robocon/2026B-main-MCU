@@ -1,0 +1,80 @@
+configVersion: 1.0.0
+coreVersion: 5.8.2
+spaHostVersion: 1.0.0
+device: PIC32MK1024MCM064
+deviceLibrary:
+  className: null
+groupModules: []
+modules:
+- can1
+- can2
+- can3
+- can4
+- core
+- dfp
+- i2c1
+generatedFileHashHistoryMap:
+- file: ../src/config/default/definitions.h
+  hash: 14764716b22f46f9b29731a4b9bb1983a6329fe270253f715da2e96f25730243
+- file: ../src/config/default/device.h
+  hash: 4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442
+- file: ../src/config/default/exceptions.c
+  hash: 265c985839caadb2fa9e8fc76e7bc3c160e31e9b2c96dc4006add33e5d7ee212
+- file: ../src/config/default/initialization.c
+  hash: 40efae7c39e871609f4afe82e2cf7f6c3e8cb12cb9bdc99ea88d55ecf630c359
+- file: ../src/config/default/interrupts.c
+  hash: 3bf3462df825c84c4d7f5461a22f233f57676536e164313b45b4e8bbc2c02509
+- file: ../src/config/default/interrupts.h
+  hash: cd902d6ed1baab9457f426146d9e444a139177bfe4c54ebc75d1137f0b3463fb
+- file: ../src/config/default/p32MK1024MCM064.ld
+  hash: b8998b4af35d2554f3852d6ba6d8ef3bf0307efef8938c0cb4ea4194182da098
+- file: ../src/config/default/peripheral/canfd/plib_canfd1.c
+  hash: 88dddea6a57016b3fc4e7417bd4db3a6edd5cd4ede2ce4f488085e18934f4cd0
+- file: ../src/config/default/peripheral/canfd/plib_canfd1.h
+  hash: b2132a52044d8f70e8eb2c701074b216a7d8a7ae6d6dcc9636ebc9db669acd9a
+- file: ../src/config/default/peripheral/canfd/plib_canfd2.c
+  hash: 9dfb8c62216c394d1ee67a8b7b3e4a623cb007034d25c5d71f7243d33c5605c6
+- file: ../src/config/default/peripheral/canfd/plib_canfd2.h
+  hash: 554cc507b202345ad0146891f9f9ec18b4a2a20084855b40dc5c249a365ee218
+- file: ../src/config/default/peripheral/canfd/plib_canfd3.c
+  hash: 24bbfffbb9c284222f52cb1c95e9f996b10b8698728cafabec530c480c2ac2a9
+- file: ../src/config/default/peripheral/canfd/plib_canfd3.h
+  hash: 6fcbc1a3bd8fb3b245713c9cb00fef871e724efdb09a86f50a9fc6e09e3d0910
+- file: ../src/config/default/peripheral/canfd/plib_canfd4.c
+  hash: cc21cef4dadee80e0348e13867edf32dc68f397b8ce379bea502fafc9ce0b7e5
+- file: ../src/config/default/peripheral/canfd/plib_canfd4.h
+  hash: f4b60a9de25c3bdbd300c8b1d2e2d9af6d6bb2114075d36a2710ea0b2f36002c
+- file: ../src/config/default/peripheral/canfd/plib_canfd_common.h
+  hash: fbf5091541d361f023f2c1fa3f04173ed84db75e64f475d14e1919856f1bf620
+- file: ../src/config/default/peripheral/clk/plib_clk.c
+  hash: 436e1a8fd82f62b1b3a0d1e58abeda42809de58c3d35034339c002f6a94b625d
+- file: ../src/config/default/peripheral/clk/plib_clk.h
+  hash: 35384f2e13e59b7190bf77f6996baf3ea2377ec42df94979a6f793326def5255
+- file: ../src/config/default/peripheral/evic/plib_evic.c
+  hash: adff57fd8c9a905ce8d42a4cf2ac3765ef300e1faf034aac0fadb2ea4ef48aad
+- file: ../src/config/default/peripheral/evic/plib_evic.h
+  hash: 7ca2c90979d4e8932f07e4dc6bcea310c2a9404bb0eb5bcfb3712b362db61eac
+- file: ../src/config/default/peripheral/gpio/plib_gpio.c
+  hash: 0277f06f76c1e51b6c2e43bac1f8c797428f9d64b2fa0c970b6d71e3806d716f
+- file: ../src/config/default/peripheral/gpio/plib_gpio.h
+  hash: 179312f8da89c5c82dd23c618d763d3f8f316fb8ec847f3ce740d1355c1c4bb5
+- file: ../src/config/default/peripheral/i2c/master/plib_i2c1_master.c
+  hash: 4756bd6b857bcbc4871d70f6a6b78da73e570faa0063e5a8d81334630c30fc2e
+- file: ../src/config/default/peripheral/i2c/master/plib_i2c1_master.h
+  hash: 396c911f1890ead8e84888dc838cacaab7f1d86b4de6f538ac545723f1058a1e
+- file: ../src/config/default/peripheral/i2c/master/plib_i2c_master_common.h
+  hash: e8e91fe4308eb9028f18cdb9ac7db5b82b0c3869c0911f884b9359940eedb411
+- file: ../src/config/default/peripheral/i2c/plib_i2c_smbus_common.c
+  hash: 026121a1d5fae1028604b3031f89253ed36f588d037beb3722351261ce514dd2
+- file: ../src/config/default/peripheral/i2c/plib_i2c_smbus_common.h
+  hash: 585f8d40c9fcaa072abdf3039cbc4b26ee3fbcb902171dd7e79a682e3973f995
+- file: ../src/config/default/peripheral/wdt/plib_wdt.c
+  hash: 1a6dae5cf6f789a4768d44fcee731f9aa1c505f26074eae8241748e61259d19b
+- file: ../src/config/default/peripheral/wdt/plib_wdt.h
+  hash: cb8dd5865885397dedcf11696f54ad5f8eca20c8a28d3c707b48efbf355e2812
+- file: ../src/config/default/stdio/xc32_monitor.c
+  hash: 858f8710d4287200a5ee7f3b3ad7c24f505aed9c05c16956ab0ff9f7bb162a6a
+- file: ../src/config/default/toolchain_specifics.h
+  hash: b4de6e02e3e48c62f7ba233405ffdf6ef31bb971d1a7b49efa1676f45cabc1ac
+- file: ../src/main.cpp
+  hash: d3c233d419e6304bfacbafc18cc68c0f5c26e365f23b20ea40ccfac458f664c5
