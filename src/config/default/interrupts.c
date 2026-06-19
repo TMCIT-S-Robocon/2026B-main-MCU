@@ -66,12 +66,9 @@
 // Section: System Interrupt Vector declarations
 // *****************************************************************************
 // *****************************************************************************
-void I2C1_BUS_Handler (void);
-void I2C1_MASTER_Handler (void);
+void TIMER_2_Handler (void);
+void OUTPUT_COMPARE_4_Handler (void);
 void CAN1_Handler (void);
-void CAN2_Handler (void);
-void CAN3_Handler (void);
-void CAN4_Handler (void);
 
 
 // *****************************************************************************
@@ -79,34 +76,19 @@ void CAN4_Handler (void);
 // Section: System Interrupt Vector definitions
 // *****************************************************************************
 // *****************************************************************************
-void __attribute__((used)) __ISR(_I2C1_BUS_VECTOR, ipl1SRS) I2C1_BUS_Handler (void)
+void __attribute__((used)) __ISR(_TIMER_2_VECTOR, ipl1SRS) TIMER_2_Handler (void)
 {
-    I2C1_BUS_InterruptHandler();
+    TIMER_2_InterruptHandler();
 }
 
-void __attribute__((used)) __ISR(_I2C1_MASTER_VECTOR, ipl1SRS) I2C1_MASTER_Handler (void)
+void __attribute__((used)) __ISR(_OUTPUT_COMPARE_4_VECTOR, ipl1SRS) OUTPUT_COMPARE_4_Handler (void)
 {
-    I2C1_MASTER_InterruptHandler();
+    OUTPUT_COMPARE_4_InterruptHandler();
 }
 
 void __attribute__((used)) __ISR(_CAN1_VECTOR, ipl1SRS) CAN1_Handler (void)
 {
     CAN1_InterruptHandler();
-}
-
-void __attribute__((used)) __ISR(_CAN2_VECTOR, ipl1SRS) CAN2_Handler (void)
-{
-    CAN2_InterruptHandler();
-}
-
-void __attribute__((used)) __ISR(_CAN3_VECTOR, ipl1SRS) CAN3_Handler (void)
-{
-    CAN3_InterruptHandler();
-}
-
-void __attribute__((used)) __ISR(_CAN4_VECTOR, ipl1SRS) CAN4_Handler (void)
-{
-    CAN4_InterruptHandler();
 }
 
 

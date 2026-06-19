@@ -48,15 +48,15 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "peripheral/i2c/master/plib_i2c1_master.h"
-#include "peripheral/canfd/plib_canfd3.h"
-#include "peripheral/canfd/plib_canfd4.h"
+#include <stdio.h>
+#include "peripheral/qei/plib_qei1.h"
+#include "peripheral/uart/plib_uart1.h"
 #include "peripheral/canfd/plib_canfd1.h"
-#include "peripheral/canfd/plib_canfd2.h"
+#include "peripheral/tmr/plib_tmr2.h"
 #include "peripheral/clk/plib_clk.h"
 #include "peripheral/gpio/plib_gpio.h"
 #include "peripheral/evic/plib_evic.h"
-#include "peripheral/wdt/plib_wdt.h"
+#include "peripheral/ocmp/plib_ocmp4.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

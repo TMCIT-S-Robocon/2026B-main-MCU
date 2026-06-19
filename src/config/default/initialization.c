@@ -152,6 +152,29 @@
 // *****************************************************************************
 // *****************************************************************************
 
+/*******************************************************************************
+  Function:
+    void STDIO_BufferModeSet ( void )
+
+  Summary:
+    Sets the buffering mode for stdin and stdout
+
+  Remarks:
+ ********************************************************************************/
+static void STDIO_BufferModeSet(void)
+{
+    /* MISRAC 2012 deviation block start */
+    /* MISRA C-2012 Rule 21.6 deviated 2 times in this file.  Deviation record ID -  H3_MISRAC_2012_R_21_6_DR_3 */
+
+    /* Make stdin unbuffered */
+    setbuf(stdin, NULL);
+
+    /* Make stdout unbuffered */
+    setbuf(stdout, NULL);
+    /* MISRAC 2012 deviation block end */
+}
+
+
 /* MISRAC 2012 deviation block end */
 
 /*******************************************************************************
@@ -173,6 +196,9 @@ void SYS_Initialize ( void* data )
     /* Start out with interrupts disabled before configuring any modules */
     (void)__builtin_disable_interrupts();
 
+    STDIO_BufferModeSet();
+
+
   
     CLK_Initialize();
 
@@ -187,15 +213,15 @@ void SYS_Initialize ( void* data )
 
 	GPIO_Initialize();
 
-    I2C1_Initialize();
+    QEI1_Initialize();
 
-    CAN3_Initialize();
-
-    CAN4_Initialize();
+	UART1_Initialize();
 
     CAN1_Initialize();
 
-    CAN2_Initialize();
+    TMR2_Initialize();
+
+    OCMP4_Initialize();
 
 
     EVIC_Initialize();

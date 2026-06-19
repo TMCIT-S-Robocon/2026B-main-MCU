@@ -1,30 +1,23 @@
 /*******************************************************************************
-  SYS CLK Static Functions for Clock System Service
+  Quadrature Encoder Interface (QEI) Peripheral Library Interface Header File
 
-  Company:
+  Company
     Microchip Technology Inc.
 
-  File Name:
-    plib_clk.c
+  File Name
+    plib_qei_common.h
 
-  Summary:
-    SYS CLK static function implementations for the Clock System Service.
+  Summary
+    Data Type definition of the QEI Peripheral Interface Plib.
 
-  Description:
-    The Clock System Service provides a simple interface to manage the
-    oscillators on Microchip microcontrollers. This file defines the static
-    implementation for the Clock System Service.
+  Description
+    This file defines the Data Types for the QEI Plib.
 
   Remarks:
-    Static functions incorporate all system clock configuration settings as
-    determined by the user via the Microchip Harmony Configurator GUI.
-    It provides static version of the routines, eliminating the need for an
-    object ID or object handle.
-
-    Static single-open interfaces also eliminate the need for the open handle.
+    None.
 
 *******************************************************************************/
-
+// DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
@@ -47,65 +40,78 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
+// DOM-IGNORE-END
+
+#ifndef PLIB_QEI_COMMON_H    // Guards against multiple inclusion
+#define PLIB_QEI_COMMON_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Include Files
+// Section: Data Types
 // *****************************************************************************
 // *****************************************************************************
 
-#include "device.h"
-#include "plib_clk.h"
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: File Scope Functions
-// *****************************************************************************
-// *****************************************************************************
-
-// *****************************************************************************
-/* Function:
-    void CLK_Initialize( void )
-
-  Summary:
-    Initializes hardware and internal data structure of the System Clock.
-
-  Description:
-    This function initializes the hardware and internal data structure of System
-    Clock Service.
-
-  Remarks:
-    This is configuration values for the static version of the Clock System
-    Service module is determined by the user via the MHC GUI.
-
-    The objective is to eliminate the user's need to be knowledgeable in the
-    function of the 'configuration bits' to configure the system oscillators.
+/*  The following data type definitions are used by the functions in this
+    interface.
 */
 
-void CLK_Initialize( void )
+// *****************************************************************************
+
+
+typedef enum
 {
-    /* unlock system for clock configuration */
-    SYSKEY = 0x00000000U;
-    SYSKEY = 0xAA996655U;
-    SYSKEY = 0x556699AAU;
-    
-    /* Peripheral Module Disable Configuration */
+    QEI_NONE = 0,
+    QEI_INDEX = _QEI1STAT_IDXIEN_MASK,
+    QEI_HOME = _QEI1STAT_HOMIEN_MASK,
+    QEI_VELOCITY_OVERFLOW = _QEI1STAT_VELOVIEN_MASK,
+    QEI_POSITION_OVERFLOW = _QEI1STAT_POSOVIEN_MASK,
+    QEI_POS_INIT_COMPLETE = _QEI1STAT_PCIIEN_MASK,
+    QEI_POS_LESS_EQ = _QEI1STAT_PCLEQIEN_MASK,
+    QEI_POS_HIGH_EQ = _QEI1STAT_PCHEQIEN_MASK
+}QEI_INTERRUPT;
 
-    CFGCONbits.PMDLOCK = 0;
 
-    PMD1 = 0x371U;
-    PMD2 = 0x17001fU;
-    PMD3 = 0xfff7ffffU;
-    PMD4 = 0xfff01fdU;
-    PMD5 = 0xe30f3f3eU;
-    PMD6 = 0xe0d0000U;
-    PMD7 = 0x0U;
+#define    QEI_STATUS_NONE                 (0U)
+#define    QEI_INDEX_STATUS                (uint32_t)(_QEI1STAT_IDXIRQ_MASK)
+#define    QEI_HOME_STATUS                 (uint32_t)(_QEI1STAT_HOMIRQ_MASK)
+#define    QEI_VELOCITY_OVERFLOW_STATUS    (uint32_t)(_QEI1STAT_VELOVIRQ_MASK)
+#define    QEI_POSITION_OVERFLOW_STATUS    (uint32_t)(_QEI1STAT_POSOVIRQ_MASK)
+#define    QEI_POS_INIT_COMPLETE_STATUS    (uint32_t)(_QEI1STAT_PCIIRQ_MASK)
+#define    QEI_POS_LESS_EQ_STATUS          (uint32_t)(_QEI1STAT_PCLEQIRQ_MASK)
+#define    QEI_POS_HIGH_EQ_STATUS          (uint32_t)(_QEI1STAT_PCHEQIRQ_MASK)
+#define    QEI_STATUS_MASK                (QEI_INDEX_STATUS | QEI_HOME_STATUS | QEI_VELOCITY_OVERFLOW_STATUS | QEI_POSITION_OVERFLOW_STATUS\
+                        | QEI_POSITION_OVERFLOW_STATUS | QEI_POS_INIT_COMPLETE_STATUS | QEI_POS_LESS_EQ_STATUS | QEI_POS_HIGH_EQ_STATUS)
+typedef uint32_t QEI_STATUS;
 
-    CFGCONbits.PMDLOCK = 1;
+typedef void (*QEI_CALLBACK) (QEI_STATUS status, uintptr_t context);
 
- 
-      
 
-    /* Lock system since done with clock configuration */
-    SYSKEY = 0x33333333U;
-}
+// *****************************************************************************
+// *****************************************************************************
+// Section: Local: **** Do Not Use ****
+// *****************************************************************************
+// *****************************************************************************
+
+typedef struct
+{
+    QEI_CALLBACK callback;
+    uintptr_t    context;
+
+} QEI_CH_OBJECT ;
+
+
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    }
+#endif
+// DOM-IGNORE-END
+#endif // PLIB_ACC_COMMON_H

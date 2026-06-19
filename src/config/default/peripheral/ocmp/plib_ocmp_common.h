@@ -1,20 +1,22 @@
 /*******************************************************************************
-  WDT Peripheral Library
+  Output Compare (OCMP) Peripheral Library Interface Header File
 
-  Company:
+  Company
     Microchip Technology Inc.
 
-  File Name:
-    plib_wdt.c
+  File Name
+    plib_ocmp_common.h
 
-  Summary:
-    WDT Source File
+  Summary
+    Data Type definition of the OCMP Peripheral Interface Plib.
 
-  Description:
-    None
+  Description
+    This file defines the Data Types for the OCMP Plib.
+
+  Remarks:
+    None.
 
 *******************************************************************************/
-
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
@@ -40,62 +42,47 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
+#ifndef PLIB_OCMP_COMMON_H    // Guards against multiple inclusion
+#define PLIB_OCMP_COMMON_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
+
 // *****************************************************************************
 // *****************************************************************************
-// Section: Included Files
+// Section: Data Types
 // *****************************************************************************
 // *****************************************************************************
 
-#include "device.h"
-#include "plib_wdt.h"
+/*  The following data type definitions are used by the functions in this
+    interface.
+*/
+
+// *****************************************************************************
+
+typedef void (*OCMP_CALLBACK) (uintptr_t context);
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: WDT Implementation
+// Section: Local: **** Do Not Use ****
 // *****************************************************************************
 // *****************************************************************************
 
-void WDT_Enable( void )
+typedef struct
 {
-    /* ON = 1 */
-    WDTCONbits.ON = 1;
-}
+  OCMP_CALLBACK callback;
+  uintptr_t    context;
 
-void WDT_Disable( void )
-{
-    /* ON = 0 */
-    WDTCONbits.ON = 0;
-}
+} OCMP_OBJECT ;
 
-bool WDT_IsEnabled( void )
-{
-    return((bool)WDTCONbits.ON);
-}
-
-void WDT_WindowEnable( void )
-{
-    /* WDTWINEN = 1 */
-    WDTCONbits.WDTWINEN = 1;
-}
-
-void WDT_WindowDisable( void )
-{
-    /* WDTWINEN = 0 */
-    WDTCONbits.WDTWINEN = 0;
-}
-
-bool WDT_IsWindowEnabled( void )
-{
-    return((bool)WDTCONbits.WDTWINEN);
-}
-
-/* MISRA C-2012 Rule 11.3 violated 1 time below. Deviation record ID - H3_MISRAC_2012_R_11_3_DR_1*/
-void WDT_Clear( void )
-{
-    /* Writing specific value to only upper 16 bits of WDTCON register clears WDT counter */
-    /* Only write to the upper 16 bits of the register when clearing. */
-    /* WDTCLRKEY = 0x5743 */
-    volatile uint16_t * wdtclrkey = ( (volatile uint16_t *)&WDTCON ) + 1;
-    *wdtclrkey = 0x5743;
-}
-/* MISRAC 2012 deviation block end */
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    }
+#endif
+// DOM-IGNORE-END
+#endif // PLIB_ACC_COMMON_H

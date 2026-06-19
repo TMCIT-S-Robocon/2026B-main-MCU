@@ -1,21 +1,20 @@
 /*******************************************************************************
-  Interface definition of WDT PLIB.
+  Output Compare OCMP4 Peripheral Library (PLIB)
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    plib_wdt.h
+    plib_ocmp4.c
 
   Summary:
-    Interface definition of the Watch Dog Timer Plib (WDT).
+    OCMP4 Source File
 
   Description:
-    This file defines the interface for the WDT Plib.
-    It allows user to setup timeout duration and restart watch dog timer.
+    None
+
 *******************************************************************************/
 
-// DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
@@ -38,55 +37,80 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-// DOM-IGNORE-END
-
-#ifndef PLIB_WDT_H    // Guards against multiple inclusion
-#define PLIB_WDT_H
+#include "plib_ocmp4.h"
+#include "interrupts.h"
 
 // *****************************************************************************
-// *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
-// *****************************************************************************
-
-#include <stdint.h>
-#include <stddef.h>
-#include <stdbool.h>
-
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
-
-    extern "C" {
-
-#endif
-// DOM-IGNORE-END
 
 // *****************************************************************************
-// *****************************************************************************
-// Section: Interface
+// Section: OCMP4 Implementation
 // *****************************************************************************
 // *****************************************************************************
 
-void WDT_Enable( void );
+// *****************************************************************************
 
-void WDT_Disable( void );
 
-bool WDT_IsEnabled( void );
+static volatile OCMP_OBJECT ocmp4Obj;
 
-void WDT_WindowEnable( void );
+void OCMP4_Initialize (void)
+{
+    /*Setup OC4CON        */
+    /*OCM         = 6        */
+    /*OCTSEL       = 0        */
+    /*OC32         = 0        */
+    /*SIDL         = false    */
 
-void WDT_WindowDisable( void );
+    OC4CON = 0x6;
 
-bool WDT_IsWindowEnabled( void );
+    OC4R = 938;
+    OC4RS = 938;
 
-void WDT_Clear( void );
+    IEC0SET = _IEC0_OC4IE_MASK;
+}
 
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
+void OCMP4_Enable (void)
+{
+    OC4CONSET = _OC4CON_ON_MASK;
+}
 
+void OCMP4_Disable (void)
+{
+    OC4CONCLR = _OC4CON_ON_MASK;
+}
+
+
+
+uint16_t OCMP4_CompareValueGet (void)
+{
+    return (uint16_t)OC4R;
+}
+
+void OCMP4_CompareSecondaryValueSet (uint16_t value)
+{
+    OC4RS = value;
+}
+
+uint16_t OCMP4_CompareSecondaryValueGet (void)
+{
+    return (uint16_t)OC4RS;
+}
+
+void OCMP4_CallbackRegister(OCMP_CALLBACK callback, uintptr_t context)
+{
+    ocmp4Obj.callback = callback;
+
+    ocmp4Obj.context = context;
+}
+
+void __attribute__((used)) OUTPUT_COMPARE_4_InterruptHandler (void)
+{
+    /* Additional local variable to prevent MISRA C violations (Rule 13.x) */
+    uintptr_t context = ocmp4Obj.context;
+    IFS0CLR = _IFS0_OC4IF_MASK;    //Clear IRQ flag
+
+    if( (ocmp4Obj.callback != NULL))
+    {
+        ocmp4Obj.callback(context);
     }
+}
 
-#endif
-// DOM-IGNORE-END
-
-#endif // PLIB_WDT_H

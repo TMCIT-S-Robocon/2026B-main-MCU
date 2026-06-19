@@ -55,12 +55,31 @@ void __delay_ms(unsigned int d){
     while((_CP0_GET_COUNT() - startTime) < delayCount);   
 }
 
+float get_angle(){
+    uint32_t pos = QEI1_PositionGet();
+    float angle = (float)pos * 360.0f / 8192.0f;
+
+    angle = fmodf(angle, 360.0f);
+    if(angle < 0) angle += 360.0f;
+
+    return angle;
+}
+
+uint32_t get_position(){
+    uint32_t position = QEI1_PositionGet();
+    uint32_t angle = position * 360 / 8192;
+    return angle;
+}
+
 // IK
 Chassis<Omni_4> Omni4_wheel;
 
 // can device
 Shotacon controller(&CAN1);
-NEWHZWMD MD1(&CAN1, 0x513), MD2(&CAN1, 0x518), MD3(&CAN1, 0x516), MD4(&CAN1, 0x515);
+NEWHZWMD MD1(&CAN1, 0x512), MD2(&CAN1, 0x521), MD3(&CAN1, 0x511), MD4(&CAN1, 0x514);
+
+float pos = 0.0;
+//int cnt = 0;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -74,20 +93,58 @@ NEWHZWMD MD1(&CAN1, 0x513), MD2(&CAN1, 0x518), MD3(&CAN1, 0x516), MD4(&CAN1, 0x5
 int main ( void ){
     /* Initialize all modules */
     SYS_Initialize ( NULL );
-    Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
+//    Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
     CAN1.init();
+    QEI1_Start();
+    OCMP4_Enable();
+    OCMP4_CompareSecondaryValueSet(0);
+    TMR2_Start();
+    
+    *MD1.GetMotor(0) = 50;
     while(1){
-        Omni4_wheel.calc(controller.data.Rstick.theta,controller.data.Rstick.r*50.0,-3*controller.data.Lstick.y);
-        MD1.Transmit();
-        __delay_ms(1);
-        MD2.Transmit();
-        __delay_ms(1);
-        MD3.Transmit();
-        __delay_ms(1);
-        MD4.Transmit();
-        __delay_ms(1);
+//        Omni4_wheel.calc(controller.data.Rstick.theta,controller.data.Rstick.r*50.0,-3*controller.data.Lstick.y);
+//        MD1.Transmit();
+//        __delay_ms(1);
+//        MD2.Transmit();
+//        __delay_ms(1);
+//        MD3.Transmit();
+//        __delay_ms(1);
+//        MD4.Transmit();
+//        __delay_ms(1);
         
-        LED1_Toggle();
+//        pos = get_position();
+//        printf("pos: %.2f\n", pos);
+//        
+//        MD1.Transmit();
+//        
+//        if(pos > 1440){
+//            *MD1.GetMotor(0) = 0;
+//        } else{
+//            if(controller.data.B){
+//                D2_Set();
+//                D3_Clear();
+//                *MD1.GetMotor(0) = 80;
+//            } else if(controller.data.X){
+//                D3_Set();
+//                D2_Clear();
+//                *MD1.GetMotor(0) = -80;
+//            } else{
+//                D2_Clear();
+//                D3_Clear();
+//                *MD1.GetMotor(0) = 0;
+//            }
+//        }
+       
+        
+        
+        OCMP4_CompareSecondaryValueSet(1406);
+        __delay_ms(100);
+        OCMP4_CompareSecondaryValueSet(2250);
+        __delay_ms(100);
+//        solenoid1_Toggle();
+//        __delay_ms(1000);
+        
+        D1_Toggle();
     }
     
     return ( EXIT_FAILURE );

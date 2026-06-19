@@ -1,22 +1,22 @@
 /*******************************************************************************
- System Interrupts File
+  UART1 PLIB
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    interrupt.h
+    plib_uart1.h
 
   Summary:
-    Interrupt vectors mapping
+    UART1 PLIB Header File
 
   Description:
-    This file contains declarations of device vectors used by Harmony 3
- *******************************************************************************/
+    None
 
-// DOM-IGNORE-BEGIN
+*******************************************************************************/
+
 /*******************************************************************************
-* Copyright (C) 2025 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,30 +36,66 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
+
+#ifndef PLIB_UART1_H
+#define PLIB_UART1_H
+
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "device.h"
+#include "plib_uart_common.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
 // DOM-IGNORE-END
 
-#ifndef INTERRUPTS_H
-#define INTERRUPTS_H
+// *****************************************************************************
+// *****************************************************************************
+// Section: Interface
+// *****************************************************************************
+// *****************************************************************************
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
-// *****************************************************************************
-#include <stdint.h>
+#define UART1_FrequencyGet()    (uint32_t)(60000000UL)
+
+/****************************** UART1 API *********************************/
+
+void UART1_Initialize( void );
+
+bool UART1_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
+
+bool UART1_Write( void *buffer, const size_t size );
+
+bool UART1_Read( void *buffer, const size_t size );
+
+UART_ERROR UART1_ErrorGet( void );
+
+bool UART1_AutoBaudQuery( void );
+
+void UART1_AutoBaudSet( bool enable );
+
+int UART1_ReadByte( void );
+
+bool UART1_ReceiverIsReady( void );
+
+void UART1_WriteByte( int data );
+
+bool UART1_TransmitterIsReady( void );
 
 
+bool UART1_TransmitComplete( void );
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: Handler Routines
-// *****************************************************************************
-// *****************************************************************************
-void TIMER_2_InterruptHandler( void );
-void OUTPUT_COMPARE_4_InterruptHandler( void );
-void CAN1_InterruptHandler( void );
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
 
+    }
 
+#endif
+// DOM-IGNORE-END
 
-#endif // INTERRUPTS_H
+#endif // PLIB_UART1_H

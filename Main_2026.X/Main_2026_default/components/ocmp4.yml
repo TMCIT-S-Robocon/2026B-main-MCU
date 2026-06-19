@@ -1,11 +1,11 @@
 configVersion: 1.0.0
-componentName: i2c1
+componentName: ocmp4
 coreVersion: 5.8.2
 device: PIC32MK1024MCM064
 library: []
 dependency:
 - dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
-  name: i2c1
+  name: ocmp4
   type: module
   version: ''
 - dependencyPackage: ''
@@ -21,65 +21,62 @@ data:
     children:
     - children:
       - attributes:
-          id: i2c1
-          x: '91'
-          y: '264'
+          id: ocmp4
+          x: '243'
+          y: '189'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
   symbols:
-    BRG_VALUE:
+    OCMP_CFGCON_OCACLK:
       attributes:
-        id: BRG_VALUE
+        id: OCMP_CFGCON_OCACLK
       children:
       - children:
         - attributes:
-            id: i2c1
-            value: '295'
-          type: Dynamic
+            value: 'false'
+          type: User
         type: Values
-      type: Integer
-    I2CS_RISE_TIME_CORE_TIMER_CNTS:
+      type: Boolean
+    OCMP_INTERRUPT_ENABLE:
       attributes:
-        id: I2CS_RISE_TIME_CORE_TIMER_CNTS
+        id: OCMP_INTERRUPT_ENABLE
       children:
       - children:
         - attributes:
-            id: i2c1
-            value: '18'
-          type: Dynamic
+            value: 'true'
+          type: User
         type: Values
-      type: Integer
-    I2CS_SETUP_TIME_CORE_TIMER_CNTS:
+      type: Boolean
+    OCMP_OCxCON_OCM:
       attributes:
-        id: I2CS_SETUP_TIME_CORE_TIMER_CNTS
+        id: OCMP_OCxCON_OCM
       children:
       - children:
         - attributes:
-            id: i2c1
             value: '6'
-          type: Dynamic
+          type: User
         type: Values
-      type: Integer
-    I2C_CLOCK_SPEED:
+      type: KeyValueSet
+    OCMP_OCxR:
       attributes:
-        id: I2C_CLOCK_SPEED
+        id: OCMP_OCxR
       children:
       - children:
         - attributes:
-            value: '100000'
+            value: '938'
           type: User
         type: Values
       type: Long
-    I2C_CLOCK_SPEED_HZ:
+    OCxCON_VALUE:
       attributes:
-        id: I2C_CLOCK_SPEED_HZ
+        id: OCxCON_VALUE
       children:
       - children:
         - attributes:
-            id: i2c1
-            value: '100000'
+            id: ocmp4
+            value: '6'
           type: Dynamic
         type: Values
-      type: Long
+      type: Hex
   userData: {}

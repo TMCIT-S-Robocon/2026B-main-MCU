@@ -59,7 +59,7 @@
 // *****************************************************************************
 // *****************************************************************************
 /* CAN1 Message memory size */
-#define CANFD_MESSAGE_RAM_CONFIG_SIZE 1448
+#define CANFD_MESSAGE_RAM_CONFIG_SIZE 1792
 /* Number of configured FIFO */
 #define CANFD_NUM_OF_FIFO             2U
 /* Maximum number of CAN Message buffers in each FIFO */
@@ -199,11 +199,11 @@ void CAN1_Initialize(void)
     CFD1FIFOBA = (uint32_t)KVA_TO_PA(can_message_buffer);
 
     /* Tx Event FIFO Configuration */
-    CFD1TEFCON = (((1UL - 1UL) << _CFD1TEFCON_FSIZE_POSITION) & _CFD1TEFCON_FSIZE_MASK);
+    CFD1TEFCON = (((8UL - 1UL) << _CFD1TEFCON_FSIZE_POSITION) & _CFD1TEFCON_FSIZE_MASK);
     CFD1CON |= _CFD1CON_STEF_MASK;
 
     /* Tx Queue Configuration */
-    CFD1TXQCON = (((4UL - 1UL) << _CFD1TXQCON_FSIZE_POSITION) & _CFD1TXQCON_FSIZE_MASK)
+    CFD1TXQCON = (((8UL - 1UL) << _CFD1TXQCON_FSIZE_POSITION) & _CFD1TXQCON_FSIZE_MASK)
                | ((0x7UL << _CFD1TXQCON_PLSIZE_POSITION) & _CFD1TXQCON_PLSIZE_MASK)
                | ((0x0UL << _CFD1TXQCON_TXPRI_POSITION) & _CFD1TXQCON_TXPRI_MASK);
     CFD1CON |= _CFD1CON_TXQEN_MASK;
@@ -215,7 +215,7 @@ void CAN1_Initialize(void)
 
     /* Configure CAN Filters */
     /* Filter 0 configuration */
-    CFD1FLTOBJ0 = (1539U & CANFD_MSG_SID_MASK);
+    CFD1FLTOBJ0 = (1538U & CANFD_MSG_SID_MASK);
     CFD1MASK0 = (2032U & CANFD_MSG_SID_MASK);
     CFD1FLTCON0 |= (((0x2UL << _CFD1FLTCON0_F0BP_POSITION) & _CFD1FLTCON0_F0BP_MASK)| _CFD1FLTCON0_FLTEN0_MASK);
 
