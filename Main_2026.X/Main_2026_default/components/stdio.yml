@@ -45,7 +45,7 @@ data:
       - attributes:
           id: stdio
           x: '407'
-          y: '53'
+          y: '52'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph

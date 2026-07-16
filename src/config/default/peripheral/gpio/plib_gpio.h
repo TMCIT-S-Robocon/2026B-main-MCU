@@ -82,6 +82,16 @@
 #define D5_GetLatch()          ((LATG >> 6) & 0x1U)
 #define D5_PIN                  GPIO_PIN_RG6
 
+/*** Macros for solenoid3 pin ***/
+#define solenoid3_Set()               (LATGSET = (1U<<8))
+#define solenoid3_Clear()             (LATGCLR = (1U<<8))
+#define solenoid3_Toggle()            (LATGINV= (1U<<8))
+#define solenoid3_OutputEnable()      (TRISGCLR = (1U<<8))
+#define solenoid3_InputEnable()       (TRISGSET = (1U<<8))
+#define solenoid3_Get()               ((PORTG >> 8) & 0x1U)
+#define solenoid3_GetLatch()          ((LATG >> 8) & 0x1U)
+#define solenoid3_PIN                  GPIO_PIN_RG8
+
 /*** Macros for D6 pin ***/
 #define D6_Set()               (LATASET = (1U<<11))
 #define D6_Clear()             (LATACLR = (1U<<11))
@@ -91,6 +101,16 @@
 #define D6_Get()               ((PORTA >> 11) & 0x1U)
 #define D6_GetLatch()          ((LATA >> 11) & 0x1U)
 #define D6_PIN                  GPIO_PIN_RA11
+
+/*** Macros for solenoid2 pin ***/
+#define solenoid2_Set()               (LATASET = (1U<<0))
+#define solenoid2_Clear()             (LATACLR = (1U<<0))
+#define solenoid2_Toggle()            (LATAINV= (1U<<0))
+#define solenoid2_OutputEnable()      (TRISACLR = (1U<<0))
+#define solenoid2_InputEnable()       (TRISASET = (1U<<0))
+#define solenoid2_Get()               ((PORTA >> 0) & 0x1U)
+#define solenoid2_GetLatch()          ((LATA >> 0) & 0x1U)
+#define solenoid2_PIN                  GPIO_PIN_RA0
 
 /*** Macros for solenoid1 pin ***/
 #define solenoid1_Set()               (LATASET = (1U<<1))
@@ -111,6 +131,16 @@
 #define D7_Get()               ((PORTB >> 0) & 0x1U)
 #define D7_GetLatch()          ((LATB >> 0) & 0x1U)
 #define D7_PIN                  GPIO_PIN_RB0
+
+/*** Macros for GPIO_RB11 pin ***/
+#define GPIO_RB11_Set()               (LATBSET = (1U<<11))
+#define GPIO_RB11_Clear()             (LATBCLR = (1U<<11))
+#define GPIO_RB11_Toggle()            (LATBINV= (1U<<11))
+#define GPIO_RB11_OutputEnable()      (TRISBCLR = (1U<<11))
+#define GPIO_RB11_InputEnable()       (TRISBSET = (1U<<11))
+#define GPIO_RB11_Get()               ((PORTB >> 11) & 0x1U)
+#define GPIO_RB11_GetLatch()          ((LATB >> 11) & 0x1U)
+#define GPIO_RB11_PIN                  GPIO_PIN_RB11
 
 /*** Macros for D3 pin ***/
 #define D3_Set()               (LATBSET = (1U<<12))

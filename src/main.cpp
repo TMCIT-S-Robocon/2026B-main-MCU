@@ -76,10 +76,9 @@ Chassis<Omni_4> Omni4_wheel;
 
 // can device
 Shotacon controller(&CAN1);
-NEWHZWMD MD1(&CAN1, 0x512), MD2(&CAN1, 0x521), MD3(&CAN1, 0x511), MD4(&CAN1, 0x514);
+NEWHZWMD MD1(&CAN1, 0x522), MD2(&CAN1, 0x521), MD3(&CAN1, 0x511), MD4(&CAN1, 0x514);
 
 float pos = 0.0;
-//int cnt = 0;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -98,13 +97,15 @@ int main ( void ){
     QEI1_Start();
     OCMP4_Enable();
     OCMP4_CompareSecondaryValueSet(0);
+    solenoid1_Clear();
+    solenoid2_Clear();
     TMR2_Start();
     
     *MD1.GetMotor(0) = 50;
     while(1){
 //        Omni4_wheel.calc(controller.data.Rstick.theta,controller.data.Rstick.r*50.0,-3*controller.data.Lstick.y);
-//        MD1.Transmit();
-//        __delay_ms(1);
+//        MD1.Transmit(); // 0x522
+//        __delay_ms(5);
 //        MD2.Transmit();
 //        __delay_ms(1);
 //        MD3.Transmit();
@@ -134,15 +135,41 @@ int main ( void ){
 //                *MD1.GetMotor(0) = 0;
 //            }
 //        }
-       
         
         
-        OCMP4_CompareSecondaryValueSet(1406);
-        __delay_ms(100);
-        OCMP4_CompareSecondaryValueSet(2250);
-        __delay_ms(100);
-//        solenoid1_Toggle();
-//        __delay_ms(1000);
+        
+//        OCMP4_CompareSecondaryValueSet(1406);
+//        __delay_ms(100);
+//        OCMP4_CompareSecondaryValueSet(2250);
+//        __delay_ms(100);
+        
+        
+        // delay
+        // 青木の射出機構：180ms
+        // 古川先輩の射出機構：222ms???
+        // 180~230ms 2msごとに5回射出
+        if(controller.data.B && controller.data.R2){ // 射出
+            D3_Set();
+            solenoid1_Set();
+            solenoid3_Clear();
+            __delay_ms(170);
+            solenoid2_Set();;
+        } else if(controller.data.Y && controller.data.R2){
+            solenoid2_Toggle(); // 掴むところだけ開け閉め
+        } else{
+            D3_Clear();
+        }
+        
+        if(controller.data.A && controller.data.R2){ // 閉じる
+            D4_Set();
+            solenoid1_Clear();
+            solenoid3_Set();
+//            solenoid2_Clear();
+        } else{
+            D4_Clear();
+        }
+        
+        
         
         D1_Toggle();
     }
