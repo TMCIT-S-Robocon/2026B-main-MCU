@@ -63,114 +63,44 @@
 
 
 /*** Macros for D4 pin ***/
-#define D4_Set()               (LATBSET = (1U<<15))
-#define D4_Clear()             (LATBCLR = (1U<<15))
-#define D4_Toggle()            (LATBINV= (1U<<15))
-#define D4_OutputEnable()      (TRISBCLR = (1U<<15))
-#define D4_InputEnable()       (TRISBSET = (1U<<15))
-#define D4_Get()               ((PORTB >> 15) & 0x1U)
-#define D4_GetLatch()          ((LATB >> 15) & 0x1U)
-#define D4_PIN                  GPIO_PIN_RB15
-
-/*** Macros for D5 pin ***/
-#define D5_Set()               (LATGSET = (1U<<6))
-#define D5_Clear()             (LATGCLR = (1U<<6))
-#define D5_Toggle()            (LATGINV= (1U<<6))
-#define D5_OutputEnable()      (TRISGCLR = (1U<<6))
-#define D5_InputEnable()       (TRISGSET = (1U<<6))
-#define D5_Get()               ((PORTG >> 6) & 0x1U)
-#define D5_GetLatch()          ((LATG >> 6) & 0x1U)
-#define D5_PIN                  GPIO_PIN_RG6
-
-/*** Macros for solenoid3 pin ***/
-#define solenoid3_Set()               (LATGSET = (1U<<8))
-#define solenoid3_Clear()             (LATGCLR = (1U<<8))
-#define solenoid3_Toggle()            (LATGINV= (1U<<8))
-#define solenoid3_OutputEnable()      (TRISGCLR = (1U<<8))
-#define solenoid3_InputEnable()       (TRISGSET = (1U<<8))
-#define solenoid3_Get()               ((PORTG >> 8) & 0x1U)
-#define solenoid3_GetLatch()          ((LATG >> 8) & 0x1U)
-#define solenoid3_PIN                  GPIO_PIN_RG8
-
-/*** Macros for D6 pin ***/
-#define D6_Set()               (LATASET = (1U<<11))
-#define D6_Clear()             (LATACLR = (1U<<11))
-#define D6_Toggle()            (LATAINV= (1U<<11))
-#define D6_OutputEnable()      (TRISACLR = (1U<<11))
-#define D6_InputEnable()       (TRISASET = (1U<<11))
-#define D6_Get()               ((PORTA >> 11) & 0x1U)
-#define D6_GetLatch()          ((LATA >> 11) & 0x1U)
-#define D6_PIN                  GPIO_PIN_RA11
-
-/*** Macros for solenoid2 pin ***/
-#define solenoid2_Set()               (LATASET = (1U<<0))
-#define solenoid2_Clear()             (LATACLR = (1U<<0))
-#define solenoid2_Toggle()            (LATAINV= (1U<<0))
-#define solenoid2_OutputEnable()      (TRISACLR = (1U<<0))
-#define solenoid2_InputEnable()       (TRISASET = (1U<<0))
-#define solenoid2_Get()               ((PORTA >> 0) & 0x1U)
-#define solenoid2_GetLatch()          ((LATA >> 0) & 0x1U)
-#define solenoid2_PIN                  GPIO_PIN_RA0
-
-/*** Macros for solenoid1 pin ***/
-#define solenoid1_Set()               (LATASET = (1U<<1))
-#define solenoid1_Clear()             (LATACLR = (1U<<1))
-#define solenoid1_Toggle()            (LATAINV= (1U<<1))
-#define solenoid1_OutputEnable()      (TRISACLR = (1U<<1))
-#define solenoid1_InputEnable()       (TRISASET = (1U<<1))
-#define solenoid1_Get()               ((PORTA >> 1) & 0x1U)
-#define solenoid1_GetLatch()          ((LATA >> 1) & 0x1U)
-#define solenoid1_PIN                  GPIO_PIN_RA1
-
-/*** Macros for D7 pin ***/
-#define D7_Set()               (LATBSET = (1U<<0))
-#define D7_Clear()             (LATBCLR = (1U<<0))
-#define D7_Toggle()            (LATBINV= (1U<<0))
-#define D7_OutputEnable()      (TRISBCLR = (1U<<0))
-#define D7_InputEnable()       (TRISBSET = (1U<<0))
-#define D7_Get()               ((PORTB >> 0) & 0x1U)
-#define D7_GetLatch()          ((LATB >> 0) & 0x1U)
-#define D7_PIN                  GPIO_PIN_RB0
-
-/*** Macros for GPIO_RB11 pin ***/
-#define GPIO_RB11_Set()               (LATBSET = (1U<<11))
-#define GPIO_RB11_Clear()             (LATBCLR = (1U<<11))
-#define GPIO_RB11_Toggle()            (LATBINV= (1U<<11))
-#define GPIO_RB11_OutputEnable()      (TRISBCLR = (1U<<11))
-#define GPIO_RB11_InputEnable()       (TRISBSET = (1U<<11))
-#define GPIO_RB11_Get()               ((PORTB >> 11) & 0x1U)
-#define GPIO_RB11_GetLatch()          ((LATB >> 11) & 0x1U)
-#define GPIO_RB11_PIN                  GPIO_PIN_RB11
+#define D4_Set()               (LATDSET = (1U<<8))
+#define D4_Clear()             (LATDCLR = (1U<<8))
+#define D4_Toggle()            (LATDINV= (1U<<8))
+#define D4_OutputEnable()      (TRISDCLR = (1U<<8))
+#define D4_InputEnable()       (TRISDSET = (1U<<8))
+#define D4_Get()               ((PORTD >> 8) & 0x1U)
+#define D4_GetLatch()          ((LATD >> 8) & 0x1U)
+#define D4_PIN                  GPIO_PIN_RD8
 
 /*** Macros for D3 pin ***/
-#define D3_Set()               (LATBSET = (1U<<12))
-#define D3_Clear()             (LATBCLR = (1U<<12))
-#define D3_Toggle()            (LATBINV= (1U<<12))
-#define D3_OutputEnable()      (TRISBCLR = (1U<<12))
-#define D3_InputEnable()       (TRISBSET = (1U<<12))
-#define D3_Get()               ((PORTB >> 12) & 0x1U)
-#define D3_GetLatch()          ((LATB >> 12) & 0x1U)
-#define D3_PIN                  GPIO_PIN_RB12
-
-/*** Macros for D2 pin ***/
-#define D2_Set()               (LATBSET = (1U<<13))
-#define D2_Clear()             (LATBCLR = (1U<<13))
-#define D2_Toggle()            (LATBINV= (1U<<13))
-#define D2_OutputEnable()      (TRISBCLR = (1U<<13))
-#define D2_InputEnable()       (TRISBSET = (1U<<13))
-#define D2_Get()               ((PORTB >> 13) & 0x1U)
-#define D2_GetLatch()          ((LATB >> 13) & 0x1U)
-#define D2_PIN                  GPIO_PIN_RB13
+#define D3_Set()               (LATCSET = (1U<<10))
+#define D3_Clear()             (LATCCLR = (1U<<10))
+#define D3_Toggle()            (LATCINV= (1U<<10))
+#define D3_OutputEnable()      (TRISCCLR = (1U<<10))
+#define D3_InputEnable()       (TRISCSET = (1U<<10))
+#define D3_Get()               ((PORTC >> 10) & 0x1U)
+#define D3_GetLatch()          ((LATC >> 10) & 0x1U)
+#define D3_PIN                  GPIO_PIN_RC10
 
 /*** Macros for D1 pin ***/
-#define D1_Set()               (LATASET = (1U<<10))
-#define D1_Clear()             (LATACLR = (1U<<10))
-#define D1_Toggle()            (LATAINV= (1U<<10))
-#define D1_OutputEnable()      (TRISACLR = (1U<<10))
-#define D1_InputEnable()       (TRISASET = (1U<<10))
-#define D1_Get()               ((PORTA >> 10) & 0x1U)
-#define D1_GetLatch()          ((LATA >> 10) & 0x1U)
-#define D1_PIN                  GPIO_PIN_RA10
+#define D1_Set()               (LATCSET = (1U<<7))
+#define D1_Clear()             (LATCCLR = (1U<<7))
+#define D1_Toggle()            (LATCINV= (1U<<7))
+#define D1_OutputEnable()      (TRISCCLR = (1U<<7))
+#define D1_InputEnable()       (TRISCSET = (1U<<7))
+#define D1_Get()               ((PORTC >> 7) & 0x1U)
+#define D1_GetLatch()          ((LATC >> 7) & 0x1U)
+#define D1_PIN                  GPIO_PIN_RC7
+
+/*** Macros for D2 pin ***/
+#define D2_Set()               (LATASET = (1U<<10))
+#define D2_Clear()             (LATACLR = (1U<<10))
+#define D2_Toggle()            (LATAINV= (1U<<10))
+#define D2_OutputEnable()      (TRISACLR = (1U<<10))
+#define D2_InputEnable()       (TRISASET = (1U<<10))
+#define D2_Get()               ((PORTA >> 10) & 0x1U)
+#define D2_GetLatch()          ((LATA >> 10) & 0x1U)
+#define D2_PIN                  GPIO_PIN_RA10
 
 
 // *****************************************************************************

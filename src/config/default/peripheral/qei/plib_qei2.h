@@ -1,14 +1,14 @@
 /*******************************************************************************
-  Output Compare (OCMP) Peripheral Library Interface Header File
+  Quadrature Encoder Interface (QEI) Peripheral Library Interface Header File
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    plib_ocmp4.h
+    plib_qei2.h
 
   Summary:
-    OCMP PLIB Header File
+    QEI PLIB Header File
 
   Description:
     None
@@ -38,14 +38,14 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
 
-#ifndef PLIB_OCMP4_H
-#define PLIB_OCMP4_H
+#ifndef PLIB_QEI2_H
+#define PLIB_QEI2_H
 
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include "device.h"
-#include "plib_ocmp_common.h"
+#include "plib_qei_common.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -59,94 +59,39 @@
 // *****************************************************************************
 // *****************************************************************************
 
-/*************************** OCMP4 API ****************************************/
+// *************************** QEI2 API ***************************************/
 // *****************************************************************************
-/* Function:
-   void OCMP4_Initialize (void)
 
-  Summary:
-    Initialization function OCMP4 peripheral
+void QEI2_Initialize (void);
 
-  Description:
-    This function initializes the OCMP4 peripheral with user input
-	from the configurator.
+void QEI2_Start(void);
 
-  Parameters:
-    void
+void QEI2_Stop(void);
 
-  Returns:
-    void
-*/
-void OCMP4_Initialize (void);
+__STATIC_INLINE uint32_t QEI2_PositionGet(void)
+{
+    return (POS2CNT);
+}
 
-// *****************************************************************************
-/* Function:
-   void OCMP4_Enable (void)
+__STATIC_INLINE uint32_t QEI2_VelocityGet(void)
+{
+    return (VEL2CNT);
+}
 
-  Summary:
-    Enable function OCMP4 peripheral
+__STATIC_INLINE uint32_t QEI2_RevolutionsGet(void)
+{
+    return (INDX2CNT);
+}
 
-  Description:
-    This function enables the OCMP4 peripheral
+uint32_t QEI2_PulseIntervalGet(void);
 
-  Parameters:
-    void
+void QEI2_PositionWindowSet(uint32_t high_threshold, uint32_t low_threshold);
 
-  Returns:
-    void
-*/
-void OCMP4_Enable (void);
+void QEI2_PositionCountSet(uint32_t position_count);
 
-// *****************************************************************************
-/* Function:
-   void OCMP4_Disable (void)
-
-  Summary:
-    Disable function OCMP4 peripheral
-
-  Description:
-    This function disables the OCMP4 peripheral.
-
-  Parameters:
-    void
-
-  Returns:
-    void
-*/
-void OCMP4_Disable (void);
+void QEI2_VelocityCountSet(uint32_t velocity_count);
 
 
-
-uint16_t OCMP4_CompareValueGet (void);
-
-uint16_t OCMP4_CompareSecondaryValueGet (void);
-void OCMP4_CompareSecondaryValueSet (uint16_t value);
-
-// *****************************************************************************
-/* Function:
-  void OCMP4_CallbackRegister( OCMP_CALLBACK callback, uintptr_t context )
-
-  Summary:
-    Sets the callback function for a ocmp interrupt.
-
-  Description:
-    This function sets the callback function that will be called when the OCMP
-    conditions are met.
-
-  Precondition:
-    None.
-
-  Parameters:
-    *callback   - a pointer to the function to be called when value is reached.
-                  Use NULL to Un Register the compare callback
-
-    context     - a pointer to user defined data to be used when the callback
-                  function is called. NULL can be passed in if no data needed.
-
-  Returns:
-    void
-*/
-void OCMP4_CallbackRegister(OCMP_CALLBACK callback, uintptr_t context);
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -154,4 +99,4 @@ void OCMP4_CallbackRegister(OCMP_CALLBACK callback, uintptr_t context);
 #endif
 
 // DOM-IGNORE-END
-#endif // PLIB_OCMP4_H
+#endif // PLIB_QEI2_H

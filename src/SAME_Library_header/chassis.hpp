@@ -168,10 +168,27 @@ public:
             *motors[2] = sc_clamp(-(sin(theta + D45R)) * power + roll, limit);
             *motors[3] = sc_clamp(+(sin(theta - D45R)) * power + roll, limit);
         } else if constexpr (T == Omni_4) {
-            *motors[0] = sc_clamp(-(sin(theta + D45R)) * power + roll, limit);
-            *motors[1] = sc_clamp(+(sin(theta - D45R)) * power + roll, limit);
-            *motors[2] = sc_clamp(+(sin(theta + D45R)) * power + roll, limit);
-            *motors[3] = sc_clamp(-(sin(theta - D45R)) * power + roll, limit);
+            // 修正分、他の機体には使わないこと
+        double m0 = -(sin(theta + D45R)) * power;
+        double m1 = +(sin(theta - D45R)) * power;
+        double m2 = +(sin(theta + D45R)) * power;
+        double m3 = -(sin(theta - D45R)) * power;
+        m1 = -m1;
+        m3 = -m3;
+        m0 += roll;
+        m1 += roll;
+        m2 += roll;
+        m3 += roll;
+        
+        *motors[0] = sc_clamp(m0, limit);
+        *motors[1] = sc_clamp(m1, limit);
+        *motors[2] = sc_clamp(m2, limit);
+        *motors[3] = sc_clamp(m3, limit);
+            
+//            *motors[0] = sc_clamp(-(sin(theta + D45R)) * power + roll, limit);
+//            *motors[1] = sc_clamp(+(sin(theta - D45R)) * power + roll, limit);
+//            *motors[2] = sc_clamp(+(sin(theta + D45R)) * power + roll, limit);
+//            *motors[3] = sc_clamp(-(sin(theta - D45R)) * power + roll, limit);
         } else if constexpr (T == Omni_3) {
             *motors[0] = sc_clamp(-(sin(theta - D60R)) * power + roll, limit);
             *motors[1] = sc_clamp(-(sin(theta + D60R)) * power + roll, limit);

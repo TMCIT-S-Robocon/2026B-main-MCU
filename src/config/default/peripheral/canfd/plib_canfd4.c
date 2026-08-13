@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    plib_canfd1.c
+    plib_canfd4.c
 
   Summary:
     CANFD peripheral library interface.
@@ -49,7 +49,7 @@
 // *****************************************************************************
 // *****************************************************************************
 #include <sys/kmem.h>
-#include "plib_canfd1.h"
+#include "plib_canfd4.h"
 #include "interrupts.h"
 
 
@@ -58,7 +58,7 @@
 // Global Data
 // *****************************************************************************
 // *****************************************************************************
-/* CAN1 Message memory size */
+/* CAN4 Message memory size */
 #define CANFD_MESSAGE_RAM_CONFIG_SIZE 1792
 /* Number of configured FIFO */
 #define CANFD_NUM_OF_FIFO             2U
@@ -67,7 +67,7 @@
 
 #define CANFD_CONFIGURATION_MODE      0x4UL
 #define CANFD_OPERATION_MODE          (0x0UL)
-#define CANFD_NUM_OF_FILTER           1U
+#define CANFD_NUM_OF_FILTER           2U
 /* FIFO Offset in word (4 bytes) */
 #define CANFD_FIFO_OFFSET             0xcU
 /* Filter Offset in word (4 bytes) */
@@ -90,11 +90,11 @@
 #define CANFD_MSG_FLT_EXT_SID_MASK    (0x1FFC0000UL)
 #define CANFD_MSG_FLT_EXT_EID_MASK    (0x0003FFFFU)
 
-static volatile CANFD_OBJ can1Obj;
-static volatile CANFD_RX_MSG can1RxMsg[CANFD_NUM_OF_FIFO][CANFD_FIFO_MESSAGE_BUFFER_MAX];
-static volatile CANFD_CALLBACK_OBJ can1CallbackObj[CANFD_NUM_OF_FIFO + 1];
-static volatile CANFD_CALLBACK_OBJ can1ErrorCallbackObj;
-static volatile uint32_t can1MsgIndex[CANFD_NUM_OF_FIFO];
+static volatile CANFD_OBJ can4Obj;
+static volatile CANFD_RX_MSG can4RxMsg[CANFD_NUM_OF_FIFO][CANFD_FIFO_MESSAGE_BUFFER_MAX];
+static volatile CANFD_CALLBACK_OBJ can4CallbackObj[CANFD_NUM_OF_FIFO + 1];
+static volatile CANFD_CALLBACK_OBJ can4ErrorCallbackObj;
+static volatile uint32_t can4MsgIndex[CANFD_NUM_OF_FIFO];
 static uint8_t __attribute__((coherent, aligned(16))) can_message_buffer[CANFD_MESSAGE_RAM_CONFIG_SIZE];
 static const uint8_t dlcToLength[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
 
@@ -137,7 +137,7 @@ static void CANLengthToDlcGet(uint8_t length, uint8_t *dlc)
     }
 }
 
-static inline void CAN1_ZeroInitialize(volatile void* pData, size_t dataSize)
+static inline void CAN4_ZeroInitialize(volatile void* pData, size_t dataSize)
 {
     volatile uint8_t* data = (volatile uint8_t*)pData;
     for (uint32_t index = 0; index < dataSize; index++)
@@ -152,12 +152,12 @@ static inline void CAN1_ZeroInitialize(volatile void* pData, size_t dataSize)
 
 // *****************************************************************************
 // *****************************************************************************
-// CAN1 PLib Interface Routines
+// CAN4 PLib Interface Routines
 // *****************************************************************************
 // *****************************************************************************
 // *****************************************************************************
 /* Function:
-    void CAN1_Initialize(void)
+    void CAN4_Initialize(void)
 
    Summary:
     Initializes given instance of the CAN peripheral.
@@ -171,64 +171,68 @@ static inline void CAN1_ZeroInitialize(volatile void* pData, size_t dataSize)
    Returns:
     None
 */
-void CAN1_Initialize(void)
+void CAN4_Initialize(void)
 {
     /* Switch the CAN module ON */
-    CFD1CON |= _CFD1CON_ON_MASK;
+    CFD4CON |= _CFD4CON_ON_MASK;
 
     /* Switch the CAN module to Configuration mode. Wait until the switch is complete */
-    CFD1CON = (CFD1CON & ~_CFD1CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD1CON_REQOP_POSITION) & _CFD1CON_REQOP_MASK);
-    while(((CFD1CON & _CFD1CON_OPMOD_MASK) >> _CFD1CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE)
+    CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
+    while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE)
     {
         /* Do Nothing */
     }
 
     /* Set the Data bitrate to 500 Kbps */
-    CFD1DBTCFG = ((14UL << _CFD1DBTCFG_BRP_POSITION) & _CFD1DBTCFG_BRP_MASK)
-               | ((10UL << _CFD1DBTCFG_TSEG1_POSITION) & _CFD1DBTCFG_TSEG1_MASK)
-               | ((3UL << _CFD1DBTCFG_TSEG2_POSITION) & _CFD1DBTCFG_TSEG2_MASK)
-               | ((3UL << _CFD1DBTCFG_SJW_POSITION) & _CFD1DBTCFG_SJW_MASK);
+    CFD4DBTCFG = ((14UL << _CFD4DBTCFG_BRP_POSITION) & _CFD4DBTCFG_BRP_MASK)
+               | ((10UL << _CFD4DBTCFG_TSEG1_POSITION) & _CFD4DBTCFG_TSEG1_MASK)
+               | ((3UL << _CFD4DBTCFG_TSEG2_POSITION) & _CFD4DBTCFG_TSEG2_MASK)
+               | ((3UL << _CFD4DBTCFG_SJW_POSITION) & _CFD4DBTCFG_SJW_MASK);
 
     /* Set the Nominal bitrate to 1000 Kbps */
-    CFD1NBTCFG = ((0UL << _CFD1NBTCFG_BRP_POSITION) & _CFD1NBTCFG_BRP_MASK)
-               | ((70UL << _CFD1NBTCFG_TSEG1_POSITION) & _CFD1NBTCFG_TSEG1_MASK)
-               | ((47UL << _CFD1NBTCFG_TSEG2_POSITION) & _CFD1NBTCFG_TSEG2_MASK)
-               | ((47UL << _CFD1NBTCFG_SJW_POSITION) & _CFD1NBTCFG_SJW_MASK);
+    CFD4NBTCFG = ((0UL << _CFD4NBTCFG_BRP_POSITION) & _CFD4NBTCFG_BRP_MASK)
+               | ((70UL << _CFD4NBTCFG_TSEG1_POSITION) & _CFD4NBTCFG_TSEG1_MASK)
+               | ((47UL << _CFD4NBTCFG_TSEG2_POSITION) & _CFD4NBTCFG_TSEG2_MASK)
+               | ((47UL << _CFD4NBTCFG_SJW_POSITION) & _CFD4NBTCFG_SJW_MASK);
 
     /* Set Message memory base address for all FIFOs/Queue */
-    CFD1FIFOBA = (uint32_t)KVA_TO_PA(can_message_buffer);
+    CFD4FIFOBA = (uint32_t)KVA_TO_PA(can_message_buffer);
 
     /* Tx Event FIFO Configuration */
-    CFD1TEFCON = (((8UL - 1UL) << _CFD1TEFCON_FSIZE_POSITION) & _CFD1TEFCON_FSIZE_MASK);
-    CFD1CON |= _CFD1CON_STEF_MASK;
+    CFD4TEFCON = (((8UL - 1UL) << _CFD4TEFCON_FSIZE_POSITION) & _CFD4TEFCON_FSIZE_MASK);
+    CFD4CON |= _CFD4CON_STEF_MASK;
 
     /* Tx Queue Configuration */
-    CFD1TXQCON = (((8UL - 1UL) << _CFD1TXQCON_FSIZE_POSITION) & _CFD1TXQCON_FSIZE_MASK)
-               | ((0x7UL << _CFD1TXQCON_PLSIZE_POSITION) & _CFD1TXQCON_PLSIZE_MASK)
-               | ((0x0UL << _CFD1TXQCON_TXPRI_POSITION) & _CFD1TXQCON_TXPRI_MASK);
-    CFD1CON |= _CFD1CON_TXQEN_MASK;
+    CFD4TXQCON = (((8UL - 1UL) << _CFD4TXQCON_FSIZE_POSITION) & _CFD4TXQCON_FSIZE_MASK)
+               | ((0x7UL << _CFD4TXQCON_PLSIZE_POSITION) & _CFD4TXQCON_PLSIZE_MASK)
+               | ((0x0UL << _CFD4TXQCON_TXPRI_POSITION) & _CFD4TXQCON_TXPRI_MASK);
+    CFD4CON |= _CFD4CON_TXQEN_MASK;
 
 
     /* Configure CAN FIFOs */
-    CFD1FIFOCON1 = (((8UL - 1UL) << _CFD1FIFOCON1_FSIZE_POSITION) & _CFD1FIFOCON1_FSIZE_MASK) | _CFD1FIFOCON1_TXEN_MASK | ((0x0UL << _CFD1FIFOCON1_TXPRI_POSITION) & _CFD1FIFOCON1_TXPRI_MASK) | ((0x0UL << _CFD1FIFOCON1_RTREN_POSITION) & _CFD1FIFOCON1_RTREN_MASK) | ((0x7UL << _CFD1FIFOCON1_PLSIZE_POSITION) & _CFD1FIFOCON1_PLSIZE_MASK);
-    CFD1FIFOCON2 = (((8UL - 1UL) << _CFD1FIFOCON2_FSIZE_POSITION) & _CFD1FIFOCON2_FSIZE_MASK) | ((0x7UL << _CFD1FIFOCON2_PLSIZE_POSITION) & _CFD1FIFOCON2_PLSIZE_MASK);
+    CFD4FIFOCON1 = (((8UL - 1UL) << _CFD4FIFOCON1_FSIZE_POSITION) & _CFD4FIFOCON1_FSIZE_MASK) | _CFD4FIFOCON1_TXEN_MASK | ((0x0UL << _CFD4FIFOCON1_TXPRI_POSITION) & _CFD4FIFOCON1_TXPRI_MASK) | ((0x0UL << _CFD4FIFOCON1_RTREN_POSITION) & _CFD4FIFOCON1_RTREN_MASK) | ((0x7UL << _CFD4FIFOCON1_PLSIZE_POSITION) & _CFD4FIFOCON1_PLSIZE_MASK);
+    CFD4FIFOCON2 = (((8UL - 1UL) << _CFD4FIFOCON2_FSIZE_POSITION) & _CFD4FIFOCON2_FSIZE_MASK) | ((0x7UL << _CFD4FIFOCON2_PLSIZE_POSITION) & _CFD4FIFOCON2_PLSIZE_MASK);
 
     /* Configure CAN Filters */
     /* Filter 0 configuration */
-    CFD1FLTOBJ0 = (1538U & CANFD_MSG_SID_MASK);
-    CFD1MASK0 = (2032U & CANFD_MSG_SID_MASK);
-    CFD1FLTCON0 |= (((0x2UL << _CFD1FLTCON0_F0BP_POSITION) & _CFD1FLTCON0_F0BP_MASK)| _CFD1FLTCON0_FLTEN0_MASK);
+    CFD4FLTOBJ0 = (1538U & CANFD_MSG_SID_MASK);
+    CFD4MASK0 = (2032U & CANFD_MSG_SID_MASK);
+    CFD4FLTCON0 |= (((0x2UL << _CFD4FLTCON0_F0BP_POSITION) & _CFD4FLTCON0_F0BP_MASK)| _CFD4FLTCON0_FLTEN0_MASK);
+    /* Filter 1 configuration */
+    CFD4FLTOBJ1 = (1568U & CANFD_MSG_SID_MASK);
+    CFD4MASK1 = (2032U & CANFD_MSG_SID_MASK);
+    CFD4FLTCON0 |= (((0x2UL << _CFD4FLTCON0_F1BP_POSITION) & _CFD4FLTCON0_F1BP_MASK));
 
     /* Set Interrupts */
-    IEC5SET = _IEC5_CAN1IE_MASK;
-    CFD1INT |= _CFD1INT_SERRIE_MASK | _CFD1INT_CERRIE_MASK | _CFD1INT_IVMIE_MASK;
+    IEC5SET = _IEC5_CAN4IE_MASK;
+    CFD4INT |= _CFD4INT_SERRIE_MASK | _CFD4INT_CERRIE_MASK | _CFD4INT_IVMIE_MASK;
 
     /* Initialize the CAN PLib Object */
-   CAN1_ZeroInitialize(can1RxMsg, sizeof(can1RxMsg));
+   CAN4_ZeroInitialize(can4RxMsg, sizeof(can4RxMsg));
 
     /* Switch the CAN module to CANFD_OPERATION_MODE. Wait until the switch is complete */
-    CFD1CON = (CFD1CON & ~_CFD1CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD1CON_REQOP_POSITION) & _CFD1CON_REQOP_MASK);
-    while(((CFD1CON & _CFD1CON_OPMOD_MASK) >> _CFD1CON_OPMOD_POSITION) != CANFD_OPERATION_MODE)
+    CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
+    while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_OPERATION_MODE)
     {
         /* Do Nothing */
     }
@@ -236,13 +240,13 @@ void CAN1_Initialize(void)
 
 // *****************************************************************************
 /* Function:
-    bool CAN1_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoQueueNum, CANFD_MODE mode, CANFD_MSG_TX_ATTRIBUTE msgAttr)
+    bool CAN4_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoQueueNum, CANFD_MODE mode, CANFD_MSG_TX_ATTRIBUTE msgAttr)
 
    Summary:
     Transmits a message into CAN bus.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     id           - 11-bit / 29-bit identifier (ID).
@@ -257,7 +261,7 @@ void CAN1_Initialize(void)
     true  - Request was successful.
     false - Request has failed.
 */
-bool CAN1_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoQueueNum, CANFD_MODE mode, CANFD_MSG_TX_ATTRIBUTE msgAttr)
+bool CAN4_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoQueueNum, CANFD_MODE mode, CANFD_MSG_TX_ATTRIBUTE msgAttr)
 {
     CANFD_TX_MSG_OBJECT *txMessage = NULL;
     static uint32_t sequence = 0;
@@ -267,17 +271,17 @@ bool CAN1_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fi
 
     if (fifoQueueNum == 0U)
     {
-        if ((CFD1TXQSTA & _CFD1TXQSTA_TXQNIF_MASK) == _CFD1TXQSTA_TXQNIF_MASK)
+        if ((CFD4TXQSTA & _CFD4TXQSTA_TXQNIF_MASK) == _CFD4TXQSTA_TXQNIF_MASK)
         {
-            txMessage = (CANFD_TX_MSG_OBJECT *)PA_TO_KVA1(CFD1TXQUA);
+            txMessage = (CANFD_TX_MSG_OBJECT *)PA_TO_KVA1(CFD4TXQUA);
             status = true;
         }
     }
     else if (fifoQueueNum <= CANFD_NUM_OF_FIFO)
     {
-        if ((*(volatile uint32_t *)(&CFD1FIFOSTA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD1FIFOSTA1_TFNRFNIF_MASK) == _CFD1FIFOSTA1_TFNRFNIF_MASK)
+        if ((*(volatile uint32_t *)(&CFD4FIFOSTA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD4FIFOSTA1_TFNRFNIF_MASK) == _CFD4FIFOSTA1_TFNRFNIF_MASK)
         {
-            txMessage = (CANFD_TX_MSG_OBJECT *)PA_TO_KVA1(*(volatile uint32_t *)(&CFD1FIFOUA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)));
+            txMessage = (CANFD_TX_MSG_OBJECT *)PA_TO_KVA1(*(volatile uint32_t *)(&CFD4FIFOUA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)));
             status = true;
         }
     }
@@ -340,40 +344,40 @@ bool CAN1_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fi
 
         if (fifoQueueNum == 0U)
         {
-            CFD1TXQCON |= _CFD1TXQCON_TXQEIE_MASK;
+            CFD4TXQCON |= _CFD4TXQCON_TXQEIE_MASK;
 
             /* Request the transmit */
-            CFD1TXQCON |= _CFD1TXQCON_UINC_MASK;
-            CFD1TXQCON |= _CFD1TXQCON_TXREQ_MASK;
+            CFD4TXQCON |= _CFD4TXQCON_UINC_MASK;
+            CFD4TXQCON |= _CFD4TXQCON_TXREQ_MASK;
         }
         else
         {
-            *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_TFERFFIE_MASK;
+            *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_TFERFFIE_MASK;
 
             /* Request the transmit */
-            *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_UINC_MASK;
-            *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_TXREQ_MASK;
+            *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_UINC_MASK;
+            *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_TXREQ_MASK;
         }
-        CFD1INT |= _CFD1INT_TXIE_MASK;
+        CFD4INT |= _CFD4INT_TXIE_MASK;
     }
     return status;
 }
 
 // *****************************************************************************
 /* Function:
-    bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t *timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr)
+    bool CAN4_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t *timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr)
 
    Summary:
     Receives a message from CAN bus.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     id          - Pointer to 11-bit / 29-bit identifier (ID) to be received.
     length      - Pointer to data length in number of bytes to be received.
     data        - Pointer to destination data buffer
-    timestamp   - Pointer to Rx message timestamp, timestamp value is 0 if Timestamp is disabled in CFD1TSCON
+    timestamp   - Pointer to Rx message timestamp, timestamp value is 0 if Timestamp is disabled in CFD4TSCON
     fifoNum     - FIFO number
     msgAttr     - Data frame or Remote frame to be received
 
@@ -382,7 +386,7 @@ bool CAN1_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fi
     true  - Request was successful.
     false - Request has failed.
 */
-bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t *timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr)
+bool CAN4_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t *timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr)
 {
     bool status = false;
     uint8_t msgIndex = 0;
@@ -393,12 +397,12 @@ bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t 
         return status;
     }
 
-    fifoSize =(uint8_t)((*(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD1FIFOCON1_FSIZE_MASK) >> _CFD1FIFOCON1_FSIZE_POSITION);
+    fifoSize =(uint8_t)((*(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD4FIFOCON1_FSIZE_MASK) >> _CFD4FIFOCON1_FSIZE_POSITION);
     for (msgIndex = 0; msgIndex <= fifoSize; msgIndex++)
     {
-        if ((can1MsgIndex[fifoNum-1U] & (1UL << (msgIndex & 0x1FU))) == 0U)
+        if ((can4MsgIndex[fifoNum-1U] & (1UL << (msgIndex & 0x1FU))) == 0U)
         {
-            can1MsgIndex[fifoNum-1U] |= (1UL << (msgIndex & 0x1FU));
+            can4MsgIndex[fifoNum-1U] |= (1UL << (msgIndex & 0x1FU));
             break;
         }
     }
@@ -407,13 +411,13 @@ bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t 
         /* FIFO is full */
         return false;
     }
-    can1RxMsg[fifoNum-1U][msgIndex].id = id;
-    can1RxMsg[fifoNum-1U][msgIndex].buffer = data;
-    can1RxMsg[fifoNum-1U][msgIndex].size = length;
-    can1RxMsg[fifoNum-1U][msgIndex].timestamp = timestamp;
-    can1RxMsg[fifoNum-1U][msgIndex].msgAttr = msgAttr;
-    *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_TFNRFNIE_MASK;
-    CFD1INT |= _CFD1INT_RXIE_MASK;
+    can4RxMsg[fifoNum-1U][msgIndex].id = id;
+    can4RxMsg[fifoNum-1U][msgIndex].buffer = data;
+    can4RxMsg[fifoNum-1U][msgIndex].size = length;
+    can4RxMsg[fifoNum-1U][msgIndex].timestamp = timestamp;
+    can4RxMsg[fifoNum-1U][msgIndex].msgAttr = msgAttr;
+    *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_TFNRFNIE_MASK;
+    CFD4INT |= _CFD4INT_RXIE_MASK;
     status = true;
 
     return status;
@@ -421,13 +425,13 @@ bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t 
 
 // *****************************************************************************
 /* Function:
-    void CAN1_MessageAbort(uint8_t fifoQueueNum)
+    void CAN4_MessageAbort(uint8_t fifoQueueNum)
 
    Summary:
     Abort request for a Queue/FIFO.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     fifoQueueNum - If fifoQueueNum is 0 then Transmit Queue otherwise FIFO
@@ -435,15 +439,15 @@ bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t 
    Returns:
     None.
 */
-void CAN1_MessageAbort(uint8_t fifoQueueNum)
+void CAN4_MessageAbort(uint8_t fifoQueueNum)
 {
     if (fifoQueueNum == 0U)
     {
-        CFD1TXQCON &= ~_CFD1TXQCON_TXREQ_MASK;
+        CFD4TXQCON &= ~_CFD4TXQCON_TXREQ_MASK;
     }
     else if (fifoQueueNum <= CANFD_NUM_OF_FIFO)
     {
-        *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) &= ~_CFD1FIFOCON1_TXREQ_MASK;
+        *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) &= ~_CFD4FIFOCON1_TXREQ_MASK;
     }
     else
     {
@@ -453,13 +457,13 @@ void CAN1_MessageAbort(uint8_t fifoQueueNum)
 
 // *****************************************************************************
 /* Function:
-    void CAN1_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id)
+    void CAN4_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id)
 
    Summary:
     Set Message acceptance filter configuration.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     filterNum - Filter number
@@ -468,7 +472,7 @@ void CAN1_MessageAbort(uint8_t fifoQueueNum)
    Returns:
     None.
 */
-void CAN1_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id)
+void CAN4_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id)
 {
     uint32_t filterEnableBit = 0;
     uint8_t filterRegIndex = 0;
@@ -476,31 +480,31 @@ void CAN1_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id)
     if (filterNum < CANFD_NUM_OF_FILTER)
     {
         filterRegIndex = filterNum >> 2;
-        filterEnableBit = _CFD1FLTCON0_FLTEN0_MASK;
+        filterEnableBit = ((filterNum % 4U) == 0U)? _CFD4FLTCON0_FLTEN0_MASK : (1UL << ((((filterNum % 4U) + 1U) * 8U) - 1U));
 
-        *(volatile uint32_t *)(&CFD1FLTCON0 + (filterRegIndex * CANFD_FILTER_OFFSET)) &= ~filterEnableBit;
+        *(volatile uint32_t *)(&CFD4FLTCON0 + (filterRegIndex * CANFD_FILTER_OFFSET)) &= ~filterEnableBit;
 
         if (id > CANFD_MSG_SID_MASK)
         {
-            *(volatile uint32_t *)(&CFD1FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) = ((((id & CANFD_MSG_FLT_EXT_SID_MASK) >> 18) | ((id & CANFD_MSG_FLT_EXT_EID_MASK) << 11)) & CANFD_MSG_EID_MASK) | _CFD1FLTOBJ0_EXIDE_MASK;
+            *(volatile uint32_t *)(&CFD4FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) = ((((id & CANFD_MSG_FLT_EXT_SID_MASK) >> 18) | ((id & CANFD_MSG_FLT_EXT_EID_MASK) << 11)) & CANFD_MSG_EID_MASK) | _CFD4FLTOBJ0_EXIDE_MASK;
         }
         else
         {
-            *(volatile uint32_t *)(&CFD1FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) = id & CANFD_MSG_SID_MASK;
+            *(volatile uint32_t *)(&CFD4FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) = id & CANFD_MSG_SID_MASK;
         }
-        *(volatile uint32_t *)(&CFD1FLTCON0 + (filterRegIndex * CANFD_FILTER_OFFSET)) |= filterEnableBit;
+        *(volatile uint32_t *)(&CFD4FLTCON0 + (filterRegIndex * CANFD_FILTER_OFFSET)) |= filterEnableBit;
     }
 }
 
 // *****************************************************************************
 /* Function:
-    uint32_t CAN1_MessageAcceptanceFilterGet(uint8_t filterNum)
+    uint32_t CAN4_MessageAcceptanceFilterGet(uint8_t filterNum)
 
    Summary:
     Get Message acceptance filter configuration.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     filterNum - Filter number
@@ -508,21 +512,21 @@ void CAN1_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id)
    Returns:
     Returns Message acceptance filter identifier
 */
-uint32_t CAN1_MessageAcceptanceFilterGet(uint8_t filterNum)
+uint32_t CAN4_MessageAcceptanceFilterGet(uint8_t filterNum)
 {
     uint32_t id = 0;
 
     if (filterNum < CANFD_NUM_OF_FILTER)
     {
-        if ((*(volatile uint32_t *)(&CFD1FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & _CFD1FLTOBJ0_EXIDE_MASK) != 0U)
+        if ((*(volatile uint32_t *)(&CFD4FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & _CFD4FLTOBJ0_EXIDE_MASK) != 0U)
         {
-            id = (*(volatile uint32_t *)(&CFD1FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & CANFD_MSG_RX_EXT_SID_MASK) << 18;
-            id = (id | ((*(volatile uint32_t *)(&CFD1FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & CANFD_MSG_RX_EXT_EID_MASK) >> 11))
+            id = (*(volatile uint32_t *)(&CFD4FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & CANFD_MSG_RX_EXT_SID_MASK) << 18;
+            id = (id | ((*(volatile uint32_t *)(&CFD4FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & CANFD_MSG_RX_EXT_EID_MASK) >> 11))
                & CANFD_MSG_EID_MASK;
         }
         else
         {
-            id = (*(volatile uint32_t *)(&CFD1FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & CANFD_MSG_SID_MASK);
+            id = (*(volatile uint32_t *)(&CFD4FLTOBJ0 + (filterNum * CANFD_FILTER_OBJ_OFFSET)) & CANFD_MSG_SID_MASK);
         }
     }
     return id;
@@ -530,13 +534,13 @@ uint32_t CAN1_MessageAcceptanceFilterGet(uint8_t filterNum)
 
 // *****************************************************************************
 /* Function:
-    void CAN1_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32_t id)
+    void CAN4_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32_t id)
 
    Summary:
     Set Message acceptance filter mask configuration.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     acceptanceFilterMaskNum - Acceptance Filter Mask number
@@ -545,11 +549,11 @@ uint32_t CAN1_MessageAcceptanceFilterGet(uint8_t filterNum)
    Returns:
     None.
 */
-void CAN1_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32_t id)
+void CAN4_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32_t id)
 {
     /* Switch the CAN module to Configuration mode. Wait until the switch is complete */
-    CFD1CON = (CFD1CON & ~_CFD1CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD1CON_REQOP_POSITION) & _CFD1CON_REQOP_MASK);
-    while(((CFD1CON & _CFD1CON_OPMOD_MASK) >> _CFD1CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE)
+    CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
+    while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE)
     {
         /* Do Nothing */
 
@@ -557,16 +561,16 @@ void CAN1_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32
 
     if (id > CANFD_MSG_SID_MASK)
     {
-        *(volatile uint32_t *)(&CFD1MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) = ((((id & CANFD_MSG_FLT_EXT_SID_MASK) >> 18) | ((id & CANFD_MSG_FLT_EXT_EID_MASK) << 11)) & CANFD_MSG_EID_MASK) | _CFD1MASK0_MIDE_MASK;
+        *(volatile uint32_t *)(&CFD4MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) = ((((id & CANFD_MSG_FLT_EXT_SID_MASK) >> 18) | ((id & CANFD_MSG_FLT_EXT_EID_MASK) << 11)) & CANFD_MSG_EID_MASK) | _CFD4MASK0_MIDE_MASK;
     }
     else
     {
-        *(volatile uint32_t *)(&CFD1MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) = id & CANFD_MSG_SID_MASK;
+        *(volatile uint32_t *)(&CFD4MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) = id & CANFD_MSG_SID_MASK;
     }
 
     /* Switch the CAN module to CANFD_OPERATION_MODE. Wait until the switch is complete */
-    CFD1CON = (CFD1CON & ~_CFD1CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD1CON_REQOP_POSITION) & _CFD1CON_REQOP_MASK);
-    while(((CFD1CON & _CFD1CON_OPMOD_MASK) >> _CFD1CON_OPMOD_POSITION) != CANFD_OPERATION_MODE)
+    CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
+    while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_OPERATION_MODE)
     {
         /* Do Nothing */
 
@@ -575,13 +579,13 @@ void CAN1_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32
 
 // *****************************************************************************
 /* Function:
-    uint32_t CAN1_MessageAcceptanceFilterMaskGet(uint8_t acceptanceFilterMaskNum)
+    uint32_t CAN4_MessageAcceptanceFilterMaskGet(uint8_t acceptanceFilterMaskNum)
 
    Summary:
     Get Message acceptance filter mask configuration.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     acceptanceFilterMaskNum - Acceptance Filter Mask number
@@ -589,53 +593,53 @@ void CAN1_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32
    Returns:
     Returns Message acceptance filter mask.
 */
-uint32_t CAN1_MessageAcceptanceFilterMaskGet(uint8_t acceptanceFilterMaskNum)
+uint32_t CAN4_MessageAcceptanceFilterMaskGet(uint8_t acceptanceFilterMaskNum)
 {
     uint32_t id = 0;
 
-    if ((*(volatile uint32_t *)(&CFD1MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & _CFD1MASK0_MIDE_MASK) != 0U)
+    if ((*(volatile uint32_t *)(&CFD4MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & _CFD4MASK0_MIDE_MASK) != 0U)
     {
-        id = (*(volatile uint32_t *)(&CFD1MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & CANFD_MSG_RX_EXT_SID_MASK) << 18;
-        id = (id | ((*(volatile uint32_t *)(&CFD1MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & CANFD_MSG_RX_EXT_EID_MASK) >> 11))
+        id = (*(volatile uint32_t *)(&CFD4MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & CANFD_MSG_RX_EXT_SID_MASK) << 18;
+        id = (id | ((*(volatile uint32_t *)(&CFD4MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & CANFD_MSG_RX_EXT_EID_MASK) >> 11))
            & CANFD_MSG_EID_MASK;
     }
     else
     {
-        id = (*(volatile uint32_t *)(&CFD1MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & CANFD_MSG_SID_MASK);
+        id = (*(volatile uint32_t *)(&CFD4MASK0 + (acceptanceFilterMaskNum * CANFD_ACCEPTANCE_MASK_OFFSET)) & CANFD_MSG_SID_MASK);
     }
     return id;
 }
 
 // *****************************************************************************
 /* Function:
-    bool CAN1_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t *timestamp)
+    bool CAN4_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t *timestamp)
 
    Summary:
     Get the Transmit Event FIFO Element for the transmitted message.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     id          - Pointer to 11-bit / 29-bit identifier (ID) to be received.
     sequence    - Pointer to Tx message sequence number to be received
-    timestamp   - Pointer to Tx message timestamp to be received, timestamp value is 0 if Timestamp is disabled in CFD1TSCON
+    timestamp   - Pointer to Tx message timestamp to be received, timestamp value is 0 if Timestamp is disabled in CFD4TSCON
 
    Returns:
     Request status.
     true  - Request was successful.
     false - Request has failed.
 */
-bool CAN1_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t *timestamp)
+bool CAN4_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t *timestamp)
 {
     CANFD_TX_EVENT_FIFO_ELEMENT *txEventFIFOElement = NULL;
     bool status = false;
 
     /* Check if there is a message available in Tx Event FIFO */
-    if ((CFD1TEFSTA & _CFD1TEFSTA_TEFNEIF_MASK) == _CFD1TEFSTA_TEFNEIF_MASK)
+    if ((CFD4TEFSTA & _CFD4TEFSTA_TEFNEIF_MASK) == _CFD4TEFSTA_TEFNEIF_MASK)
     {
         /* Get a pointer to Tx Event FIFO Element */
-        txEventFIFOElement = (CANFD_TX_EVENT_FIFO_ELEMENT *)PA_TO_KVA1(CFD1TEFUA);
+        txEventFIFOElement = (CANFD_TX_EVENT_FIFO_ELEMENT *)PA_TO_KVA1(CFD4TEFUA);
 
         /* Check if it's a extended message type */
         if ((txEventFIFOElement->te1 & CANFD_MSG_IDE_MASK) != 0U)
@@ -654,7 +658,7 @@ bool CAN1_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t
         }
 
         /* Tx Event FIFO Element read done, update the Tx Event FIFO tail */
-        CFD1TEFCON |= _CFD1TEFCON_UINC_MASK;
+        CFD4TEFCON |= _CFD4TEFCON_UINC_MASK;
 
         /* Tx Event FIFO Element read successfully, so return true */
         status = true;
@@ -664,13 +668,13 @@ bool CAN1_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t
 
 // *****************************************************************************
 /* Function:
-    CANFD_ERROR CAN1_ErrorGet(void)
+    CANFD_ERROR CAN4_ErrorGet(void)
 
    Summary:
     Returns the error during transfer.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     None.
@@ -678,20 +682,20 @@ bool CAN1_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t
    Returns:
     Error during transfer.
 */
-CANFD_ERROR CAN1_ErrorGet(void)
+CANFD_ERROR CAN4_ErrorGet(void)
 {
-    return (CANFD_ERROR)can1Obj.errorStatus;
+    return (CANFD_ERROR)can4Obj.errorStatus;
 }
 
 // *****************************************************************************
 /* Function:
-    void CAN1_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount)
+    void CAN4_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount)
 
    Summary:
     Returns the transmit and receive error count during transfer.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     txErrorCount - Transmit Error Count to be received
@@ -700,21 +704,21 @@ CANFD_ERROR CAN1_ErrorGet(void)
    Returns:
     None.
 */
-void CAN1_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount)
+void CAN4_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount)
 {
-    *txErrorCount = (uint8_t)((CFD1TREC & _CFD1TREC_TERRCNT_MASK) >> _CFD1TREC_TERRCNT_POSITION);
-    *rxErrorCount = (uint8_t)(CFD1TREC & _CFD1TREC_RERRCNT_MASK);
+    *txErrorCount = (uint8_t)((CFD4TREC & _CFD4TREC_TERRCNT_MASK) >> _CFD4TREC_TERRCNT_POSITION);
+    *rxErrorCount = (uint8_t)(CFD4TREC & _CFD4TREC_RERRCNT_MASK);
 }
 
 // *****************************************************************************
 /* Function:
-    bool CAN1_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifoInterruptFlagMask)
+    bool CAN4_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifoInterruptFlagMask)
 
    Summary:
     Returns the FIFO Interrupt status.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     fifoQueueNum          - FIFO number
@@ -724,27 +728,27 @@ void CAN1_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount)
     true - Requested fifo interrupt is occurred.
     false - Requested fifo interrupt is not occurred.
 */
-bool CAN1_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifoInterruptFlagMask)
+bool CAN4_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifoInterruptFlagMask)
 {
     if (fifoQueueNum == 0U)
     {
-        return ((CFD1TXQSTA & (uint32_t)fifoInterruptFlagMask) != 0x0U);
+        return ((CFD4TXQSTA & (uint32_t)fifoInterruptFlagMask) != 0x0U);
     }
     else
     {
-        return ((*(volatile uint32_t *)(&CFD1FIFOSTA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) & (uint32_t)fifoInterruptFlagMask) != 0x0U);
+        return ((*(volatile uint32_t *)(&CFD4FIFOSTA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) & (uint32_t)fifoInterruptFlagMask) != 0x0U);
     }
 }
 
 // *****************************************************************************
 /* Function:
-    bool CAN1_TxFIFOQueueIsFull(uint8_t fifoQueueNum)
+    bool CAN4_TxFIFOQueueIsFull(uint8_t fifoQueueNum)
 
    Summary:
     Returns true if Tx FIFO/Queue is full otherwise false.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     fifoQueueNum - FIFO/Queue number
@@ -753,27 +757,27 @@ bool CAN1_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifo
     true  - Tx FIFO/Queue is full.
     false - Tx FIFO/Queue is not full.
 */
-bool CAN1_TxFIFOQueueIsFull(uint8_t fifoQueueNum)
+bool CAN4_TxFIFOQueueIsFull(uint8_t fifoQueueNum)
 {
     if (fifoQueueNum == 0U)
     {
-        return ((CFD1TXQSTA & _CFD1TXQSTA_TXQNIF_MASK) != _CFD1TXQSTA_TXQNIF_MASK);
+        return ((CFD4TXQSTA & _CFD4TXQSTA_TXQNIF_MASK) != _CFD4TXQSTA_TXQNIF_MASK);
     }
     else
     {
-        return ((*(volatile uint32_t *)(&CFD1FIFOSTA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD1FIFOSTA1_TFNRFNIF_MASK) != _CFD1FIFOSTA1_TFNRFNIF_MASK);
+        return ((*(volatile uint32_t *)(&CFD4FIFOSTA1 + ((fifoQueueNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD4FIFOSTA1_TFNRFNIF_MASK) != _CFD4FIFOSTA1_TFNRFNIF_MASK);
     }
 }
 
 // *****************************************************************************
 /* Function:
-    bool CAN1_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoNum)
+    bool CAN4_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoNum)
 
    Summary:
     Set the Auto RTR response for remote transmit request.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
     Auto RTR Enable must be set to 0x1 for the requested Transmit FIFO in MHC configuration.
 
    Parameters:
@@ -787,7 +791,7 @@ bool CAN1_TxFIFOQueueIsFull(uint8_t fifoQueueNum)
     true  - Request was successful.
     false - Request has failed.
 */
-bool CAN1_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoNum)
+bool CAN4_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoNum)
 {
     CANFD_TX_MSG_OBJECT *txMessage = NULL;
     uint8_t count = 0;
@@ -795,9 +799,9 @@ bool CAN1_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t
 
     if (fifoNum <= CANFD_NUM_OF_FIFO)
     {
-        if ((*(volatile uint32_t *)(&CFD1FIFOSTA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD1FIFOSTA1_TFNRFNIF_MASK) == _CFD1FIFOSTA1_TFNRFNIF_MASK)
+        if ((*(volatile uint32_t *)(&CFD4FIFOSTA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD4FIFOSTA1_TFNRFNIF_MASK) == _CFD4FIFOSTA1_TFNRFNIF_MASK)
         {
-            txMessage = (CANFD_TX_MSG_OBJECT *)PA_TO_KVA1(*(volatile uint32_t *)(&CFD1FIFOUA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)));
+            txMessage = (CANFD_TX_MSG_OBJECT *)PA_TO_KVA1(*(volatile uint32_t *)(&CFD4FIFOUA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)));
             status = true;
         }
     }
@@ -831,16 +835,16 @@ bool CAN1_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t
             data++;
         }
 
-        *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_TFERFFIE_MASK;
+        *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_TFERFFIE_MASK;
 
         /* Set UINC to respond to RTR */
-        *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_UINC_MASK;
-        CFD1INT |= _CFD1INT_TXIE_MASK;
+        *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_UINC_MASK;
+        CFD4INT |= _CFD4INT_TXIE_MASK;
     }
     return status;
 }
 
-bool CAN1_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMING *bitTiming)
+bool CAN4_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMING *bitTiming)
 {
     bool status = false;
     uint32_t numOfTimeQuanta;
@@ -852,7 +856,7 @@ bool CAN1_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMIN
     {
         if (setup->nominalBitTimingSet == true)
         {
-            numOfTimeQuanta = CAN1_CLOCK_FREQUENCY / (setup->nominalBitRate * ((uint32_t)setup->nominalPrescaler + 1U));
+            numOfTimeQuanta = CAN4_CLOCK_FREQUENCY / (setup->nominalBitRate * ((uint32_t)setup->nominalPrescaler + 1U));
             if ((numOfTimeQuanta >= 4U) && (numOfTimeQuanta <= 385U))
             {
                 if (setup->nominalSamplePoint < 50.0f)
@@ -876,7 +880,7 @@ bool CAN1_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMIN
         }
         if (setup->dataBitTimingSet == true)
         {
-            numOfTimeQuanta = CAN1_CLOCK_FREQUENCY / (setup->dataBitRate * ((uint32_t)setup->dataPrescaler + 1U));
+            numOfTimeQuanta = CAN4_CLOCK_FREQUENCY / (setup->dataBitRate * ((uint32_t)setup->dataPrescaler + 1U));
             if ((numOfTimeQuanta >= 4U) && (numOfTimeQuanta <= 49U))
             {
                 if (setup->dataSamplePoint < 50.0f)
@@ -904,7 +908,7 @@ bool CAN1_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMIN
     return status;
 }
 
-bool CAN1_BitTimingSet(CANFD_BIT_TIMING *bitTiming)
+bool CAN4_BitTimingSet(CANFD_BIT_TIMING *bitTiming)
 {
     bool status = false;
     bool nominalBitTimingSet = false;
@@ -929,8 +933,8 @@ bool CAN1_BitTimingSet(CANFD_BIT_TIMING *bitTiming)
     if ((nominalBitTimingSet == true) || (dataBitTimingSet == true))
     {
         /* Switch the CAN module to Configuration mode. Wait until the switch is complete */
-        CFD1CON = (CFD1CON & ~_CFD1CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD1CON_REQOP_POSITION) & _CFD1CON_REQOP_MASK);
-        while(((CFD1CON & _CFD1CON_OPMOD_MASK) >> _CFD1CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE)
+        CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
+        while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE)
         {
             /* Do Nothing */
         }
@@ -938,24 +942,24 @@ bool CAN1_BitTimingSet(CANFD_BIT_TIMING *bitTiming)
         if (dataBitTimingSet == true)
         {
             /* Set the Data bitrate */
-            CFD1DBTCFG = (((uint32_t)bitTiming->dataBitTiming.dataPrescaler << _CFD1DBTCFG_BRP_POSITION) & _CFD1DBTCFG_BRP_MASK)
-                       | (((uint32_t)bitTiming->dataBitTiming.dataTimeSegment1 << _CFD1DBTCFG_TSEG1_POSITION) & _CFD1DBTCFG_TSEG1_MASK)
-                       | (((uint32_t)bitTiming->dataBitTiming.dataTimeSegment2 << _CFD1DBTCFG_TSEG2_POSITION) & _CFD1DBTCFG_TSEG2_MASK)
-                       | (((uint32_t)bitTiming->dataBitTiming.dataSJW << _CFD1DBTCFG_SJW_POSITION) & _CFD1DBTCFG_SJW_MASK);
+            CFD4DBTCFG = (((uint32_t)bitTiming->dataBitTiming.dataPrescaler << _CFD4DBTCFG_BRP_POSITION) & _CFD4DBTCFG_BRP_MASK)
+                       | (((uint32_t)bitTiming->dataBitTiming.dataTimeSegment1 << _CFD4DBTCFG_TSEG1_POSITION) & _CFD4DBTCFG_TSEG1_MASK)
+                       | (((uint32_t)bitTiming->dataBitTiming.dataTimeSegment2 << _CFD4DBTCFG_TSEG2_POSITION) & _CFD4DBTCFG_TSEG2_MASK)
+                       | (((uint32_t)bitTiming->dataBitTiming.dataSJW << _CFD4DBTCFG_SJW_POSITION) & _CFD4DBTCFG_SJW_MASK);
         }
 
         if (nominalBitTimingSet == true)
         {
             /* Set the Nominal bitrate */
-            CFD1NBTCFG = (((uint32_t)bitTiming->nominalBitTiming.nominalPrescaler << _CFD1NBTCFG_BRP_POSITION) & _CFD1NBTCFG_BRP_MASK)
-                       | (((uint32_t)bitTiming->nominalBitTiming.nominalTimeSegment1 << _CFD1NBTCFG_TSEG1_POSITION) & _CFD1NBTCFG_TSEG1_MASK)
-                       | (((uint32_t)bitTiming->nominalBitTiming.nominalTimeSegment2 << _CFD1NBTCFG_TSEG2_POSITION) & _CFD1NBTCFG_TSEG2_MASK)
-                       | (((uint32_t)bitTiming->nominalBitTiming.nominalSJW << _CFD1NBTCFG_SJW_POSITION) & _CFD1NBTCFG_SJW_MASK);
+            CFD4NBTCFG = (((uint32_t)bitTiming->nominalBitTiming.nominalPrescaler << _CFD4NBTCFG_BRP_POSITION) & _CFD4NBTCFG_BRP_MASK)
+                       | (((uint32_t)bitTiming->nominalBitTiming.nominalTimeSegment1 << _CFD4NBTCFG_TSEG1_POSITION) & _CFD4NBTCFG_TSEG1_MASK)
+                       | (((uint32_t)bitTiming->nominalBitTiming.nominalTimeSegment2 << _CFD4NBTCFG_TSEG2_POSITION) & _CFD4NBTCFG_TSEG2_MASK)
+                       | (((uint32_t)bitTiming->nominalBitTiming.nominalSJW << _CFD4NBTCFG_SJW_POSITION) & _CFD4NBTCFG_SJW_MASK);
         }
 
         /* Switch the CAN module to CANFD_OPERATION_MODE. Wait until the switch is complete */
-        CFD1CON = (CFD1CON & ~_CFD1CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD1CON_REQOP_POSITION) & _CFD1CON_REQOP_MASK);
-        while(((CFD1CON & _CFD1CON_OPMOD_MASK) >> _CFD1CON_OPMOD_POSITION) != CANFD_OPERATION_MODE)
+        CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
+        while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_OPERATION_MODE)
         {
             /* Do Nothing */
         }
@@ -967,14 +971,14 @@ bool CAN1_BitTimingSet(CANFD_BIT_TIMING *bitTiming)
 
 // *****************************************************************************
 /* Function:
-    void CAN1_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uint8_t fifoQueueNum)
+    void CAN4_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uint8_t fifoQueueNum)
 
    Summary:
     Sets the pointer to the function (and it's context) to be called when the
     given CAN's transfer events occur.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     callback - A pointer to a function with a calling signature defined
@@ -987,25 +991,25 @@ bool CAN1_BitTimingSet(CANFD_BIT_TIMING *bitTiming)
    Returns:
     None.
 */
-void CAN1_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uint8_t fifoQueueNum)
+void CAN4_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uint8_t fifoQueueNum)
 {
     if (callback != NULL)
     {
-        can1CallbackObj[fifoQueueNum].callback = callback;
-        can1CallbackObj[fifoQueueNum].context = contextHandle;
+        can4CallbackObj[fifoQueueNum].callback = callback;
+        can4CallbackObj[fifoQueueNum].context = contextHandle;
     }
 }
 
 // *****************************************************************************
 /* Function:
-    void CAN1_ErrorCallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle)
+    void CAN4_ErrorCallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle)
 
    Summary:
     Sets the pointer to the function (and it's context) to be called when the
     given CAN's transfer events occur.
 
    Precondition:
-    CAN1_Initialize must have been called for the associated CAN instance.
+    CAN4_Initialize must have been called for the associated CAN instance.
 
    Parameters:
     callback - A pointer to a function with a calling signature defined
@@ -1017,16 +1021,16 @@ void CAN1_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uin
    Returns:
     None.
 */
-void CAN1_ErrorCallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle)
+void CAN4_ErrorCallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle)
 {
     if (callback != NULL)
     {
-        can1ErrorCallbackObj.callback = callback;
-        can1ErrorCallbackObj.context = contextHandle;
+        can4ErrorCallbackObj.callback = callback;
+        can4ErrorCallbackObj.context = contextHandle;
     }
 }
 
-static void __attribute__((used)) CAN1_RX_InterruptHandler(void)
+static void __attribute__((used)) CAN4_RX_InterruptHandler(void)
 {
     uint8_t  msgIndex = 0;
     uint8_t  fifoNum = 0;
@@ -1036,139 +1040,139 @@ static void __attribute__((used)) CAN1_RX_InterruptHandler(void)
     /* Additional temporary variable used to prevent MISRA violations (Rule 13.x) */
     uintptr_t context;
 
-    fifoNum = ((uint8_t)CFD1VEC & (uint8_t)_CFD1VEC_ICODE_MASK);
+    fifoNum = ((uint8_t)CFD4VEC & (uint8_t)_CFD4VEC_ICODE_MASK);
     if (fifoNum <= CANFD_NUM_OF_FIFO)
     {
-        fifoSize = (uint8_t)((*(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD1FIFOCON1_FSIZE_MASK) >> _CFD1FIFOCON1_FSIZE_POSITION);
+        fifoSize = (uint8_t)((*(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD4FIFOCON1_FSIZE_MASK) >> _CFD4FIFOCON1_FSIZE_POSITION);
         for (msgIndex = 0U; msgIndex <= fifoSize; msgIndex++)
         {
-            if ((can1MsgIndex[fifoNum-1U] & (1UL << (msgIndex & 0x1FU))) == (1UL << (msgIndex & 0x1FU)))
+            if ((can4MsgIndex[fifoNum-1U] & (1UL << (msgIndex & 0x1FU))) == (1UL << (msgIndex & 0x1FU)))
             {
-                can1MsgIndex[fifoNum-1U] &= ~(1UL << (msgIndex & 0x1FU));
+                can4MsgIndex[fifoNum-1U] &= ~(1UL << (msgIndex & 0x1FU));
                 break;
             }
         }
 
         /* Get a pointer to RX message buffer */
-        rxMessage = (CANFD_RX_MSG_OBJECT *)PA_TO_KVA1(*(volatile uint32_t *)(&CFD1FIFOUA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)));
+        rxMessage = (CANFD_RX_MSG_OBJECT *)PA_TO_KVA1(*(volatile uint32_t *)(&CFD4FIFOUA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)));
 
 
         /* Check if it's a extended message type */
         if ((rxMessage->r1 & CANFD_MSG_IDE_MASK) != 0U)
         {
-            *can1RxMsg[fifoNum-1U][msgIndex].id = (((rxMessage->r0 & CANFD_MSG_RX_EXT_SID_MASK) << 18) | ((rxMessage->r0 & CANFD_MSG_RX_EXT_EID_MASK) >> 11)) & CANFD_MSG_EID_MASK;
+            *can4RxMsg[fifoNum-1U][msgIndex].id = (((rxMessage->r0 & CANFD_MSG_RX_EXT_SID_MASK) << 18) | ((rxMessage->r0 & CANFD_MSG_RX_EXT_EID_MASK) >> 11)) & CANFD_MSG_EID_MASK;
         }
         else
         {
-            *can1RxMsg[fifoNum-1U][msgIndex].id = rxMessage->r0 & CANFD_MSG_SID_MASK;
+            *can4RxMsg[fifoNum-1U][msgIndex].id = rxMessage->r0 & CANFD_MSG_SID_MASK;
         }
 
         if (((rxMessage->r1 & CANFD_MSG_RTR_MASK) != 0U) && ((rxMessage->r1 & CANFD_MSG_FDF_MASK) == 0U))
         {
-            *can1RxMsg[fifoNum-1U][msgIndex].msgAttr = CANFD_MSG_RX_REMOTE_FRAME;
+            *can4RxMsg[fifoNum-1U][msgIndex].msgAttr = CANFD_MSG_RX_REMOTE_FRAME;
         }
         else
         {
-            *can1RxMsg[fifoNum-1U][msgIndex].msgAttr = CANFD_MSG_RX_DATA_FRAME;
+            *can4RxMsg[fifoNum-1U][msgIndex].msgAttr = CANFD_MSG_RX_DATA_FRAME;
         }
 
-        *can1RxMsg[fifoNum-1U][msgIndex].size = dlcToLength[(rxMessage->r1 & CANFD_MSG_DLC_MASK)];
+        *can4RxMsg[fifoNum-1U][msgIndex].size = dlcToLength[(rxMessage->r1 & CANFD_MSG_DLC_MASK)];
 
-        if (can1RxMsg[fifoNum-1U][msgIndex].timestamp != NULL)
+        if (can4RxMsg[fifoNum-1U][msgIndex].timestamp != NULL)
         {
         }
 
         /* Copy the data into the payload */
-        while (count < *can1RxMsg[fifoNum-1U][msgIndex].size)
+        while (count < *can4RxMsg[fifoNum-1U][msgIndex].size)
         {
-            *can1RxMsg[fifoNum-1U][msgIndex].buffer = rxMessage->data[count];
-            can1RxMsg[fifoNum-1U][msgIndex].buffer++;
+            *can4RxMsg[fifoNum-1U][msgIndex].buffer = rxMessage->data[count];
+            can4RxMsg[fifoNum-1U][msgIndex].buffer++;
             count++;
         }
 
         /* Message processing is done, update the message buffer pointer. */
-        *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD1FIFOCON1_UINC_MASK;
+        *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) |= _CFD4FIFOCON1_UINC_MASK;
 
-        if (((*(volatile uint32_t *)(&CFD1FIFOSTA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD1FIFOSTA1_TFNRFNIF_MASK) != _CFD1FIFOSTA1_TFNRFNIF_MASK) ||
-            (can1MsgIndex[fifoNum-1U] == 0U))
+        if (((*(volatile uint32_t *)(&CFD4FIFOSTA1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) & _CFD4FIFOSTA1_TFNRFNIF_MASK) != _CFD4FIFOSTA1_TFNRFNIF_MASK) ||
+            (can4MsgIndex[fifoNum-1U] == 0U))
         {
-            *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) &= ~_CFD1FIFOCON1_TFNRFNIE_MASK;
+            *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) &= ~_CFD4FIFOCON1_TFNRFNIE_MASK;
         }
-        can1Obj.errorStatus = 0U;
+        can4Obj.errorStatus = 0U;
     }
-    IFS5CLR = _IFS5_CAN1IF_MASK;
+    IFS5CLR = _IFS5_CAN4IF_MASK;
 
-    if (can1CallbackObj[fifoNum].callback != NULL)
+    if (can4CallbackObj[fifoNum].callback != NULL)
     {
-        context = can1CallbackObj[fifoNum].context;
-        can1CallbackObj[fifoNum].callback(context);
+        context = can4CallbackObj[fifoNum].context;
+        can4CallbackObj[fifoNum].callback(context);
     }
 }
 
-static void __attribute__((used)) CAN1_TX_InterruptHandler(void)
+static void __attribute__((used)) CAN4_TX_InterruptHandler(void)
 {
     uint8_t  fifoNum = 0;
     /* Additional temporary variable used to prevent MISRA violations (Rule 13.x) */
     uintptr_t context;
 
-    fifoNum = ((uint8_t)CFD1VEC & (uint8_t)_CFD1VEC_ICODE_MASK);
+    fifoNum = ((uint8_t)CFD4VEC & (uint8_t)_CFD4VEC_ICODE_MASK);
     if (fifoNum <= CANFD_NUM_OF_FIFO)
     {
         if (fifoNum == 0U)
         {
-            CFD1TXQCON &= ~_CFD1TXQCON_TXQEIE_MASK;
+            CFD4TXQCON &= ~_CFD4TXQCON_TXQEIE_MASK;
         }
         else
         {
-            *(volatile uint32_t *)(&CFD1FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) &= ~_CFD1FIFOCON1_TFERFFIE_MASK;
+            *(volatile uint32_t *)(&CFD4FIFOCON1 + ((fifoNum - 1U) * CANFD_FIFO_OFFSET)) &= ~_CFD4FIFOCON1_TFERFFIE_MASK;
         }
-        can1Obj.errorStatus = 0U;
+        can4Obj.errorStatus = 0U;
     }
-    IFS5CLR = _IFS5_CAN1IF_MASK;
+    IFS5CLR = _IFS5_CAN4IF_MASK;
 
-    if (can1CallbackObj[fifoNum].callback != NULL)
+    if (can4CallbackObj[fifoNum].callback != NULL)
     {
-        context = can1CallbackObj[fifoNum].context;
-        can1CallbackObj[fifoNum].callback(context);
+        context = can4CallbackObj[fifoNum].context;
+        can4CallbackObj[fifoNum].callback(context);
     }
 }
 
-static void __attribute__((used)) CAN1_MISC_InterruptHandler(void)
+static void __attribute__((used)) CAN4_MISC_InterruptHandler(void)
 {
     uint32_t errorStatus = 0;
     /* Additional temporary variable used to prevent MISRA violations (Rule 13.x) */
     uintptr_t context;
 
-    CFD1INT &= ~(_CFD1INT_SERRIF_MASK | _CFD1INT_CERRIF_MASK | _CFD1INT_IVMIF_MASK);
-    IFS5CLR = _IFS5_CAN1IF_MASK;
-    errorStatus = CFD1TREC;
+    CFD4INT &= ~(_CFD4INT_SERRIF_MASK | _CFD4INT_CERRIF_MASK | _CFD4INT_IVMIF_MASK);
+    IFS5CLR = _IFS5_CAN4IF_MASK;
+    errorStatus = CFD4TREC;
 
     /* Check if error occurred */
-    can1Obj.errorStatus = ((errorStatus & _CFD1TREC_EWARN_MASK) |
-                                                      (errorStatus & _CFD1TREC_RXWARN_MASK) |
-                                                      (errorStatus & _CFD1TREC_TXWARN_MASK) |
-                                                      (errorStatus & _CFD1TREC_RXBP_MASK) |
-                                                      (errorStatus & _CFD1TREC_TXBP_MASK) |
-                                                      (errorStatus & _CFD1TREC_TXBO_MASK));
+    can4Obj.errorStatus = ((errorStatus & _CFD4TREC_EWARN_MASK) |
+                                                      (errorStatus & _CFD4TREC_RXWARN_MASK) |
+                                                      (errorStatus & _CFD4TREC_TXWARN_MASK) |
+                                                      (errorStatus & _CFD4TREC_RXBP_MASK) |
+                                                      (errorStatus & _CFD4TREC_TXBP_MASK) |
+                                                      (errorStatus & _CFD4TREC_TXBO_MASK));
 
-    /* Client must call CAN1_ErrorGet and CAN1_ErrorCountGet functions to get errors */
-    if (can1ErrorCallbackObj.callback != NULL)
+    /* Client must call CAN4_ErrorGet and CAN4_ErrorCountGet functions to get errors */
+    if (can4ErrorCallbackObj.callback != NULL)
     {
-        context = can1ErrorCallbackObj.context;
-        can1ErrorCallbackObj.callback(context);
+        context = can4ErrorCallbackObj.context;
+        can4ErrorCallbackObj.callback(context);
     }
 }
 
 // *****************************************************************************
 /* Function:
-    void CAN1_InterruptHandler(void)
+    void CAN4_InterruptHandler(void)
 
    Summary:
-    CAN1 Peripheral Interrupt Handler.
+    CAN4 Peripheral Interrupt Handler.
 
    Description:
-    This function is CAN1 Peripheral Interrupt Handler and will
-    called on every CAN1 interrupt.
+    This function is CAN4 Peripheral Interrupt Handler and will
+    called on every CAN4 interrupt.
 
    Precondition:
     None.
@@ -1184,24 +1188,24 @@ static void __attribute__((used)) CAN1_MISC_InterruptHandler(void)
     instance interrupt is enabled. If peripheral instance's interrupt is not
     enabled user need to call it from the main while loop of the application.
 */
-void __attribute__((used)) CAN1_InterruptHandler(void)
+void __attribute__((used)) CAN4_InterruptHandler(void)
 {
     /* Call CAN MISC interrupt handler if SERRIF/CERRIF/IVMIF interrupt flag is set */
-    if ((CFD1INT & (_CFD1INT_SERRIF_MASK | _CFD1INT_CERRIF_MASK | _CFD1INT_IVMIF_MASK)) != 0U)
+    if ((CFD4INT & (_CFD4INT_SERRIF_MASK | _CFD4INT_CERRIF_MASK | _CFD4INT_IVMIF_MASK)) != 0U)
     {
-        CAN1_MISC_InterruptHandler();
+        CAN4_MISC_InterruptHandler();
     }
 
     /* Call CAN RX interrupt handler if RXIF interrupt flag is set */
-    if ((CFD1INT & _CFD1INT_RXIF_MASK) != 0U)
+    if ((CFD4INT & _CFD4INT_RXIF_MASK) != 0U)
     {
-        CAN1_RX_InterruptHandler();
+        CAN4_RX_InterruptHandler();
     }
 
     /* Call CAN TX interrupt handler if TXIF interrupt flag is set */
-    if ((CFD1INT & _CFD1INT_TXIF_MASK) != 0U)
+    if ((CFD4INT & _CFD4INT_TXIF_MASK) != 0U)
     {
-        CAN1_TX_InterruptHandler();
+        CAN4_TX_InterruptHandler();
     }
 }
 

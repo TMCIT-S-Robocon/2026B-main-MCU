@@ -44,8 +44,8 @@ data:
     - children:
       - attributes:
           id: stdio
-          x: '407'
-          y: '52'
+          x: '427'
+          y: '155'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
@@ -61,4 +61,14 @@ data:
           type: Dynamic
         type: Values
       type: String
+    STDOUT_BUFF_MODE:
+      attributes:
+        id: STDOUT_BUFF_MODE
+      children:
+      - children:
+        - attributes:
+            value: 'true'
+          type: User
+        type: Values
+      type: Boolean
   userData: {}

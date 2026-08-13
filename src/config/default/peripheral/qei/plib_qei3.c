@@ -1,23 +1,20 @@
 /*******************************************************************************
-  TMR Peripheral Library Interface Source File
+  Quadrature Encoder Interface (QEI3) Peripheral Library (PLIB)
 
-  Company
+  Company:
     Microchip Technology Inc.
 
-  File Name
-    plib_tmr2.c
+  File Name:
+    plib_qei3.c
 
-  Summary
-    TMR2 peripheral library source file.
+  Summary:
+    QEI3 Source File
 
-  Description
-    This file implements the interface to the TMR peripheral library.  This
-    library provides access to and control of the associated peripheral
-    instance.
+  Description:
+    None
 
 *******************************************************************************/
 
-// DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
@@ -40,111 +37,89 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-// DOM-IGNORE-END
-
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
-// *****************************************************************************
-
 #include "device.h"
-#include "plib_tmr2.h"
+#include "plib_qei3.h"
 #include "interrupts.h"
 
-static volatile TMR_TIMER_OBJECT tmr2Obj;
+// *****************************************************************************
+
+// *****************************************************************************
+// Section: QEI3 Implementation
+// *****************************************************************************
+// *****************************************************************************
 
 
-void TMR2_Initialize(void)
+void QEI3_Initialize (void)
 {
-    /* Disable Timer */
-    T2CONCLR = _T2CON_ON_MASK;
 
-    /*
-    SIDL = 0
-    SYNC = 0
-    TGATE = 0
-    TCKPS =0
-    T32   = 0
-    TCS = 0
-    */
-    T2CONSET = 0x0;
+    /* QEI3CON register  */
+    /*  CCM    = 0 */
+    /*  GATEN  = 0 */
+    /*  CNTPOL = 0 */
+    /*  INTDIV = 0 */
+    /*  IMV    = 0  */
+    /*  PIMOD  = 0  */
+    /*  QEISIDL = 0 */
+    QEI3CON = 0x0;
 
-    /* Clear counter */
-    TMR2 = 0x0;
+    /* QEI3IOC register  */
+    /*  QEAPOL    = 0 */
+    /*  QEBPOL  = 0 */
+    /*  IDXPOL = 0 */
+    /*  HOMPOL = 0 */
+    /*  SWPAB    = 0  */
+    /*  OUTFNC  = 0  */
+    /*  QFDIV   = 0   */
+    /*  FLTREN  = 0   */
+    QEI3IOC = 0x0;
 
-    /*Set period */
-    PR2 = 17U;
+    QEI3ICC = 0U;
+    QEI3CMPL = 0U;
 
-    IEC0SET = _IEC0_T2IE_MASK;
+    /* QEI3STAT register  */
+    /*  IDXIEN    = false */
+    /*  HOMIEN  = false */
+    /*  VELOVIEN = false */
+    /*  POSOVIEN = false */
+    /*  PCIIEN    = false  */
+    /*  PCLEQIEN  = false    */
+    /*  PCHEQIEN = false     */
+    QEI3STAT = 0x0;
 
 }
 
 
-void TMR2_Start(void)
+void QEI3_Start(void)
 {
-    T2CONSET = _T2CON_ON_MASK;
+    /* Enable QEI channel */
+    QEI3CON |= (uint32_t)_QEI3CON_QEIEN_MASK;
 }
 
-
-void TMR2_Stop (void)
+void QEI3_Stop(void)
 {
-    T2CONCLR = _T2CON_ON_MASK;
+    /* Disable QEI channel */
+    QEI3CON &= ~(uint32_t)_QEI3CON_QEIEN_MASK;
 }
 
-void TMR2_PeriodSet(uint16_t period)
+uint32_t QEI3_PulseIntervalGet(void)
 {
-    PR2  = period;
+    return (INT3HLD);
 }
 
-uint16_t TMR2_PeriodGet(void)
+void QEI3_PositionWindowSet(uint32_t high_threshold, uint32_t low_threshold)
 {
-    return (uint16_t)PR2;
+    QEI3ICC  = high_threshold;
+    QEI3CMPL = low_threshold;
 }
 
-uint16_t TMR2_CounterGet(void)
+void QEI3_PositionCountSet(uint32_t position_count)
 {
-    return (uint16_t)(TMR2);
+    POS3CNT = position_count;
 }
 
-
-uint32_t TMR2_FrequencyGet(void)
+void QEI3_VelocityCountSet(uint32_t velocity_count)
 {
-    return (60000000);
-}
-
-void __attribute__((used)) TIMER_2_InterruptHandler (void)
-{
-    uint32_t status = IFS0bits.T2IF;
-    IFS0CLR = _IFS0_T2IF_MASK;
-
-    if((tmr2Obj.callback_fn != NULL))
-    {
-        uintptr_t context = tmr2Obj.context;
-        tmr2Obj.callback_fn(status, context);
-    }
-}
-
-
-void TMR2_InterruptEnable(void)
-{
-
-    IEC0SET = _IEC0_T2IE_MASK;
-}
-
-
-void TMR2_InterruptDisable(void)
-{
-    IEC0CLR = _IEC0_T2IE_MASK;
-}
-
-
-void TMR2_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context )
-{
-    /* Save callback_fn and context in local memory */
-    tmr2Obj.callback_fn = callback_fn;
-    tmr2Obj.context = context;
+    VEL3CNT = velocity_count;
 }
 
 

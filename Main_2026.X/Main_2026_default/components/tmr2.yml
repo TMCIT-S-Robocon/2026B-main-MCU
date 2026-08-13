@@ -22,8 +22,8 @@ data:
     - children:
       - attributes:
           id: tmr2
-          x: '245'
-          y: '280'
+          x: '36'
+          y: '250'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
@@ -35,7 +35,7 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '96'
+            value: '0'
           type: Dynamic
         type: Values
       type: Hex
@@ -46,7 +46,7 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '937500'
+            value: '60000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -56,8 +56,16 @@ data:
       children:
       - children:
         - attributes:
+            id: max
+          children:
+          - type: Value
+            value: '65535'
+          type: Long
+        type: Attributes
+      - children:
+        - attributes:
             id: tmr2
-            value: '18749'
+            value: '17'
           type: Dynamic
         type: Values
       type: Long
@@ -67,7 +75,7 @@ data:
       children:
       - children:
         - attributes:
-            value: '1'
+            value: '7'
           type: User
         type: Values
       type: KeyValueSet
@@ -80,12 +88,12 @@ data:
             id: max
           children:
           - type: Value
-            value: '69.906136'
+            value: '1092283.4'
           type: Float
         type: Attributes
       - children:
         - attributes:
-            value: '20.0'
+            value: '300.0'
           type: User
         type: Values
       type: Float
@@ -107,8 +115,28 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '64'
+            value: '1'
           type: Dynamic
         type: Values
       type: Integer
+    TIMER_UNIT:
+      attributes:
+        id: TIMER_UNIT
+      children:
+      - children:
+        - attributes:
+            value: nanosecond
+          type: User
+        type: Values
+      type: Combo
+    TIMER_32BIT_MODE_SEL:
+      attributes:
+        id: TIMER_32BIT_MODE_SEL
+      children:
+      - children:
+        - attributes:
+            value: '1'
+          type: User
+        type: Values
+      type: KeyValueSet
   userData: {}

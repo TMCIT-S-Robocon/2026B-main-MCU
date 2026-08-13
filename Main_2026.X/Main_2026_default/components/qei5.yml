@@ -1,11 +1,11 @@
 configVersion: 1.0.0
-componentName: qei1
+componentName: qei5
 coreVersion: 5.8.2
 device: PIC32MK1024MCM064
 library: []
 dependency:
 - dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
-  name: qei1
+  name: qei5
   type: module
   version: ''
 - dependencyPackage: ''
@@ -21,9 +21,9 @@ data:
     children:
     - children:
       - attributes:
-          id: qei1
-          x: '31'
-          y: '355'
+          id: qei5
+          x: '186'
+          y: '424'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
@@ -34,8 +34,8 @@ data:
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_PositionGet
+            id: qei5
+            value: QEI5_PositionGet
           type: Dynamic
         type: Values
       type: String
@@ -45,8 +45,8 @@ data:
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_PositionCountSet
+            id: qei5
+            value: QEI5_PositionCountSet
           type: Dynamic
         type: Values
       type: String
@@ -56,8 +56,8 @@ data:
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_VelocityGet
+            id: qei5
+            value: QEI5_VelocityGet
           type: Dynamic
         type: Values
       type: String
@@ -67,8 +67,8 @@ data:
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_VelocityCountSet
+            id: qei5
+            value: QEI5_VelocityCountSet
           type: Dynamic
         type: Values
       type: String
@@ -78,8 +78,8 @@ data:
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_Start
+            id: qei5
+            value: QEI5_Start
           type: Dynamic
         type: Values
       type: String
@@ -89,8 +89,8 @@ data:
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_Stop
+            id: qei5
+            value: QEI5_Stop
           type: Dynamic
         type: Values
       type: String

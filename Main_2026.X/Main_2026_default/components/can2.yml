@@ -1,11 +1,11 @@
 configVersion: 1.0.0
-componentName: can1
+componentName: can2
 coreVersion: 5.8.2
 device: PIC32MK1024MCM064
 library: []
 dependency:
 - dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
-  name: can1
+  name: can2
   type: module
   version: ''
 - dependencyPackage: ''
@@ -21,46 +21,87 @@ data:
     children:
     - children:
       - attributes:
-          id: can1
-          x: '36'
-          y: '89'
+          id: can2
+          x: '220'
+          y: '57'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
   symbols:
-    FIFO_OFFSET:
+    CALCULATED_NOMINAL_BITRATE:
       attributes:
-        id: FIFO_OFFSET
+        id: CALCULATED_NOMINAL_BITRATE
       children:
       - children:
         - attributes:
-            id: can1
-            value: '0xc'
+            id: can2
+            value: '1000'
           type: Dynamic
         type: Values
-      type: String
-    FILTER_OFFSET:
+      type: Integer
+    CALCULATED_NOMINAL_ERRORRATE:
       attributes:
-        id: FILTER_OFFSET
+        id: CALCULATED_NOMINAL_ERRORRATE
       children:
       - children:
         - attributes:
-            id: can1
-            value: '0x4'
+            id: can2
+            value: '0.000'
           type: Dynamic
         type: Values
       type: String
-    FILTER_OBJ_MASK_OFFSET:
+    CAN2_FIFO2_SIZE:
       attributes:
-        id: FILTER_OBJ_MASK_OFFSET
+        id: CAN2_FIFO2_SIZE
       children:
       - children:
         - attributes:
-            id: can1
-            value: '0x8'
+            value: '8'
+          type: User
+        type: Values
+      type: Integer
+    CAN2_FILTER0_ID:
+      attributes:
+        id: CAN2_FILTER0_ID
+      children:
+      - children:
+        - attributes:
+            value: '1538'
+          type: User
+        type: Values
+      type: Hex
+    CAN2_FILTER0_ID_DECIMAL:
+      attributes:
+        id: CAN2_FILTER0_ID_DECIMAL
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: '1538'
           type: Dynamic
         type: Values
-      type: String
+      type: Integer
+    CAN2_FILTER0_MASK_ID:
+      attributes:
+        id: CAN2_FILTER0_MASK_ID
+      children:
+      - children:
+        - attributes:
+            value: '2032'
+          type: User
+        type: Values
+      type: Hex
+    CAN2_FILTER0_MASK_ID_DECIMAL:
+      attributes:
+        id: CAN2_FILTER0_MASK_ID_DECIMAL
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: '2032'
+          type: Dynamic
+        type: Values
+      type: Integer
     CAN_INTERRUPT_MODE:
       attributes:
         id: CAN_INTERRUPT_MODE
@@ -71,13 +112,67 @@ data:
           type: User
         type: Values
       type: Boolean
+    FIFO_OFFSET:
+      attributes:
+        id: FIFO_OFFSET
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: '0xc'
+          type: Dynamic
+        type: Values
+      type: String
+    FILTER_OBJ_MASK_OFFSET:
+      attributes:
+        id: FILTER_OBJ_MASK_OFFSET
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: '0x8'
+          type: Dynamic
+        type: Values
+      type: String
+    FILTER_OFFSET:
+      attributes:
+        id: FILTER_OFFSET
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: '0x4'
+          type: Dynamic
+        type: Values
+      type: String
+    NBT_BRP:
+      attributes:
+        id: NBT_BRP
+      children:
+      - children:
+        - attributes:
+            value: '0'
+          type: User
+        type: Values
+      type: Integer
+    NBT_SJW:
+      attributes:
+        id: NBT_SJW
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: '48'
+          type: Dynamic
+        type: Values
+      type: Integer
     NBT_TOTAL_TIME_QUANTA:
       attributes:
         id: NBT_TOTAL_TIME_QUANTA
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '120'
           type: Dynamic
         type: Values
@@ -88,7 +183,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '71'
           type: Dynamic
         type: Values
@@ -99,58 +194,11 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '48'
           type: Dynamic
         type: Values
       type: Integer
-    NBT_SJW:
-      attributes:
-        id: NBT_SJW
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: '48'
-          type: Dynamic
-        - attributes:
-            value: '48'
-          type: User
-        type: Values
-      type: Integer
-    CALCULATED_NOMINAL_BITRATE:
-      attributes:
-        id: CALCULATED_NOMINAL_BITRATE
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: '1000'
-          type: Dynamic
-        type: Values
-      type: Integer
-    NOMINAL_TIME_QUANTA_PERIOD:
-      attributes:
-        id: NOMINAL_TIME_QUANTA_PERIOD
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: '8.333'
-          type: Dynamic
-        type: Values
-      type: String
-    CALCULATED_NOMINAL_ERRORRATE:
-      attributes:
-        id: CALCULATED_NOMINAL_ERRORRATE
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: '0.000'
-          type: Dynamic
-        type: Values
-      type: String
     NOMINAL_BITRATE:
       attributes:
         id: NOMINAL_BITRATE
@@ -171,43 +219,24 @@ data:
           type: User
         type: Values
       type: Float
-    NBT_BRP:
+    NOMINAL_TIME_QUANTA_PERIOD:
       attributes:
-        id: NBT_BRP
+        id: NOMINAL_TIME_QUANTA_PERIOD
       children:
       - children:
         - attributes:
-            value: '0'
-          type: User
+            id: can2
+            value: '8.333'
+          type: Dynamic
         type: Values
-      type: Integer
-    TX_EVENT_FIFO_MESSAGE_BUFFER:
-      attributes:
-        id: TX_EVENT_FIFO_MESSAGE_BUFFER
-      children:
-      - children:
-        - attributes:
-            value: '8'
-          type: User
-        type: Values
-      type: Integer
-    TX_QUEUE_MESSAGE_BUFFER:
-      attributes:
-        id: TX_QUEUE_MESSAGE_BUFFER
-      children:
-      - children:
-        - attributes:
-            value: '8'
-          type: User
-        type: Values
-      type: Integer
+      type: String
     DBT_TOTAL_TIME_QUANTA:
       attributes:
         id: DBT_TOTAL_TIME_QUANTA
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '16'
           type: Dynamic
         type: Values
@@ -218,7 +247,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '11'
           type: Dynamic
         type: Values
@@ -229,7 +258,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '4'
           type: Dynamic
         type: Values
@@ -240,7 +269,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '4'
           type: Dynamic
         type: Values
@@ -251,7 +280,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '500'
           type: Dynamic
         type: Values
@@ -262,7 +291,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '125.000'
           type: Dynamic
         type: Values
@@ -273,7 +302,7 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '0.000'
           type: Dynamic
         type: Values
@@ -284,71 +313,9 @@ data:
       children:
       - children:
         - attributes:
-            id: can1
+            id: can2
             value: '120000000'
           type: Dynamic
-        type: Values
-      type: Integer
-    CAN1_FILTER0_ID_DECIMAL:
-      attributes:
-        id: CAN1_FILTER0_ID_DECIMAL
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: '1538'
-          type: Dynamic
-        type: Values
-      type: Integer
-    CAN1_FILTER0_ID:
-      attributes:
-        id: CAN1_FILTER0_ID
-      children:
-      - children:
-        - attributes:
-            value: '1538'
-          type: User
-        type: Values
-      type: Hex
-    CAN1_FILTER0_MASK_ID_DECIMAL:
-      attributes:
-        id: CAN1_FILTER0_MASK_ID_DECIMAL
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: '2032'
-          type: Dynamic
-        type: Values
-      type: Integer
-    CAN1_FILTER0_MASK_ID:
-      attributes:
-        id: CAN1_FILTER0_MASK_ID
-      children:
-      - children:
-        - attributes:
-            value: '2032'
-          type: User
-        type: Values
-      type: Hex
-    CAN1_FIFO2_SIZE:
-      attributes:
-        id: CAN1_FIFO2_SIZE
-      children:
-      - children:
-        - attributes:
-            value: '8'
-          type: User
-        type: Values
-      type: Integer
-    CAN1_FIFO1_SIZE:
-      attributes:
-        id: CAN1_FIFO1_SIZE
-      children:
-      - children:
-        - attributes:
-            value: '8'
-          type: User
         type: Values
       type: Integer
   userData: {}

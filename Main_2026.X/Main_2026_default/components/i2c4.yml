@@ -1,11 +1,11 @@
 configVersion: 1.0.0
-componentName: qei1
+componentName: i2c4
 coreVersion: 5.8.2
 device: PIC32MK1024MCM064
 library: []
 dependency:
 - dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
-  name: qei1
+  name: i2c4
   type: module
   version: ''
 - dependencyPackage: ''
@@ -21,77 +21,87 @@ data:
     children:
     - children:
       - attributes:
-          id: qei1
-          x: '31'
-          y: '355'
+          id: i2c4
+          x: '36'
+          y: '154'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
   symbols:
-    ENCODER_POS_GET_API:
+    BRG_VALUE:
       attributes:
-        id: ENCODER_POS_GET_API
+        id: BRG_VALUE
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_PositionGet
+            id: i2c4
+            value: '295'
           type: Dynamic
         type: Values
-      type: String
-    ENCODER_POS_SET_API:
+      type: Integer
+    I2CS_RISE_TIME_CORE_TIMER_CNTS:
       attributes:
-        id: ENCODER_POS_SET_API
+        id: I2CS_RISE_TIME_CORE_TIMER_CNTS
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_PositionCountSet
+            id: i2c4
+            value: '18'
           type: Dynamic
         type: Values
-      type: String
-    ENCODER_SPEED_GET_API:
+      type: Integer
+    I2CS_SETUP_TIME_CORE_TIMER_CNTS:
       attributes:
-        id: ENCODER_SPEED_GET_API
+        id: I2CS_SETUP_TIME_CORE_TIMER_CNTS
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_VelocityGet
+            id: i2c4
+            value: '6'
           type: Dynamic
         type: Values
-      type: String
-    ENCODER_SPEED_SET_API:
+      type: Integer
+    I2C_CLOCK_SPEED:
       attributes:
-        id: ENCODER_SPEED_SET_API
+        id: I2C_CLOCK_SPEED
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_VelocityCountSet
-          type: Dynamic
+            value: '100000'
+          type: User
         type: Values
-      type: String
-    ENCODER_START_API:
+      type: Long
+    I2C_CLOCK_SPEED_HZ:
       attributes:
-        id: ENCODER_START_API
+        id: I2C_CLOCK_SPEED_HZ
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_Start
+            id: i2c4
+            value: '100000'
           type: Dynamic
         type: Values
-      type: String
-    ENCODER_STOP_API:
+      type: Long
+    I2CS_CORE_TIMER_FREQUENCY:
       attributes:
-        id: ENCODER_STOP_API
+        id: I2CS_CORE_TIMER_FREQUENCY
       children:
       - children:
         - attributes:
-            id: qei1
-            value: QEI1_Stop
+            id: i2c4
+            value: '60000000'
           type: Dynamic
         type: Values
-      type: String
+      type: Integer
+    I2C_CLOCK_FREQ:
+      attributes:
+        id: I2C_CLOCK_FREQ
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: '60000000'
+          type: Dynamic
+        type: Values
+      type: Integer
   userData: {}

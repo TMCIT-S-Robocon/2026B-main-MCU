@@ -1,4 +1,4 @@
-# 2026B ファームウェア ~ エアー式スロー機構 ~
+<!-- # 2026B ファームウェア ~ エアー式スロー機構 ~
 
 Author: kuroi217
 <br>
@@ -46,4 +46,4 @@ Last Updated: July 16, 2026
 - solenoid2: 13, RA0<br>
   射出機構の復帰(トグル)
 - solenoid3: 6, RG8<br>
-  保持機構の開閉(solenoid1: OFF, solenoid3: ON)
+  保持機構の開閉(solenoid1: OFF, solenoid3: ON) -->

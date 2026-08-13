@@ -5,8 +5,8 @@
  * Created on May 19, 2025, 10:18 AM
  */
 
-#include "can.hpp"
-#include "shotacon.hpp"
+#include "../SAME_Library_header/can.hpp"
+#include "../SAME_Library_header/shotacon.hpp"
 
 extern Shotacon controller;
 
@@ -109,8 +109,11 @@ void can4_tx_callback(uintptr_t){}
 void can4_rx_callback(uintptr_t){
     CAN4_MessageReceive(&CAN4.rx.id, &CAN4.rx.dlc, CAN4.rx.data.data(), 0, 2, &CAN4.msgAttr);
     switch(CAN4.rx.id){
-        default:
+        case 0x602:
+            controller.readCAN();
             break;
+        default:
+		    break;
     }
 }
 

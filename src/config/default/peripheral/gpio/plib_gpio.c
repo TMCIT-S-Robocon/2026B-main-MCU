@@ -62,21 +62,21 @@ void GPIO_Initialize ( void )
 
     /* PORTA Initialization */
     LATA = 0x0U; /* Initial Latch Value */
-    TRISACLR = 0xc03U; /* Direction Control */
-    ANSELACLR = 0x913U; /* Digital Mode Enable */
+    TRISACLR = 0x400U; /* Direction Control */
+    ANSELACLR = 0x1912U; /* Digital Mode Enable */
     /* PORTB Initialization */
-    LATB = 0x0U; /* Initial Latch Value */
-    TRISBCLR = 0xb001U; /* Direction Control */
-    ANSELBCLR = 0x281U; /* Digital Mode Enable */
+    ANSELBCLR = 0x283U; /* Digital Mode Enable */
     /* PORTC Initialization */
-    ANSELCCLR = 0x1U; /* Digital Mode Enable */
+    LATC = 0x0U; /* Initial Latch Value */
+    TRISCCLR = 0x480U; /* Direction Control */
+    ANSELCCLR = 0x406U; /* Digital Mode Enable */
     /* PORTD Initialization */
+    LATD = 0x0U; /* Initial Latch Value */
+    TRISDCLR = 0x100U; /* Direction Control */
     /* PORTE Initialization */
+    ANSELECLR = 0xf000U; /* Digital Mode Enable */
     /* PORTF Initialization */
     /* PORTG Initialization */
-    LATG = 0x0U; /* Initial Latch Value */
-    TRISGCLR = 0x140U; /* Direction Control */
-    ANSELGCLR = 0x140U; /* Digital Mode Enable */
 
     /* Unlock system for PPS configuration */
     SYSKEY = 0x00000000U;
@@ -86,19 +86,34 @@ void GPIO_Initialize ( void )
     CFGCONbits.IOLOCK = 0U;
 
     /* PPS Input Remapping */
-    C1RXR = 9;
-    C2RXR = 4;
-    QEB1R = 5;
-    QEA1R = 2;
-    INDX1R = 2;
-    U1RXR = 5;
-    T2CKR = 6;
+    QEB6R = 7;
+    QEA6R = 0;
+    QEB1R = 8;
+    QEA1R = 8;
+    C4RXR = 2;
+    INDX2R = 2;
+    QEB2R = 6;
+    QEA2R = 6;
+    U5RXR = 8;
+    QEB3R = 5;
+    QEA3R = 2;
+    INDX3R = 2;
+    U1RXR = 9;
+    INDX4R = 4;
+    QEA4R = 4;
+    QEB4R = 5;
+    C2RXR = 9;
+    INDX5R = 12;
+    QEA5R = 11;
+    QEB5R = 3;
+    INDX6R = 7;
+    INDX1R = 3;
 
     /* PPS Output Remapping */
-    RPB7R = 12;
-    RPB9R = 12;
-    RPC7R = 1;
-    RPA7R = 5;
+    RPA1R = 12;
+    RPE15R = 11;
+    RPB7R = 1;
+    RPC9R = 12;
 
         /* Lock back the system after PPS configuration */
     CFGCONbits.IOLOCK = 1U;

@@ -1,22 +1,22 @@
 /*******************************************************************************
- System Interrupts File
+  Quadrature Encoder Interface (QEI) Peripheral Library Interface Header File
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    interrupt.h
+    plib_qei3.h
 
   Summary:
-    Interrupt vectors mapping
+    QEI PLIB Header File
 
   Description:
-    This file contains declarations of device vectors used by Harmony 3
- *******************************************************************************/
+    None
 
-// DOM-IGNORE-BEGIN
+*******************************************************************************/
+
 /*******************************************************************************
-* Copyright (C) 2025 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,32 +36,67 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
+
+#ifndef PLIB_QEI3_H
+#define PLIB_QEI3_H
+
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "device.h"
+#include "plib_qei_common.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    extern "C" {
+#endif
 // DOM-IGNORE-END
 
-#ifndef INTERRUPTS_H
-#define INTERRUPTS_H
 
 // *****************************************************************************
+// Section: Interface
 // *****************************************************************************
-// Section: Included Files
 // *****************************************************************************
+
+// *************************** QEI3 API ***************************************/
 // *****************************************************************************
-#include <stdint.h>
+
+void QEI3_Initialize (void);
+
+void QEI3_Start(void);
+
+void QEI3_Stop(void);
+
+__STATIC_INLINE uint32_t QEI3_PositionGet(void)
+{
+    return (POS3CNT);
+}
+
+__STATIC_INLINE uint32_t QEI3_VelocityGet(void)
+{
+    return (VEL3CNT);
+}
+
+__STATIC_INLINE uint32_t QEI3_RevolutionsGet(void)
+{
+    return (INDX3CNT);
+}
+
+uint32_t QEI3_PulseIntervalGet(void);
+
+void QEI3_PositionWindowSet(uint32_t high_threshold, uint32_t low_threshold);
+
+void QEI3_PositionCountSet(uint32_t position_count);
+
+void QEI3_VelocityCountSet(uint32_t velocity_count);
 
 
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: Handler Routines
-// *****************************************************************************
-// *****************************************************************************
-void TIMER_2_InterruptHandler( void );
-void CAN2_InterruptHandler( void );
-void CAN4_InterruptHandler( void );
-void I2C4_BUS_InterruptHandler( void );
-void I2C4_MASTER_InterruptHandler( void );
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    }
+#endif
 
-
-
-#endif // INTERRUPTS_H
+// DOM-IGNORE-END
+#endif // PLIB_QEI3_H

@@ -1,23 +1,20 @@
 /*******************************************************************************
-  Output Compare (OCMP) Peripheral Library Interface Header File
+  Quadrature Encoder Interface (QEI6) Peripheral Library (PLIB)
 
-  Company
+  Company:
     Microchip Technology Inc.
 
-  File Name
-    plib_ocmp_common.h
+  File Name:
+    plib_qei6.c
 
-  Summary
-    Data Type definition of the OCMP Peripheral Interface Plib.
+  Summary:
+    QEI6 Source File
 
-  Description
-    This file defines the Data Types for the OCMP Plib.
-
-  Remarks:
-    None.
+  Description:
+    None
 
 *******************************************************************************/
-// DOM-IGNORE-BEGIN
+
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
@@ -40,49 +37,89 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-// DOM-IGNORE-END
-
-#ifndef PLIB_OCMP_COMMON_H    // Guards against multiple inclusion
-#define PLIB_OCMP_COMMON_H
-
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
-
-    extern "C" {
-
-#endif
-// DOM-IGNORE-END
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: Data Types
-// *****************************************************************************
-// *****************************************************************************
-
-/*  The following data type definitions are used by the functions in this
-    interface.
-*/
+#include "device.h"
+#include "plib_qei6.h"
+#include "interrupts.h"
 
 // *****************************************************************************
 
-typedef void (*OCMP_CALLBACK) (uintptr_t context);
-
 // *****************************************************************************
-// *****************************************************************************
-// Section: Local: **** Do Not Use ****
+// Section: QEI6 Implementation
 // *****************************************************************************
 // *****************************************************************************
 
-typedef struct
+
+void QEI6_Initialize (void)
 {
-  OCMP_CALLBACK callback;
-  uintptr_t    context;
 
-} OCMP_OBJECT ;
+    /* QEI6CON register  */
+    /*  CCM    = 0 */
+    /*  GATEN  = 0 */
+    /*  CNTPOL = 0 */
+    /*  INTDIV = 0 */
+    /*  IMV    = 0  */
+    /*  PIMOD  = 0  */
+    /*  QEISIDL = 0 */
+    QEI6CON = 0x0;
 
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
-    }
-#endif
-// DOM-IGNORE-END
-#endif // PLIB_ACC_COMMON_H
+    /* QEI6IOC register  */
+    /*  QEAPOL    = 0 */
+    /*  QEBPOL  = 0 */
+    /*  IDXPOL = 0 */
+    /*  HOMPOL = 0 */
+    /*  SWPAB    = 0  */
+    /*  OUTFNC  = 0  */
+    /*  QFDIV   = 0   */
+    /*  FLTREN  = 0   */
+    QEI6IOC = 0x0;
+
+    QEI6ICC = 0U;
+    QEI6CMPL = 0U;
+
+    /* QEI6STAT register  */
+    /*  IDXIEN    = false */
+    /*  HOMIEN  = false */
+    /*  VELOVIEN = false */
+    /*  POSOVIEN = false */
+    /*  PCIIEN    = false  */
+    /*  PCLEQIEN  = false    */
+    /*  PCHEQIEN = false     */
+    QEI6STAT = 0x0;
+
+}
+
+
+void QEI6_Start(void)
+{
+    /* Enable QEI channel */
+    QEI6CON |= (uint32_t)_QEI6CON_QEIEN_MASK;
+}
+
+void QEI6_Stop(void)
+{
+    /* Disable QEI channel */
+    QEI6CON &= ~(uint32_t)_QEI6CON_QEIEN_MASK;
+}
+
+uint32_t QEI6_PulseIntervalGet(void)
+{
+    return (INT6HLD);
+}
+
+void QEI6_PositionWindowSet(uint32_t high_threshold, uint32_t low_threshold)
+{
+    QEI6ICC  = high_threshold;
+    QEI6CMPL = low_threshold;
+}
+
+void QEI6_PositionCountSet(uint32_t position_count)
+{
+    POS6CNT = position_count;
+}
+
+void QEI6_VelocityCountSet(uint32_t velocity_count)
+{
+    VEL6CNT = velocity_count;
+}
+
+

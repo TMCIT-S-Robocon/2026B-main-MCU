@@ -1,25 +1,25 @@
 /*******************************************************************************
-  TMR Peripheral Library Interface Source File
+  Inter-Integrated Circuit (I2C) Library
+  Header File
 
-  Company
+  Company:
     Microchip Technology Inc.
 
-  File Name
-    plib_tmr2.c
+  File Name:
+    plib_i2c_smbus_common.h
 
-  Summary
-    TMR2 peripheral library source file.
+  Summary:
+    I2C SMBUS PLIB Common Implementation file
 
-  Description
-    This file implements the interface to the TMR peripheral library.  This
-    library provides access to and control of the associated peripheral
+  Description:
+    This file defines the interface to the I2C peripheral library.
+    This library provides access to and control of the associated peripheral
     instance.
 
 *******************************************************************************/
-
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2018-2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -42,109 +42,44 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
-
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
 
-#include "device.h"
-#include "plib_tmr2.h"
-#include "interrupts.h"
+#ifndef PLIB_I2C_SMBUS_COMMON_H
+#define PLIB_I2C_SMBUS_COMMON_H
 
-static volatile TMR_TIMER_OBJECT tmr2Obj;
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+
+// *****************************************************************************
+// *****************************************************************************
+// Section: Included Files
+// *****************************************************************************
+// *****************************************************************************
+/* This section lists the other files that are included in this file.
+*/
+
+uint8_t SMBUSCRC8Byte(uint8_t initCRC, uint8_t data);
+uint8_t SMBUSCRC8Buffer(uint8_t initCRC, void* pData, uint32_t size);
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 
-void TMR2_Initialize(void)
-{
-    /* Disable Timer */
-    T2CONCLR = _T2CON_ON_MASK;
 
-    /*
-    SIDL = 0
-    SYNC = 0
-    TGATE = 0
-    TCKPS =0
-    T32   = 0
-    TCS = 0
-    */
-    T2CONSET = 0x0;
-
-    /* Clear counter */
-    TMR2 = 0x0;
-
-    /*Set period */
-    PR2 = 17U;
-
-    IEC0SET = _IEC0_T2IE_MASK;
-
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
 }
+#endif
+// DOM-IGNORE-END
 
-
-void TMR2_Start(void)
-{
-    T2CONSET = _T2CON_ON_MASK;
-}
-
-
-void TMR2_Stop (void)
-{
-    T2CONCLR = _T2CON_ON_MASK;
-}
-
-void TMR2_PeriodSet(uint16_t period)
-{
-    PR2  = period;
-}
-
-uint16_t TMR2_PeriodGet(void)
-{
-    return (uint16_t)PR2;
-}
-
-uint16_t TMR2_CounterGet(void)
-{
-    return (uint16_t)(TMR2);
-}
-
-
-uint32_t TMR2_FrequencyGet(void)
-{
-    return (60000000);
-}
-
-void __attribute__((used)) TIMER_2_InterruptHandler (void)
-{
-    uint32_t status = IFS0bits.T2IF;
-    IFS0CLR = _IFS0_T2IF_MASK;
-
-    if((tmr2Obj.callback_fn != NULL))
-    {
-        uintptr_t context = tmr2Obj.context;
-        tmr2Obj.callback_fn(status, context);
-    }
-}
-
-
-void TMR2_InterruptEnable(void)
-{
-
-    IEC0SET = _IEC0_T2IE_MASK;
-}
-
-
-void TMR2_InterruptDisable(void)
-{
-    IEC0CLR = _IEC0_T2IE_MASK;
-}
-
-
-void TMR2_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context )
-{
-    /* Save callback_fn and context in local memory */
-    tmr2Obj.callback_fn = callback_fn;
-    tmr2Obj.context = context;
-}
-
-
+#endif /* PLIB_I2C_SMBUS_COMMON_H */

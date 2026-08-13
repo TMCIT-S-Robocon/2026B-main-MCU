@@ -1,14 +1,14 @@
 /*******************************************************************************
-  Output Compare OCMP4 Peripheral Library (PLIB)
+  Quadrature Encoder Interface (QEI2) Peripheral Library (PLIB)
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    plib_ocmp4.c
+    plib_qei2.c
 
   Summary:
-    OCMP4 Source File
+    QEI2 Source File
 
   Description:
     None
@@ -37,80 +37,89 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-#include "plib_ocmp4.h"
+#include "device.h"
+#include "plib_qei2.h"
 #include "interrupts.h"
 
 // *****************************************************************************
 
 // *****************************************************************************
-// Section: OCMP4 Implementation
+// Section: QEI2 Implementation
 // *****************************************************************************
 // *****************************************************************************
 
-// *****************************************************************************
 
-
-static volatile OCMP_OBJECT ocmp4Obj;
-
-void OCMP4_Initialize (void)
+void QEI2_Initialize (void)
 {
-    /*Setup OC4CON        */
-    /*OCM         = 6        */
-    /*OCTSEL       = 0        */
-    /*OC32         = 0        */
-    /*SIDL         = false    */
 
-    OC4CON = 0x6;
+    /* QEI2CON register  */
+    /*  CCM    = 0 */
+    /*  GATEN  = 0 */
+    /*  CNTPOL = 0 */
+    /*  INTDIV = 0 */
+    /*  IMV    = 0  */
+    /*  PIMOD  = 0  */
+    /*  QEISIDL = 0 */
+    QEI2CON = 0x0;
 
-    OC4R = 938;
-    OC4RS = 938;
+    /* QEI2IOC register  */
+    /*  QEAPOL    = 0 */
+    /*  QEBPOL  = 0 */
+    /*  IDXPOL = 0 */
+    /*  HOMPOL = 0 */
+    /*  SWPAB    = 0  */
+    /*  OUTFNC  = 0  */
+    /*  QFDIV   = 0   */
+    /*  FLTREN  = 0   */
+    QEI2IOC = 0x0;
 
-    IEC0SET = _IEC0_OC4IE_MASK;
+    QEI2ICC = 0U;
+    QEI2CMPL = 0U;
+
+    /* QEI2STAT register  */
+    /*  IDXIEN    = false */
+    /*  HOMIEN  = false */
+    /*  VELOVIEN = false */
+    /*  POSOVIEN = false */
+    /*  PCIIEN    = false  */
+    /*  PCLEQIEN  = false    */
+    /*  PCHEQIEN = false     */
+    QEI2STAT = 0x0;
+
 }
 
-void OCMP4_Enable (void)
+
+void QEI2_Start(void)
 {
-    OC4CONSET = _OC4CON_ON_MASK;
+    /* Enable QEI channel */
+    QEI2CON |= (uint32_t)_QEI2CON_QEIEN_MASK;
 }
 
-void OCMP4_Disable (void)
+void QEI2_Stop(void)
 {
-    OC4CONCLR = _OC4CON_ON_MASK;
+    /* Disable QEI channel */
+    QEI2CON &= ~(uint32_t)_QEI2CON_QEIEN_MASK;
 }
 
-
-
-uint16_t OCMP4_CompareValueGet (void)
+uint32_t QEI2_PulseIntervalGet(void)
 {
-    return (uint16_t)OC4R;
+    return (INT2HLD);
 }
 
-void OCMP4_CompareSecondaryValueSet (uint16_t value)
+void QEI2_PositionWindowSet(uint32_t high_threshold, uint32_t low_threshold)
 {
-    OC4RS = value;
+    QEI2ICC  = high_threshold;
+    QEI2CMPL = low_threshold;
 }
 
-uint16_t OCMP4_CompareSecondaryValueGet (void)
+void QEI2_PositionCountSet(uint32_t position_count)
 {
-    return (uint16_t)OC4RS;
+    POS2CNT = position_count;
 }
 
-void OCMP4_CallbackRegister(OCMP_CALLBACK callback, uintptr_t context)
+void QEI2_VelocityCountSet(uint32_t velocity_count)
 {
-    ocmp4Obj.callback = callback;
-
-    ocmp4Obj.context = context;
+    VEL2CNT = velocity_count;
 }
 
-void __attribute__((used)) OUTPUT_COMPARE_4_InterruptHandler (void)
-{
-    /* Additional local variable to prevent MISRA C violations (Rule 13.x) */
-    uintptr_t context = ocmp4Obj.context;
-    IFS0CLR = _IFS0_OC4IF_MASK;    //Clear IRQ flag
-
-    if( (ocmp4Obj.callback != NULL))
-    {
-        ocmp4Obj.callback(context);
-    }
-}
 

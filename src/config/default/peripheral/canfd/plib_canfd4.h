@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    plib_canfd1.h
+    plib_canfd4.h
 
   Summary:
     CANFD PLIB interface declarations.
@@ -44,8 +44,8 @@
 *******************************************************************************/
 //DOM-IGNORE-END
 
-#ifndef PLIB_CANFD1_H
-#define PLIB_CANFD1_H
+#ifndef PLIB_CANFD4_H
+#define PLIB_CANFD4_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -67,35 +67,35 @@
 #endif
 // DOM-IGNORE-END
 
-#define CAN1_CLOCK_FREQUENCY    120000000U
+#define CAN4_CLOCK_FREQUENCY    120000000U
 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Interface Routines
 // *****************************************************************************
 // *****************************************************************************
-void CAN1_Initialize(void);
-bool CAN1_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoQueueNum, CANFD_MODE mode, CANFD_MSG_TX_ATTRIBUTE msgAttr);
-bool CAN1_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t *timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr);
-void CAN1_MessageAbort(uint8_t fifoQueueNum);
-void CAN1_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id);
-uint32_t CAN1_MessageAcceptanceFilterGet(uint8_t filterNum);
-void CAN1_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32_t id);
-uint32_t CAN1_MessageAcceptanceFilterMaskGet(uint8_t acceptanceFilterMaskNum);
-bool CAN1_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t *timestamp);
-CANFD_ERROR CAN1_ErrorGet(void);
-void CAN1_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount);
-bool CAN1_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifoInterruptFlagMask);
-bool CAN1_TxFIFOQueueIsFull(uint8_t fifoQueueNum);
-bool CAN1_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoNum);
-bool CAN1_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMING *bitTiming);
-bool CAN1_BitTimingSet(CANFD_BIT_TIMING *bitTiming);
-void CAN1_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uint8_t fifoQueueNum);
-void CAN1_ErrorCallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle);
+void CAN4_Initialize(void);
+bool CAN4_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoQueueNum, CANFD_MODE mode, CANFD_MSG_TX_ATTRIBUTE msgAttr);
+bool CAN4_MessageReceive(uint32_t *id, uint8_t *length, uint8_t *data, uint32_t *timestamp, uint8_t fifoNum, CANFD_MSG_RX_ATTRIBUTE *msgAttr);
+void CAN4_MessageAbort(uint8_t fifoQueueNum);
+void CAN4_MessageAcceptanceFilterSet(uint8_t filterNum, uint32_t id);
+uint32_t CAN4_MessageAcceptanceFilterGet(uint8_t filterNum);
+void CAN4_MessageAcceptanceFilterMaskSet(uint8_t acceptanceFilterMaskNum, uint32_t id);
+uint32_t CAN4_MessageAcceptanceFilterMaskGet(uint8_t acceptanceFilterMaskNum);
+bool CAN4_TransmitEventFIFOElementGet(uint32_t *id, uint32_t *sequence, uint32_t *timestamp);
+CANFD_ERROR CAN4_ErrorGet(void);
+void CAN4_ErrorCountGet(uint8_t *txErrorCount, uint8_t *rxErrorCount);
+bool CAN4_InterruptGet(uint8_t fifoQueueNum, CANFD_FIFO_INTERRUPT_FLAG_MASK fifoInterruptFlagMask);
+bool CAN4_TxFIFOQueueIsFull(uint8_t fifoQueueNum);
+bool CAN4_AutoRTRResponseSet(uint32_t id, uint8_t length, uint8_t* data, uint8_t fifoNum);
+bool CAN4_BitTimingCalculationGet(CANFD_BIT_TIMING_SETUP *setup, CANFD_BIT_TIMING *bitTiming);
+bool CAN4_BitTimingSet(CANFD_BIT_TIMING *bitTiming);
+void CAN4_CallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle, uint8_t fifoQueueNum);
+void CAN4_ErrorCallbackRegister(CANFD_CALLBACK callback, uintptr_t contextHandle);
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
     }
 #endif
 // DOM-IGNORE-END
 
-#endif // PLIB_CANFD1_H
+#endif // PLIB_CANFD4_H

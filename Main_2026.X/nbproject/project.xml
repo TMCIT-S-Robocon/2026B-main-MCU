@@ -8,7 +8,11 @@
             <make-project-type>0</make-project-type>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList/>
+            <sourceRootList>
+                <sourceRootElem>SAME_Library_header</sourceRootElem>
+                <sourceRootElem>SAME_Library_source</sourceRootElem>
+                <sourceRootElem>../src</sourceRootElem>
+            </sourceRootList>
             <confList>
                 <confElem>
                     <name>default</name>

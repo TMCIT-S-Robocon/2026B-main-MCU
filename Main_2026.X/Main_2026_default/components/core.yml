@@ -35,7 +35,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '120000000'
+            value: '0'
           type: Dynamic
         type: Values
       type: Integer
@@ -46,7 +46,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
+            value: 'true'
           type: Dynamic
         type: Values
       type: Boolean
@@ -57,7 +57,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -68,7 +68,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'true'
+            value: 'false'
           type: Dynamic
         type: Values
       type: Boolean
@@ -101,7 +101,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -112,7 +112,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'true'
+            value: 'false'
           type: Dynamic
         type: Values
       type: Boolean
@@ -386,7 +386,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'true'
+            value: 'false'
           type: Dynamic
         type: Values
       type: Boolean
@@ -397,7 +397,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'true'
+            value: 'false'
           type: Dynamic
         type: Values
       type: Boolean
@@ -408,7 +408,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: CAN1_InterruptHandler
+            value: CAN1_Handler
           type: Dynamic
         type: Values
       type: String
@@ -419,7 +419,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
+            value: 'true'
           type: Dynamic
         type: Values
       type: Boolean
@@ -430,7 +430,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
+            value: 'true'
           type: Dynamic
         type: Values
       type: Boolean
@@ -441,7 +441,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: CAN2_Handler
+            value: CAN2_InterruptHandler
           type: Dynamic
         type: Values
       type: String
@@ -485,7 +485,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
+            value: 'true'
           type: Dynamic
         type: Values
       type: Boolean
@@ -496,7 +496,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
+            value: 'true'
           type: Dynamic
         type: Values
       type: Boolean
@@ -507,7 +507,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: CAN4_Handler
+            value: CAN4_InterruptHandler
           type: Dynamic
         type: Values
       type: String
@@ -551,7 +551,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '60000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -993,7 +993,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '60000000'
+            value: '0'
           type: Dynamic
         type: Values
       type: Integer
@@ -1103,7 +1103,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '3809427262'
+            value: '1392983870'
           type: Dynamic
         type: Values
       type: Hex
@@ -1136,7 +1136,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -1147,7 +1147,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -1158,7 +1158,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -1169,7 +1169,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -1180,7 +1180,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '120000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -1491,16 +1491,6 @@ data:
           type: Dynamic
         type: Values
       type: Integer
-    BSP_PIN_1_MODE:
-      attributes:
-        id: BSP_PIN_1_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
     BSP_PIN_2_MODE:
       attributes:
         id: BSP_PIN_2_MODE
@@ -1671,16 +1661,6 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_62_MODE:
-      attributes:
-        id: BSP_PIN_62_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
     USE_PPS_INPUT_0:
       attributes:
         id: USE_PPS_INPUT_0
@@ -1705,7 +1685,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '20'
+            value: '36'
           type: User
         type: Values
       type: KeyValueSet
@@ -1723,7 +1703,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: C1RX
+            value: QEB6
           type: User
         type: Values
       type: Combo
@@ -1734,7 +1714,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '2323'
+            value: '6418'
           type: Dynamic
         type: Values
       type: Hex
@@ -1762,7 +1742,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: RPB7
+            value: RPA1
           type: User
         type: Values
       type: Combo
@@ -1780,7 +1760,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '28'
+            value: '0'
           type: User
         type: Values
       type: KeyValueSet
@@ -1791,7 +1771,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '641'
+            value: '643'
           type: Dynamic
         type: Values
       type: Hex
@@ -1819,7 +1799,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '21'
+            value: '19'
           type: User
         type: Values
       type: KeyValueSet
@@ -1837,7 +1817,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: C2RX
+            value: QEA6
           type: User
         type: Values
       type: Combo
@@ -1865,7 +1845,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: RPB9
+            value: RPE15
           type: User
         type: Values
       type: Combo
@@ -1883,7 +1863,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '2'
+            value: '8'
           type: User
         type: Values
       type: KeyValueSet
@@ -1911,7 +1891,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '38'
+            value: '12'
           type: User
         type: Values
       type: KeyValueSet
@@ -1940,7 +1920,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '1'
+            value: '1030'
           type: Dynamic
         type: Values
       type: Hex
@@ -1968,7 +1948,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: RPC7
+            value: RPB7
           type: User
         type: Values
       type: Combo
@@ -1997,7 +1977,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '3075'
+            value: '1024'
           type: Dynamic
         type: Values
       type: Hex
@@ -2008,7 +1988,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '1152'
           type: Dynamic
         type: Values
       type: Hex
@@ -2019,7 +1999,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '61440'
           type: Dynamic
         type: Values
       type: Hex
@@ -2041,7 +2021,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '45057'
+            value: '0'
           type: Dynamic
         type: Values
       type: Hex
@@ -2052,7 +2032,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '256'
           type: Dynamic
         type: Values
       type: Hex
@@ -2063,7 +2043,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '320'
+            value: '0'
           type: Dynamic
         type: Values
       type: Hex
@@ -2074,7 +2054,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '320'
+            value: '0'
           type: Dynamic
         type: Values
       type: Hex
@@ -2333,7 +2313,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '25'
+            value: '8'
           type: User
         type: Values
       type: KeyValueSet
@@ -2379,7 +2359,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '42'
+            value: '7'
           type: User
         type: Values
       type: KeyValueSet
@@ -2397,7 +2377,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX1
+            value: C4RX
           type: User
         type: Values
       type: Combo
@@ -2425,7 +2405,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '43'
+            value: '9'
           type: User
         type: Values
       type: KeyValueSet
@@ -2443,7 +2423,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: U1RX
+            value: INDX2
           type: User
         type: Values
       type: Combo
@@ -2471,7 +2451,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '35'
+            value: '31'
           type: User
         type: Values
       type: KeyValueSet
@@ -2489,7 +2469,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: T2CK
+            value: QEB2
           type: User
         type: Values
       type: Combo
@@ -2499,7 +2479,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2517,7 +2497,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '12'
+            value: '34'
           type: User
         type: Values
       type: KeyValueSet
@@ -2535,7 +2515,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: QEB3
+            value: QEA2
           type: User
         type: Values
       type: Combo
@@ -2545,7 +2525,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2563,7 +2543,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '8'
+            value: '2'
           type: User
         type: Values
       type: KeyValueSet
@@ -2581,7 +2561,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: QEA5
+            value: U5RX
           type: User
         type: Values
       type: Combo
@@ -2591,7 +2571,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2609,7 +2589,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '28'
+            value: '38'
           type: User
         type: Values
       type: KeyValueSet
@@ -2627,7 +2607,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: C2RX
+            value: QEB3
           type: User
         type: Values
       type: Combo
@@ -2637,7 +2617,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2655,7 +2635,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '9'
+            value: '25'
           type: User
         type: Values
       type: KeyValueSet
@@ -2673,7 +2653,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: QEB5
+            value: QEA3
           type: User
         type: Values
       type: Combo
@@ -2683,7 +2663,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2701,7 +2681,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '4'
+            value: '42'
           type: User
         type: Values
       type: KeyValueSet
@@ -2719,7 +2699,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: C1RX
+            value: INDX3
           type: User
         type: Values
       type: Combo
@@ -2729,7 +2709,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2747,7 +2727,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '35'
+            value: '20'
           type: User
         type: Values
       type: KeyValueSet
@@ -2765,7 +2745,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: C3RX
+            value: U1RX
           type: User
         type: Values
       type: Combo
@@ -2775,7 +2755,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2793,7 +2773,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '34'
+            value: '21'
           type: User
         type: Values
       type: KeyValueSet
@@ -2811,7 +2791,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: QEA6
+            value: INDX4
           type: User
         type: Values
       type: Combo
@@ -2821,7 +2801,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2839,7 +2819,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '2'
+            value: '22'
           type: User
         type: Values
       type: KeyValueSet
@@ -2857,7 +2837,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: QEB6
+            value: QEA4
           type: User
         type: Values
       type: Combo
@@ -2867,7 +2847,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2885,7 +2865,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '42'
+            value: '43'
           type: User
         type: Values
       type: KeyValueSet
@@ -2903,7 +2883,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX1
+            value: QEB4
           type: User
         type: Values
       type: Combo
@@ -2913,7 +2893,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2931,7 +2911,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '20'
+            value: '26'
           type: User
         type: Values
       type: KeyValueSet
@@ -2949,7 +2929,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX3
+            value: C2RX
           type: User
         type: Values
       type: Combo
@@ -2959,7 +2939,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2977,7 +2957,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '21'
+            value: '16'
           type: User
         type: Values
       type: KeyValueSet
@@ -2995,7 +2975,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX2
+            value: INDX5
           type: User
         type: Values
       type: Combo
@@ -3005,7 +2985,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -3023,7 +3003,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '43'
+            value: '18'
           type: User
         type: Values
       type: KeyValueSet
@@ -3041,7 +3021,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX5
+            value: QEA5
           type: User
         type: Values
       type: Combo
@@ -3051,7 +3031,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -3069,7 +3049,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '40'
+            value: '11'
           type: User
         type: Values
       type: KeyValueSet
@@ -3087,7 +3067,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX4
+            value: QEB5
           type: User
         type: Values
       type: Combo
@@ -3097,7 +3077,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -3115,7 +3095,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '6'
+            value: '14'
           type: User
         type: Values
       type: KeyValueSet
@@ -3133,7 +3113,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: U3RX
+            value: INDX6
           type: User
         type: Values
       type: Combo
@@ -3143,7 +3123,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -3161,7 +3141,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '26'
+            value: '15'
           type: User
         type: Values
       type: KeyValueSet
@@ -3179,7 +3159,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX6
+            value: INDX1
           type: User
         type: Values
       type: Combo
@@ -3299,7 +3279,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: RPA7
+            value: RPC9
           type: User
         type: Values
       type: Combo
@@ -3317,7 +3297,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '43'
+            value: '2'
           type: User
         type: Values
       type: KeyValueSet
@@ -3551,160 +3531,6 @@ data:
           type: User
         type: Values
       type: Combo
-    CAN1_CLOCK_ENABLE:
-      attributes:
-        id: CAN1_CLOCK_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    CAN1_INTERRUPT_ENABLE:
-      attributes:
-        id: CAN1_INTERRUPT_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    CAN1_INTERRUPT_HANDLER_LOCK:
-      attributes:
-        id: CAN1_INTERRUPT_HANDLER_LOCK
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    CAN1_INTERRUPT_HANDLER:
-      attributes:
-        id: CAN1_INTERRUPT_HANDLER
-      children:
-      - children:
-        - attributes:
-            id: can1
-            value: CAN1_InterruptHandler
-          type: Dynamic
-        type: Values
-      type: String
-    BSP_PIN_46_MODE:
-      attributes:
-        id: BSP_PIN_46_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_46_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_46_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: C1TX
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_47_MODE:
-      attributes:
-        id: BSP_PIN_47_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_47_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_47_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: C1RX
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_48_MODE:
-      attributes:
-        id: BSP_PIN_48_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_48_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_48_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: C2RX
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_49_MODE:
-      attributes:
-        id: BSP_PIN_49_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_49_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_49_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: C2TX
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_64_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_64_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_64_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_64_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D1
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_64_DIR:
-      attributes:
-        id: BSP_PIN_64_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
-          type: User
-        type: Values
-      type: String
     BSP_PIN_63_MODE:
       attributes:
         id: BSP_PIN_63_MODE
@@ -3712,66 +3538,6 @@ data:
       - children:
         - attributes:
             value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_63_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_63_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_63_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_63_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D2
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_63_DIR:
-      attributes:
-        id: BSP_PIN_63_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_62_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_62_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_62_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_62_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D3
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_62_DIR:
-      attributes:
-        id: BSP_PIN_62_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
           type: User
         type: Values
       type: String
@@ -3785,206 +3551,6 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_3_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_3_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_3_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_3_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D4
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_3_DIR:
-      attributes:
-        id: BSP_PIN_3_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_4_MODE:
-      attributes:
-        id: BSP_PIN_4_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_4_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_4_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_4_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_4_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D5
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_4_DIR:
-      attributes:
-        id: BSP_PIN_4_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_15_MODE:
-      attributes:
-        id: BSP_PIN_15_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_15_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_15_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_15_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_15_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D7
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_15_DIR:
-      attributes:
-        id: BSP_PIN_15_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_12_MODE:
-      attributes:
-        id: BSP_PIN_12_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_12_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_12_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_12_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_12_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: D6
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_12_DIR:
-      attributes:
-        id: BSP_PIN_12_DIR
-      children:
-      - children:
-        - attributes:
-            value: Out
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_31_MODE:
-      attributes:
-        id: BSP_PIN_31_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_31_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_31_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: QEB1
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_32_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_32_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: QEA1
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_33_MODE:
-      attributes:
-        id: BSP_PIN_33_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_33_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_33_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: INDX1
-          type: User
-        type: Values
-      type: String
     PMD6_REG_VALUE:
       attributes:
         id: PMD6_REG_VALUE
@@ -3992,7 +3558,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '235732992'
+            value: '65536'
           type: Dynamic
         type: Values
       type: Hex
@@ -4003,37 +3569,6 @@ data:
       - children:
         - attributes:
             id: qei1
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    BSP_PIN_50_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_50_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: U1RX
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_51_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_51_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: U1TX
-          type: User
-        type: Values
-      type: String
-    UART1_CLOCK_ENABLE:
-      attributes:
-        id: UART1_CLOCK_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: uart1
             value: 'true'
           type: Dynamic
         type: Values
@@ -4060,17 +3595,6 @@ data:
           type: Dynamic
         type: Values
       type: Boolean
-    UART1_FAULT_INTERRUPT_ENABLE:
-      attributes:
-        id: UART1_FAULT_INTERRUPT_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: uart1
-            value: 'false'
-          type: Dynamic
-        type: Values
-      type: Boolean
     UART1_RX_INTERRUPT_ENABLE_UPDATE:
       attributes:
         id: UART1_RX_INTERRUPT_ENABLE_UPDATE
@@ -4089,17 +3613,6 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    UART1_RX_INTERRUPT_ENABLE:
-      attributes:
-        id: UART1_RX_INTERRUPT_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: uart1
             value: 'false'
           type: Dynamic
         type: Values
@@ -4126,17 +3639,6 @@ data:
           type: Dynamic
         type: Values
       type: Boolean
-    UART1_TX_INTERRUPT_ENABLE:
-      attributes:
-        id: UART1_TX_INTERRUPT_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: uart1
-            value: 'false'
-          type: Dynamic
-        type: Values
-      type: Boolean
     EVIC_38_HANDLER_LOCK:
       attributes:
         id: EVIC_38_HANDLER_LOCK
@@ -4144,17 +3646,6 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    UART1_FAULT_INTERRUPT_HANDLER_LOCK:
-      attributes:
-        id: UART1_FAULT_INTERRUPT_HANDLER_LOCK
-      children:
-      - children:
-        - attributes:
-            id: uart1
             value: 'false'
           type: Dynamic
         type: Values
@@ -4170,17 +3661,6 @@ data:
           type: Dynamic
         type: Values
       type: Boolean
-    UART1_RX_INTERRUPT_HANDLER_LOCK:
-      attributes:
-        id: UART1_RX_INTERRUPT_HANDLER_LOCK
-      children:
-      - children:
-        - attributes:
-            id: uart1
-            value: 'false'
-          type: Dynamic
-        type: Values
-      type: Boolean
     EVIC_40_HANDLER_LOCK:
       attributes:
         id: EVIC_40_HANDLER_LOCK
@@ -4188,17 +3668,6 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    UART1_TX_INTERRUPT_HANDLER_LOCK:
-      attributes:
-        id: UART1_TX_INTERRUPT_HANDLER_LOCK
-      children:
-      - children:
-        - attributes:
-            id: uart1
             value: 'false'
           type: Dynamic
         type: Values
@@ -4214,17 +3683,6 @@ data:
           type: Dynamic
         type: Values
       type: String
-    UART1_FAULT_INTERRUPT_HANDLER:
-      attributes:
-        id: UART1_FAULT_INTERRUPT_HANDLER
-      children:
-      - children:
-        - attributes:
-            id: uart1
-            value: UART1_FAULT_Handler
-          type: Dynamic
-        type: Values
-      type: String
     EVIC_39_INTERRUPT_HANDLER:
       attributes:
         id: EVIC_39_INTERRUPT_HANDLER
@@ -4232,17 +3690,6 @@ data:
       - children:
         - attributes:
             id: core
-            value: UART1_RX_Handler
-          type: Dynamic
-        type: Values
-      type: String
-    UART1_RX_INTERRUPT_HANDLER:
-      attributes:
-        id: UART1_RX_INTERRUPT_HANDLER
-      children:
-      - children:
-        - attributes:
-            id: uart1
             value: UART1_RX_Handler
           type: Dynamic
         type: Values
@@ -4258,27 +3705,6 @@ data:
           type: Dynamic
         type: Values
       type: String
-    UART1_TX_INTERRUPT_HANDLER:
-      attributes:
-        id: UART1_TX_INTERRUPT_HANDLER
-      children:
-      - children:
-        - attributes:
-            id: uart1
-            value: UART1_TX_Handler
-          type: Dynamic
-        type: Values
-      type: String
-    BSP_PIN_1_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_1_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: OC4
-          type: User
-        type: Values
-      type: String
     PMD3_REG_VALUE:
       attributes:
         id: PMD3_REG_VALUE
@@ -4286,21 +3712,10 @@ data:
       - children:
         - attributes:
             id: core
-            value: '4294443007'
+            value: '4294967295'
           type: Dynamic
         type: Values
       type: Hex
-    OCMP4_CLOCK_ENABLE:
-      attributes:
-        id: OCMP4_CLOCK_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: ocmp4
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
     OUTPUT_COMPARE_4_INTERRUPT_ENABLE_UPDATE:
       attributes:
         id: OUTPUT_COMPARE_4_INTERRUPT_ENABLE_UPDATE
@@ -4308,7 +3723,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'false'
+            value: 'true'
           type: Dynamic
         type: Values
       type: Boolean
@@ -4319,18 +3734,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    OUTPUT_COMPARE_4_INTERRUPT_ENABLE:
-      attributes:
-        id: OUTPUT_COMPARE_4_INTERRUPT_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: ocmp4
-            value: 'true'
+            value: 'false'
           type: Dynamic
         type: Values
       type: Boolean
@@ -4341,18 +3745,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    OUTPUT_COMPARE_4_INTERRUPT_HANDLER_LOCK:
-      attributes:
-        id: OUTPUT_COMPARE_4_INTERRUPT_HANDLER_LOCK
-      children:
-      - children:
-        - attributes:
-            id: ocmp4
-            value: 'true'
+            value: 'false'
           type: Dynamic
         type: Values
       type: Boolean
@@ -4363,18 +3756,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: OUTPUT_COMPARE_4_InterruptHandler
-          type: Dynamic
-        type: Values
-      type: String
-    OUTPUT_COMPARE_4_INTERRUPT_HANDLER:
-      attributes:
-        id: OUTPUT_COMPARE_4_INTERRUPT_HANDLER
-      children:
-      - children:
-        - attributes:
-            id: ocmp4
-            value: OUTPUT_COMPARE_4_InterruptHandler
+            value: OUTPUT_COMPARE_4_Handler
           type: Dynamic
         type: Values
       type: String
@@ -4477,6 +3859,560 @@ data:
           type: Dynamic
         type: Values
       type: String
+    PMD1_REG_VALUE:
+      attributes:
+        id: PMD1_REG_VALUE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '881'
+          type: Dynamic
+        type: Values
+      type: Hex
+    ADC_DMA_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: ADC_DMA_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_104_ENABLE:
+      attributes:
+        id: EVIC_104_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_104_HANDLER_LOCK:
+      attributes:
+        id: EVIC_104_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_104_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_104_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: ADC_DMA_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    ADC_DATA0_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: ADC_DATA0_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_106_ENABLE:
+      attributes:
+        id: EVIC_106_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_106_HANDLER_LOCK:
+      attributes:
+        id: EVIC_106_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_106_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_106_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: ADC_DATA0_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    CAN4_CLOCK_ENABLE:
+      attributes:
+        id: CAN4_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: can4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CAN2_CLOCK_ENABLE:
+      attributes:
+        id: CAN2_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CAN4_INTERRUPT_ENABLE:
+      attributes:
+        id: CAN4_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: can4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CAN4_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: CAN4_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: can4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CAN4_INTERRUPT_HANDLER:
+      attributes:
+        id: CAN4_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: can4
+            value: CAN4_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    I2C4_CLOCK_ENABLE:
+      attributes:
+        id: I2C4_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_MASTER_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: I2C4_MASTER_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_196_ENABLE:
+      attributes:
+        id: EVIC_196_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_MASTER_INTERRUPT_ENABLE:
+      attributes:
+        id: I2C4_MASTER_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_196_HANDLER_LOCK:
+      attributes:
+        id: EVIC_196_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_MASTER_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: I2C4_MASTER_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_196_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_196_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: I2C4_MASTER_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    I2C4_MASTER_INTERRUPT_HANDLER:
+      attributes:
+        id: I2C4_MASTER_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: I2C4_MASTER_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    I2C4_SLAVE_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: I2C4_SLAVE_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_195_ENABLE:
+      attributes:
+        id: EVIC_195_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_SLAVE_INTERRUPT_ENABLE:
+      attributes:
+        id: I2C4_SLAVE_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_195_HANDLER_LOCK:
+      attributes:
+        id: EVIC_195_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_SLAVE_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: I2C4_SLAVE_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_195_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_195_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: I2C4_SLAVE_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    I2C4_SLAVE_INTERRUPT_HANDLER:
+      attributes:
+        id: I2C4_SLAVE_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: I2C4_SLAVE_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    I2C4_BUS_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: I2C4_BUS_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_194_ENABLE:
+      attributes:
+        id: EVIC_194_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_BUS_INTERRUPT_ENABLE:
+      attributes:
+        id: I2C4_BUS_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_194_HANDLER_LOCK:
+      attributes:
+        id: EVIC_194_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    I2C4_BUS_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: I2C4_BUS_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_194_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_194_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: I2C4_BUS_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    I2C4_BUS_INTERRUPT_HANDLER:
+      attributes:
+        id: I2C4_BUS_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: i2c4
+            value: I2C4_BUS_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    CAN2_INTERRUPT_ENABLE:
+      attributes:
+        id: CAN2_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CAN2_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: CAN2_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CAN2_INTERRUPT_HANDLER:
+      attributes:
+        id: CAN2_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: can2
+            value: CAN2_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    SYS_PORT_D_LAT:
+      attributes:
+        id: SYS_PORT_D_LAT
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    SYS_PORT_B_LAT:
+      attributes:
+        id: SYS_PORT_B_LAT
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    SYS_PORT_A_LAT:
+      attributes:
+        id: SYS_PORT_A_LAT
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    SYS_PORT_G_LAT:
+      attributes:
+        id: SYS_PORT_G_LAT
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    SYS_PORT_C_LAT:
+      attributes:
+        id: SYS_PORT_C_LAT
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '0'
+          type: Dynamic
+        type: Values
+      type: Hex
+    BSP_PIN_62_MODE:
+      attributes:
+        id: BSP_PIN_62_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_1_MODE:
+      attributes:
+        id: BSP_PIN_1_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_1_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_1_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEB6
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_2_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_2_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEA6
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_12_MODE:
+      attributes:
+        id: BSP_PIN_12_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_12_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_12_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEA1
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_14_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_14_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: C4TX
+          type: User
+        type: Values
+      type: String
     BSP_PIN_14_MODE:
       attributes:
         id: BSP_PIN_14_MODE
@@ -4487,53 +4423,303 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_14_FUNCTION_TYPE:
+    BSP_PIN_15_MODE:
       attributes:
-        id: BSP_PIN_14_FUNCTION_TYPE
+        id: BSP_PIN_15_MODE
       children:
       - children:
         - attributes:
-            value: GPIO
+            value: DIGITAL
           type: User
         type: Values
       type: String
-    BSP_PIN_14_FUNCTION_NAME:
+    BSP_PIN_15_FUNCTION_TYPE:
       attributes:
-        id: BSP_PIN_14_FUNCTION_NAME
+        id: BSP_PIN_15_FUNCTION_TYPE
       children:
       - children:
         - attributes:
-            value: solenoid1
+            value: C4RX
           type: User
         type: Values
       type: String
-    BSP_PIN_14_DIR:
+    BSP_PIN_16_MODE:
       attributes:
-        id: BSP_PIN_14_DIR
+        id: BSP_PIN_16_MODE
       children:
       - children:
         - attributes:
-            value: Out
+            value: DIGITAL
           type: User
         type: Values
       type: String
-    BSP_PIN_1_FUNCTION_NAME:
+    BSP_PIN_16_FUNCTION_TYPE:
       attributes:
-        id: BSP_PIN_1_FUNCTION_NAME
+        id: BSP_PIN_16_FUNCTION_TYPE
       children:
       - children:
         - attributes:
-            value: ''
+            value: INDX2
           type: User
         type: Values
       type: String
-    BSP_PIN_1_DIR:
+    BSP_PIN_22_MODE:
       attributes:
-        id: BSP_PIN_1_DIR
+        id: BSP_PIN_22_MODE
       children:
       - children:
         - attributes:
-            value: ''
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_22_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_22_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEB2
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_23_MODE:
+      attributes:
+        id: BSP_PIN_23_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_23_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_23_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEA2
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_27_MODE:
+      attributes:
+        id: BSP_PIN_27_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_27_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_27_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: SDA4
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_28_MODE:
+      attributes:
+        id: BSP_PIN_28_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_28_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_28_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: SCL4
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_29_MODE:
+      attributes:
+        id: BSP_PIN_29_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_29_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_29_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: U5RX
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_30_MODE:
+      attributes:
+        id: BSP_PIN_30_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_30_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_30_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: U5TX
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_31_MODE:
+      attributes:
+        id: BSP_PIN_31_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_31_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_31_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEB3
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_32_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_32_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEA3
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_33_MODE:
+      attributes:
+        id: BSP_PIN_33_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_33_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_33_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: INDX3
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_48_MODE:
+      attributes:
+        id: BSP_PIN_48_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_48_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_48_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: INDX4
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_49_MODE:
+      attributes:
+        id: BSP_PIN_49_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_49_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_49_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEA4
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_50_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_50_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEB4
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_54_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_54_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: C2RX
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_55_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_55_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: C2TX
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_58_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_58_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: INDX5
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_59_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_59_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEA5
           type: User
         type: Values
       type: String
@@ -4543,53 +4729,53 @@ data:
       children:
       - children:
         - attributes:
+            value: QEB5
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_62_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_62_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: INDX6
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_63_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_63_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: INDX1
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_51_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_51_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
             value: GPIO
           type: User
         type: Values
       type: String
-    BSP_PIN_61_FUNCTION_NAME:
+    BSP_PIN_51_FUNCTION_NAME:
       attributes:
-        id: BSP_PIN_61_FUNCTION_NAME
+        id: BSP_PIN_51_FUNCTION_NAME
       children:
       - children:
         - attributes:
-            value: GPIO_RB11
+            value: D1
           type: User
         type: Values
       type: String
-    BSP_PIN_13_MODE:
+    BSP_PIN_51_DIR:
       attributes:
-        id: BSP_PIN_13_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_13_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_13_FUNCTION_TYPE
-      children:
-      - children:
-        - attributes:
-            value: GPIO
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_13_FUNCTION_NAME:
-      attributes:
-        id: BSP_PIN_13_FUNCTION_NAME
-      children:
-      - children:
-        - attributes:
-            value: solenoid2
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_13_DIR:
-      attributes:
-        id: BSP_PIN_13_DIR
+        id: BSP_PIN_51_DIR
       children:
       - children:
         - attributes:
@@ -4597,19 +4783,9 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_6_MODE:
+    BSP_PIN_64_FUNCTION_TYPE:
       attributes:
-        id: BSP_PIN_6_MODE
-      children:
-      - children:
-        - attributes:
-            value: DIGITAL
-          type: User
-        type: Values
-      type: String
-    BSP_PIN_6_FUNCTION_TYPE:
-      attributes:
-        id: BSP_PIN_6_FUNCTION_TYPE
+        id: BSP_PIN_64_FUNCTION_TYPE
       children:
       - children:
         - attributes:
@@ -4617,19 +4793,19 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_6_FUNCTION_NAME:
+    BSP_PIN_64_FUNCTION_NAME:
       attributes:
-        id: BSP_PIN_6_FUNCTION_NAME
+        id: BSP_PIN_64_FUNCTION_NAME
       children:
       - children:
         - attributes:
-            value: solenoid3
+            value: D2
           type: User
         type: Values
       type: String
-    BSP_PIN_6_DIR:
+    BSP_PIN_64_DIR:
       attributes:
-        id: BSP_PIN_6_DIR
+        id: BSP_PIN_64_DIR
       children:
       - children:
         - attributes:
@@ -4637,9 +4813,9 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_21_MODE:
+    BSP_PIN_45_MODE:
       attributes:
-        id: BSP_PIN_21_MODE
+        id: BSP_PIN_45_MODE
       children:
       - children:
         - attributes:
@@ -4647,16 +4823,331 @@ data:
           type: User
         type: Values
       type: String
-    BSP_PIN_21_FUNCTION_TYPE:
+    BSP_PIN_45_FUNCTION_TYPE:
       attributes:
-        id: BSP_PIN_21_FUNCTION_TYPE
+        id: BSP_PIN_45_FUNCTION_TYPE
       children:
       - children:
         - attributes:
-            value: T2CK
+            value: GPIO
           type: User
         type: Values
       type: String
+    BSP_PIN_45_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_45_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: D3
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_45_DIR:
+      attributes:
+        id: BSP_PIN_45_DIR
+      children:
+      - children:
+        - attributes:
+            value: Out
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_42_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_42_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: GPIO
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_42_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_42_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: D4
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_42_DIR:
+      attributes:
+        id: BSP_PIN_42_DIR
+      children:
+      - children:
+        - attributes:
+            value: Out
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_11_MODE:
+      attributes:
+        id: BSP_PIN_11_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_11_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_11_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: QEB1
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_11_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_11_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: ''
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_12_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_12_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: ''
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_12_DIR:
+      attributes:
+        id: BSP_PIN_12_DIR
+      children:
+      - children:
+        - attributes:
+            value: ''
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_11_DIR:
+      attributes:
+        id: BSP_PIN_11_DIR
+      children:
+      - children:
+        - attributes:
+            value: ''
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_46_MODE:
+      attributes:
+        id: BSP_PIN_46_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_46_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_46_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: U1TX
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_47_MODE:
+      attributes:
+        id: BSP_PIN_47_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_47_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_47_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: U1RX
+          type: User
+        type: Values
+      type: String
+    UART1_CLOCK_ENABLE:
+      attributes:
+        id: UART1_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_FAULT_INTERRUPT_ENABLE:
+      attributes:
+        id: UART1_FAULT_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_RX_INTERRUPT_ENABLE:
+      attributes:
+        id: UART1_RX_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_TX_INTERRUPT_ENABLE:
+      attributes:
+        id: UART1_TX_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_FAULT_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: UART1_FAULT_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_RX_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: UART1_RX_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_TX_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: UART1_TX_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    UART1_FAULT_INTERRUPT_HANDLER:
+      attributes:
+        id: UART1_FAULT_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: UART1_FAULT_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    UART1_RX_INTERRUPT_HANDLER:
+      attributes:
+        id: UART1_RX_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: UART1_RX_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    UART1_TX_INTERRUPT_HANDLER:
+      attributes:
+        id: UART1_TX_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: UART1_TX_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    QEI2_CLOCK_ENABLE:
+      attributes:
+        id: QEI2_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: qei2
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    QEI3_CLOCK_ENABLE:
+      attributes:
+        id: QEI3_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: qei3
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    QEI4_CLOCK_ENABLE:
+      attributes:
+        id: QEI4_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: qei4
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    QEI5_CLOCK_ENABLE:
+      attributes:
+        id: QEI5_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: qei5
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    QEI6_CLOCK_ENABLE:
+      attributes:
+        id: QEI6_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: qei6
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
   userData:
     children:
     - attributes:

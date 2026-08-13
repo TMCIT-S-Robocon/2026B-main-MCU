@@ -67,8 +67,10 @@
 // *****************************************************************************
 // *****************************************************************************
 void TIMER_2_Handler (void);
-void OUTPUT_COMPARE_4_Handler (void);
-void CAN1_Handler (void);
+void CAN2_Handler (void);
+void CAN4_Handler (void);
+void I2C4_BUS_Handler (void);
+void I2C4_MASTER_Handler (void);
 
 
 // *****************************************************************************
@@ -81,14 +83,24 @@ void __attribute__((used)) __ISR(_TIMER_2_VECTOR, ipl1SRS) TIMER_2_Handler (void
     TIMER_2_InterruptHandler();
 }
 
-void __attribute__((used)) __ISR(_OUTPUT_COMPARE_4_VECTOR, ipl1SRS) OUTPUT_COMPARE_4_Handler (void)
+void __attribute__((used)) __ISR(_CAN2_VECTOR, ipl1SRS) CAN2_Handler (void)
 {
-    OUTPUT_COMPARE_4_InterruptHandler();
+    CAN2_InterruptHandler();
 }
 
-void __attribute__((used)) __ISR(_CAN1_VECTOR, ipl1SRS) CAN1_Handler (void)
+void __attribute__((used)) __ISR(_CAN4_VECTOR, ipl1SRS) CAN4_Handler (void)
 {
-    CAN1_InterruptHandler();
+    CAN4_InterruptHandler();
+}
+
+void __attribute__((used)) __ISR(_I2C4_BUS_VECTOR, ipl1SRS) I2C4_BUS_Handler (void)
+{
+    I2C4_BUS_InterruptHandler();
+}
+
+void __attribute__((used)) __ISR(_I2C4_MASTER_VECTOR, ipl1SRS) I2C4_MASTER_Handler (void)
+{
+    I2C4_MASTER_InterruptHandler();
 }
 
 
