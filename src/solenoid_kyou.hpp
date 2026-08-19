@@ -13,7 +13,8 @@
 #include <stdbool.h>
 #include "definitions.h"
 
-void solenoid_kyou(uint8_t port, bool status);
+void solenoid_kyou_individual(uint8_t port, bool status);
+void solenoid_kyou_all(bool status);
 
 #endif	/* SOLENOID_KYOU_HPP */
 

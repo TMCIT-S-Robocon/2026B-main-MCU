@@ -28,6 +28,10 @@
               </logicalFolder>
               <itemPath>../src/config/default/peripheral/i2c/plib_i2c_smbus_common.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="ocmp" displayName="ocmp" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp_common.h</itemPath>
+              <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp2.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="qei" displayName="qei" projectFiles="true">
               <itemPath>../src/config/default/peripheral/qei/plib_qei_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei1.h</itemPath>
@@ -76,6 +80,7 @@
           <itemPath>Main_2026_default/components/qei3.yml</itemPath>
           <itemPath>Main_2026_default/components/core.yml</itemPath>
           <itemPath>Main_2026_default/components/qei6.yml</itemPath>
+          <itemPath>Main_2026_default/components/ocmp2.yml</itemPath>
           <itemPath>Main_2026_default/components/dfp.yml</itemPath>
           <itemPath>Main_2026_default/components/tmr2.yml</itemPath>
           <itemPath>Main_2026_default/components/qei4.yml</itemPath>
@@ -127,6 +132,9 @@
                 <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c4_master.c</itemPath>
               </logicalFolder>
               <itemPath>../src/config/default/peripheral/i2c/plib_i2c_smbus_common.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="ocmp" displayName="ocmp" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp2.c</itemPath>
             </logicalFolder>
             <logicalFolder name="qei" displayName="qei" projectFiles="true">
               <itemPath>../src/config/default/peripheral/qei/plib_qei1.c</itemPath>
@@ -631,6 +639,8 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d0fffff"/>
+        <property key="programmerToGoFilePath"
+                  value="/Users/natsu217/MPLABXProjects/robocon2026/Main_2026.X/debug/default/Main_2026_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>

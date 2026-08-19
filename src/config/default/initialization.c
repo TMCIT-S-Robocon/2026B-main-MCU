@@ -214,6 +214,8 @@ void SYS_Initialize ( void* data )
 
     CAN2_Initialize();
 
+    OCMP2_Initialize();
+
     QEI1_Initialize();
 
 	UART1_Initialize();

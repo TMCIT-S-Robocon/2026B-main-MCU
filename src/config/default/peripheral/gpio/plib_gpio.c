@@ -88,7 +88,7 @@ void GPIO_Initialize ( void )
     /* PPS Input Remapping */
     QEB6R = 7;
     QEA6R = 0;
-    QEB1R = 8;
+    T2CKR = 3;
     QEA1R = 8;
     C4RXR = 2;
     INDX2R = 2;
@@ -114,6 +114,7 @@ void GPIO_Initialize ( void )
     RPE15R = 11;
     RPB7R = 1;
     RPC9R = 12;
+    RPA12R = 5;
 
         /* Lock back the system after PPS configuration */
     CFGCONbits.IOLOCK = 1U;

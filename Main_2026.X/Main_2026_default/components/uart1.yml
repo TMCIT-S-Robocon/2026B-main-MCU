@@ -113,4 +113,15 @@ data:
           type: Dynamic
         type: Values
       type: Boolean
+    UART_CLOCK_FREQ:
+      attributes:
+        id: UART_CLOCK_FREQ
+      children:
+      - children:
+        - attributes:
+            id: uart1
+            value: '60000000'
+          type: Dynamic
+        type: Values
+      type: Integer
   userData: {}

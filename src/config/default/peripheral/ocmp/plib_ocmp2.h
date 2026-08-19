@@ -1,23 +1,20 @@
 /*******************************************************************************
-  TMR Peripheral Library Interface Source File
+  Output Compare (OCMP) Peripheral Library Interface Header File
 
-  Company
+  Company:
     Microchip Technology Inc.
 
-  File Name
-    plib_tmr2.c
+  File Name:
+    plib_ocmp2.h
 
-  Summary
-    TMR2 peripheral library source file.
+  Summary:
+    OCMP PLIB Header File
 
-  Description
-    This file implements the interface to the TMR peripheral library.  This
-    library provides access to and control of the associated peripheral
-    instance.
+  Description:
+    None
 
 *******************************************************************************/
 
-// DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
@@ -40,111 +37,96 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
+
+#ifndef PLIB_OCMP2_H
+#define PLIB_OCMP2_H
+
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "device.h"
+#include "plib_ocmp_common.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    extern "C" {
+#endif
 // DOM-IGNORE-END
 
 
 // *****************************************************************************
+// Section: Interface
 // *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
 // *****************************************************************************
 
-#include "device.h"
-#include "plib_tmr2.h"
-#include "interrupts.h"
+/*************************** OCMP2 API ****************************************/
+// *****************************************************************************
+/* Function:
+   void OCMP2_Initialize (void)
 
-static volatile TMR_TIMER_OBJECT tmr2Obj;
+  Summary:
+    Initialization function OCMP2 peripheral
 
+  Description:
+    This function initializes the OCMP2 peripheral with user input
+	from the configurator.
 
-void TMR2_Initialize(void)
-{
-    /* Disable Timer */
-    T2CONCLR = _T2CON_ON_MASK;
+  Parameters:
+    void
 
-    /*
-    SIDL = 0
-    SYNC = 0
-    TGATE = 0
-    TCKPS =5
-    T32   = 0
-    TCS = 0
-    */
-    T2CONSET = 0x50;
+  Returns:
+    void
+*/
+void OCMP2_Initialize (void);
 
-    /* Clear counter */
-    TMR2 = 0x0;
+// *****************************************************************************
+/* Function:
+   void OCMP2_Enable (void)
 
-    /*Set period */
-    PR2 = 37499U;
+  Summary:
+    Enable function OCMP2 peripheral
 
-    IEC0SET = _IEC0_T2IE_MASK;
+  Description:
+    This function enables the OCMP2 peripheral
 
-}
+  Parameters:
+    void
 
+  Returns:
+    void
+*/
+void OCMP2_Enable (void);
 
-void TMR2_Start(void)
-{
-    T2CONSET = _T2CON_ON_MASK;
-}
+// *****************************************************************************
+/* Function:
+   void OCMP2_Disable (void)
 
+  Summary:
+    Disable function OCMP2 peripheral
 
-void TMR2_Stop (void)
-{
-    T2CONCLR = _T2CON_ON_MASK;
-}
+  Description:
+    This function disables the OCMP2 peripheral.
 
-void TMR2_PeriodSet(uint16_t period)
-{
-    PR2  = period;
-}
+  Parameters:
+    void
 
-uint16_t TMR2_PeriodGet(void)
-{
-    return (uint16_t)PR2;
-}
-
-uint16_t TMR2_CounterGet(void)
-{
-    return (uint16_t)(TMR2);
-}
+  Returns:
+    void
+*/
+void OCMP2_Disable (void);
 
 
-uint32_t TMR2_FrequencyGet(void)
-{
-    return (1875000);
-}
 
-void __attribute__((used)) TIMER_2_InterruptHandler (void)
-{
-    uint32_t status = IFS0bits.T2IF;
-    IFS0CLR = _IFS0_T2IF_MASK;
+uint16_t OCMP2_CompareValueGet (void);
 
-    if((tmr2Obj.callback_fn != NULL))
-    {
-        uintptr_t context = tmr2Obj.context;
-        tmr2Obj.callback_fn(status, context);
+uint16_t OCMP2_CompareSecondaryValueGet (void);
+void OCMP2_CompareSecondaryValueSet (uint16_t value);
+
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
     }
-}
+#endif
 
-
-void TMR2_InterruptEnable(void)
-{
-
-    IEC0SET = _IEC0_T2IE_MASK;
-}
-
-
-void TMR2_InterruptDisable(void)
-{
-    IEC0CLR = _IEC0_T2IE_MASK;
-}
-
-
-void TMR2_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context )
-{
-    /* Save callback_fn and context in local memory */
-    tmr2Obj.callback_fn = callback_fn;
-    tmr2Obj.context = context;
-}
-
-
+// DOM-IGNORE-END
+#endif // PLIB_OCMP2_H

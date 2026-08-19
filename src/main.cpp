@@ -49,7 +49,6 @@ NEWHZWMD MD1(&CAN4, 0x516), MD2(&CAN4, 0x525), MD3(&CAN4, 0x524), MD4(&CAN4, 0x5
 void init();
 
 float angle = 0.0;
-bool solenoid_bool = false;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -64,9 +63,8 @@ int main ( void ){
     /* Initialize all modules */
     SYS_Initialize ( NULL );
     
-//    init();
-    Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
-    CAN4.init();
+    init();
+    solenoid_kyou_all(false);
 
     while(1){
         Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*80.0,-3*controller.data.Rstick.x);
@@ -83,29 +81,67 @@ int main ( void ){
         // delay
         // 青木の射出機構：180ms
         // 古川先輩の射出機構：222ms???
-        // 180~230ms 2msごとに5回射出
-        if(controller.data.B && controller.data.R2){ // 射出
-            D3_Set();
-            solenoid_kyou(1, true);
-            __delay_ms(220);
-            solenoid_kyou(2, true);
-        } else if(controller.data.Y && controller.data.R2){
-            solenoid_kyou(2, true); // 掴むところだけ開け閉め
-        } else if(controller.data.X && controller.data.R2){
-            solenoid_kyou(2, false);
-        } else{
-            D3_Clear();
+        if(controller.data.A){ // 射出
+            if(controller.data.L2){ // 左上
+                solenoid_kyou_individual(1, true); // true
+                __delay_ms(220);
+                solenoid_kyou_individual(2, true);
+            } else if(controller.data.L1){ // 左下
+                solenoid_kyou_individual(3, true);
+                __delay_ms(220);
+                solenoid_kyou_individual(4, true);
+            } else if(controller.data.R2){ // 右上
+                solenoid_kyou_individual(5, true);
+                __delay_ms(220);
+                solenoid_kyou_individual(6, true);
+            } else if(controller.data.R1){ // 右下
+                solenoid_kyou_individual(7, true);
+                __delay_ms(220);
+                solenoid_kyou_individual(8, true);
+            }
+        } else if(controller.data.Y){ // 戻す
+            if(controller.data.L2){ // 左上
+                solenoid_kyou_individual(1, false); // false
+            } else if(controller.data.L1){ // 左下
+                solenoid_kyou_individual(3, false);
+            } else if(controller.data.R2){ // 右上
+                solenoid_kyou_individual(5, false);
+            } else if(controller.data.R1){ // 右下
+                solenoid_kyou_individual(7, false);
+            }
+        } else if(controller.data.F6){ // 掴むところだけ閉じる
+            if(controller.data.L2){ // 左上
+                solenoid_kyou_individual(2, true);
+            } else if(controller.data.L1){ // 左下
+                solenoid_kyou_individual(4, true);
+            } else if(controller.data.R2){ // 右上
+                solenoid_kyou_individual(6, true);
+            } else if(controller.data.R1){ // 右下
+                solenoid_kyou_individual(8, true);
+            }
+        } else if(controller.data.F5){ // 掴むところだけ開ける
+            if(controller.data.L2){ // 左上
+                solenoid_kyou_individual(2, false);
+            } else if(controller.data.L1){ // 左下
+                solenoid_kyou_individual(4, false);
+            } else if(controller.data.R2){ // 右上
+                solenoid_kyou_individual(6, false);
+            } else if(controller.data.R1){ // 右下
+                solenoid_kyou_individual(8, false);
+            }
         }
         
-        if(controller.data.A && controller.data.R2){ // 閉じる
-            D4_Set();
-            solenoid_kyou(1, false);
-        } else{
-            D4_Clear();
-        }
         
+//        OCMP2_CompareSecondaryValueSet(1875); // GWS S35 STD
+//        __delay_ms(1000);
+//        OCMP2_CompareSecondaryValueSet(2344);
+//        __delay_ms(1000);
         
-//        OCMP10_CompareSecondaryValueSet(27);
+//        OCMP2_CompareSecondaryValueSet(2063);
+//        __delay_ms(1000);
+//        OCMP2_CompareSecondaryValueSet(3000);
+//        __delay_ms(1000);        
+        
         
 //        // RB7, RC13 圧力スイッチ(NPN)
 //        if(GPIO_PinRead(GPIO_PIN_RB7)){ // out2
@@ -123,11 +159,6 @@ int main ( void ){
 //            D3_Set();
 //        }
         
-        
-//        solenoid_kyou(2, true);
-//        __delay_ms(500);
-//        solenoid_kyou(2, false);
-        __delay_ms(5);
         D1_Toggle();
     };
     
@@ -135,14 +166,10 @@ int main ( void ){
 }
 
 void init(){
-//    Omni3_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0));
-//    CAN4.init();
-//    Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
-//    led1_Clear();
+    Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
+    CAN4.init();
+//    OCMP2_Enable();
 //    TMR2_Start();
-//    QEI1_Start();
-//    solenoid1_Clear();
-//    solenoid2_Clear();
 }
 
 /*******************************************************************************

@@ -971,7 +971,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '60000000'
           type: Dynamic
         type: Values
       type: Integer
@@ -1891,7 +1891,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '12'
+            value: '0'
           type: User
         type: Values
       type: KeyValueSet
@@ -1909,7 +1909,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: QEB1
+            value: T2CK
           type: User
         type: Values
       type: Combo
@@ -3307,7 +3307,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -3325,7 +3325,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: RPB10
+            value: RPA12
           type: User
         type: Values
       type: Combo
@@ -3343,7 +3343,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '52'
+            value: '41'
           type: User
         type: Values
       type: KeyValueSet
@@ -3712,7 +3712,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '4294967295'
+            value: '4294836223'
           type: Dynamic
         type: Values
       type: Hex
@@ -4899,7 +4899,7 @@ data:
       children:
       - children:
         - attributes:
-            value: QEB1
+            value: OC2
           type: User
         type: Values
       type: String
@@ -5148,6 +5148,114 @@ data:
           type: Dynamic
         type: Values
       type: Boolean
+    OCMP2_CLOCK_ENABLE:
+      attributes:
+        id: OCMP2_CLOCK_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: ocmp2
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    BSP_PIN_3_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_3_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: T2CK
+          type: User
+        type: Values
+      type: String
+    OUTPUT_COMPARE_2_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: OUTPUT_COMPARE_2_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_12_ENABLE:
+      attributes:
+        id: EVIC_12_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    OUTPUT_COMPARE_2_INTERRUPT_ENABLE:
+      attributes:
+        id: OUTPUT_COMPARE_2_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: ocmp2
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_12_HANDLER_LOCK:
+      attributes:
+        id: EVIC_12_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    OUTPUT_COMPARE_2_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: OUTPUT_COMPARE_2_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: ocmp2
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_12_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_12_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: OUTPUT_COMPARE_2_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    OUTPUT_COMPARE_2_INTERRUPT_HANDLER:
+      attributes:
+        id: OUTPUT_COMPARE_2_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: ocmp2
+            value: OUTPUT_COMPARE_2_Handler
+          type: Dynamic
+        type: Values
+      type: String
+    BSP_PIN_51_LAT:
+      attributes:
+        id: BSP_PIN_51_LAT
+      children:
+      - children:
+        - attributes:
+            value: ''
+          type: User
+        type: Values
+      type: String
   userData:
     children:
     - attributes:

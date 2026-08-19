@@ -35,7 +35,7 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '0'
+            value: '80'
           type: Dynamic
         type: Values
       type: Hex
@@ -46,7 +46,7 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '60000000'
+            value: '1875000'
           type: Dynamic
         type: Values
       type: Integer
@@ -65,7 +65,7 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '17'
+            value: '37499'
           type: Dynamic
         type: Values
       type: Long
@@ -75,7 +75,7 @@ data:
       children:
       - children:
         - attributes:
-            value: '7'
+            value: '2'
           type: User
         type: Values
       type: KeyValueSet
@@ -88,12 +88,12 @@ data:
             id: max
           children:
           - type: Value
-            value: '1092283.4'
+            value: '34.953068'
           type: Float
         type: Attributes
       - children:
         - attributes:
-            value: '300.0'
+            value: '20.0'
           type: User
         type: Values
       type: Float
@@ -115,7 +115,7 @@ data:
       - children:
         - attributes:
             id: tmr2
-            value: '1'
+            value: '32'
           type: Dynamic
         type: Values
       type: Integer
@@ -125,7 +125,7 @@ data:
       children:
       - children:
         - attributes:
-            value: nanosecond
+            value: millisecond
           type: User
         type: Values
       type: Combo
