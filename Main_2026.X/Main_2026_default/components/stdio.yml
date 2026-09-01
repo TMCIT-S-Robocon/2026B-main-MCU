@@ -44,8 +44,8 @@ data:
     - children:
       - attributes:
           id: stdio
-          x: '427'
-          y: '155'
+          x: '420'
+          y: '157'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
@@ -67,7 +67,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'true'
+            value: 'false'
           type: User
         type: Values
       type: Boolean

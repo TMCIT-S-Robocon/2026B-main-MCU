@@ -1,22 +1,22 @@
 /*******************************************************************************
-  Output Compare (OCMP) Peripheral Library Interface Header File
+  TMR Peripheral Library Interface Source File
 
   Company
     Microchip Technology Inc.
 
   File Name
-    plib_ocmp_common.h
+    plib_tmr3.c
 
   Summary
-    Data Type definition of the OCMP Peripheral Interface Plib.
+    TMR3 peripheral library source file.
 
   Description
-    This file defines the Data Types for the OCMP Plib.
-
-  Remarks:
-    None.
+    This file implements the interface to the TMR peripheral library.  This
+    library provides access to and control of the associated peripheral
+    instance.
 
 *******************************************************************************/
+
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
@@ -42,47 +42,109 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
-#ifndef PLIB_OCMP_COMMON_H    // Guards against multiple inclusion
-#define PLIB_OCMP_COMMON_H
-
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
-
-    extern "C" {
-
-#endif
-// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Data Types
+// Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
 
-/*  The following data type definitions are used by the functions in this
-    interface.
-*/
+#include "device.h"
+#include "plib_tmr3.h"
+#include "interrupts.h"
 
-// *****************************************************************************
+static volatile TMR_TIMER_OBJECT tmr3Obj;
 
-typedef void (*OCMP_CALLBACK) (uintptr_t context);
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: Local: **** Do Not Use ****
-// *****************************************************************************
-// *****************************************************************************
-
-typedef struct
+void TMR3_Initialize(void)
 {
-  OCMP_CALLBACK callback;
-  uintptr_t    context;
+    /* Disable Timer */
+    T3CONCLR = _T3CON_ON_MASK;
 
-} OCMP_OBJECT ;
+    /*
+    SIDL = 0
+    SYNC = 0
+    TGATE = 0
+    TCKPS =3
+    T32   = 0
+    TCS = 0
+    */
+    T3CONSET = 0x30;
 
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
+    /* Clear counter */
+    TMR3 = 0x0;
+
+    /*Set period */
+    PR3 = 37499U;
+
+    IEC0SET = _IEC0_T3IE_MASK;
+
+}
+
+
+void TMR3_Start(void)
+{
+    T3CONSET = _T3CON_ON_MASK;
+}
+
+
+void TMR3_Stop (void)
+{
+    T3CONCLR = _T3CON_ON_MASK;
+}
+
+void TMR3_PeriodSet(uint16_t period)
+{
+    PR3  = period;
+}
+
+uint16_t TMR3_PeriodGet(void)
+{
+    return (uint16_t)PR3;
+}
+
+uint16_t TMR3_CounterGet(void)
+{
+    return (uint16_t)(TMR3);
+}
+
+
+uint32_t TMR3_FrequencyGet(void)
+{
+    return (7500000);
+}
+
+void __attribute__((used)) TIMER_3_InterruptHandler (void)
+{
+    uint32_t status = IFS0bits.T3IF;
+    IFS0CLR = _IFS0_T3IF_MASK;
+
+    if((tmr3Obj.callback_fn != NULL))
+    {
+        uintptr_t context = tmr3Obj.context;
+        tmr3Obj.callback_fn(status, context);
     }
-#endif
-// DOM-IGNORE-END
-#endif // PLIB_ACC_COMMON_H
+}
+
+
+void TMR3_InterruptEnable(void)
+{
+
+    IEC0SET = _IEC0_T3IE_MASK;
+}
+
+
+void TMR3_InterruptDisable(void)
+{
+    IEC0CLR = _IEC0_T3IE_MASK;
+}
+
+
+void TMR3_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context )
+{
+    /* Save callback_fn and context in local memory */
+    tmr3Obj.callback_fn = callback_fn;
+    tmr3Obj.context = context;
+}
+
+

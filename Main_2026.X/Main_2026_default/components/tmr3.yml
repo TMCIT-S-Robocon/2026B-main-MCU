@@ -1,11 +1,11 @@
 configVersion: 1.0.0
-componentName: tmr2
+componentName: tmr3
 coreVersion: 5.8.2
 device: PIC32MK1024MCM064
 library: []
 dependency:
 - dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
-  name: tmr2
+  name: tmr3
   type: module
   version: ''
 - dependencyPackage: ''
@@ -21,9 +21,9 @@ data:
     children:
     - children:
       - attributes:
-          id: tmr2
-          x: '36'
-          y: '250'
+          id: tmr3
+          x: '213'
+          y: '235'
         type: ElementPosition
       type: ElementPositions
     type: ComponentGraph
@@ -34,7 +34,7 @@ data:
       children:
       - children:
         - attributes:
-            id: tmr2
+            id: tmr3
             value: '48'
           type: Dynamic
         type: Values
@@ -45,7 +45,7 @@ data:
       children:
       - children:
         - attributes:
-            id: tmr2
+            id: tmr3
             value: '7500000'
           type: Dynamic
         type: Values
@@ -56,15 +56,7 @@ data:
       children:
       - children:
         - attributes:
-            id: max
-          children:
-          - type: Value
-            value: '65535'
-          type: Long
-        type: Attributes
-      - children:
-        - attributes:
-            id: tmr2
+            id: tmr3
             value: '37499'
           type: Dynamic
         type: Values
@@ -103,7 +95,7 @@ data:
       children:
       - children:
         - attributes:
-            id: tmr2
+            id: tmr3
             value: '16'
           type: Dynamic
         type: Values
@@ -114,39 +106,9 @@ data:
       children:
       - children:
         - attributes:
-            id: tmr2
+            id: tmr3
             value: '8'
           type: Dynamic
         type: Values
       type: Integer
-    TIMER_UNIT:
-      attributes:
-        id: TIMER_UNIT
-      children:
-      - children:
-        - attributes:
-            value: millisecond
-          type: User
-        type: Values
-      type: Combo
-    TIMER_32BIT_MODE_SEL:
-      attributes:
-        id: TIMER_32BIT_MODE_SEL
-      children:
-      - children:
-        - attributes:
-            value: '1'
-          type: User
-        type: Values
-      type: KeyValueSet
-    TMR_INTERRUPT_MODE:
-      attributes:
-        id: TMR_INTERRUPT_MODE
-      children:
-      - children:
-        - attributes:
-            value: 'true'
-          type: User
-        type: Values
-      type: Boolean
   userData: {}

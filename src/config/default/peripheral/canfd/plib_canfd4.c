@@ -67,7 +67,7 @@
 
 #define CANFD_CONFIGURATION_MODE      0x4UL
 #define CANFD_OPERATION_MODE          (0x0UL)
-#define CANFD_NUM_OF_FILTER           2U
+#define CANFD_NUM_OF_FILTER           3U
 /* FIFO Offset in word (4 bytes) */
 #define CANFD_FIFO_OFFSET             0xcU
 /* Filter Offset in word (4 bytes) */
@@ -222,6 +222,10 @@ void CAN4_Initialize(void)
     CFD4FLTOBJ1 = (1568U & CANFD_MSG_SID_MASK);
     CFD4MASK1 = (2032U & CANFD_MSG_SID_MASK);
     CFD4FLTCON0 |= (((0x2UL << _CFD4FLTCON0_F1BP_POSITION) & _CFD4FLTCON0_F1BP_MASK));
+    /* Filter 2 configuration */
+    CFD4FLTOBJ2 = (1584U & CANFD_MSG_SID_MASK);
+    CFD4MASK2 = (2032U & CANFD_MSG_SID_MASK);
+    CFD4FLTCON0 |= (((0x2UL << _CFD4FLTCON0_F2BP_POSITION) & _CFD4FLTCON0_F2BP_MASK));
 
     /* Set Interrupts */
     IEC5SET = _IEC5_CAN4IE_MASK;

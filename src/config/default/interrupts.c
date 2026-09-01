@@ -67,6 +67,7 @@
 // *****************************************************************************
 // *****************************************************************************
 void TIMER_2_Handler (void);
+void TIMER_3_Handler (void);
 void CAN2_Handler (void);
 void CAN4_Handler (void);
 void I2C4_BUS_Handler (void);
@@ -81,6 +82,11 @@ void I2C4_MASTER_Handler (void);
 void __attribute__((used)) __ISR(_TIMER_2_VECTOR, ipl1SRS) TIMER_2_Handler (void)
 {
     TIMER_2_InterruptHandler();
+}
+
+void __attribute__((used)) __ISR(_TIMER_3_VECTOR, ipl1SRS) TIMER_3_Handler (void)
+{
+    TIMER_3_InterruptHandler();
 }
 
 void __attribute__((used)) __ISR(_CAN2_VECTOR, ipl1SRS) CAN2_Handler (void)

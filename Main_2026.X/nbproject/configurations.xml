@@ -28,10 +28,6 @@
               </logicalFolder>
               <itemPath>../src/config/default/peripheral/i2c/plib_i2c_smbus_common.h</itemPath>
             </logicalFolder>
-            <logicalFolder name="ocmp" displayName="ocmp" projectFiles="true">
-              <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp_common.h</itemPath>
-              <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp2.h</itemPath>
-            </logicalFolder>
             <logicalFolder name="qei" displayName="qei" projectFiles="true">
               <itemPath>../src/config/default/peripheral/qei/plib_qei_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei1.h</itemPath>
@@ -44,6 +40,7 @@
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.h</itemPath>
             </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart_common.h</itemPath>
@@ -67,6 +64,10 @@
       <itemPath>../src/delay.hpp</itemPath>
       <itemPath>../src/solenoid_kyou.hpp</itemPath>
       <itemPath>../src/qei.hpp</itemPath>
+      <itemPath>../src/neopixel.hpp</itemPath>
+      <itemPath>../src/bno.hpp</itemPath>
+      <itemPath>../src/pid.hpp</itemPath>
+      <itemPath>../src/timer.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -80,7 +81,6 @@
           <itemPath>Main_2026_default/components/qei3.yml</itemPath>
           <itemPath>Main_2026_default/components/core.yml</itemPath>
           <itemPath>Main_2026_default/components/qei6.yml</itemPath>
-          <itemPath>Main_2026_default/components/ocmp2.yml</itemPath>
           <itemPath>Main_2026_default/components/dfp.yml</itemPath>
           <itemPath>Main_2026_default/components/tmr2.yml</itemPath>
           <itemPath>Main_2026_default/components/qei4.yml</itemPath>
@@ -88,6 +88,7 @@
           <itemPath>Main_2026_default/components/can4.yml</itemPath>
           <itemPath>Main_2026_default/components/qei1.yml</itemPath>
           <itemPath>Main_2026_default/components/i2c4.yml</itemPath>
+          <itemPath>Main_2026_default/components/tmr3.yml</itemPath>
           <itemPath>Main_2026_default/components/stdio.yml</itemPath>
           <itemPath>Main_2026_default/components/uart1.yml</itemPath>
         </logicalFolder>
@@ -133,9 +134,6 @@
               </logicalFolder>
               <itemPath>../src/config/default/peripheral/i2c/plib_i2c_smbus_common.c</itemPath>
             </logicalFolder>
-            <logicalFolder name="ocmp" displayName="ocmp" projectFiles="true">
-              <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp2.c</itemPath>
-            </logicalFolder>
             <logicalFolder name="qei" displayName="qei" projectFiles="true">
               <itemPath>../src/config/default/peripheral/qei/plib_qei1.c</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei2.c</itemPath>
@@ -146,6 +144,7 @@
             </logicalFolder>
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.c</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.c</itemPath>
             </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.c</itemPath>
@@ -168,6 +167,10 @@
       <itemPath>../src/delay.cpp</itemPath>
       <itemPath>../src/solenoid_kyou.cpp</itemPath>
       <itemPath>../src/qei.cpp</itemPath>
+      <itemPath>../src/neopixel.cpp</itemPath>
+      <itemPath>../src/bno.cpp</itemPath>
+      <itemPath>../src/pid.cpp</itemPath>
+      <itemPath>../src/timer.cpp</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -392,6 +395,154 @@
         <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <PK5Tool>
+        <property key="ADC" value="true"/>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="CAN1" value="true"/>
+        <property key="CAN2" value="true"/>
+        <property key="CAN3" value="true"/>
+        <property key="CAN4" value="true"/>
+        <property key="CHANGE NOTICE A" value="true"/>
+        <property key="CHANGE NOTICE B" value="true"/>
+        <property key="CHANGE NOTICE C" value="true"/>
+        <property key="CHANGE NOTICE D" value="true"/>
+        <property key="CHANGE NOTICE E" value="true"/>
+        <property key="CHANGE NOTICE F" value="true"/>
+        <property key="CHANGE NOTICE G" value="true"/>
+        <property key="CMP" value="true"/>
+        <property key="CTMU" value="true"/>
+        <property key="DMA" value="true"/>
+        <property key="Freeze All Other Peripherals" value="true"/>
+        <property key="HLVD" value="true"/>
+        <property key="I2C 1" value="true"/>
+        <property key="I2C 2" value="true"/>
+        <property key="I2C 3" value="true"/>
+        <property key="I2C 4" value="true"/>
+        <property key="INPUT CAPTURE 1" value="true"/>
+        <property key="INPUT CAPTURE 10" value="true"/>
+        <property key="INPUT CAPTURE 11" value="true"/>
+        <property key="INPUT CAPTURE 12" value="true"/>
+        <property key="INPUT CAPTURE 13" value="true"/>
+        <property key="INPUT CAPTURE 14" value="true"/>
+        <property key="INPUT CAPTURE 15" value="true"/>
+        <property key="INPUT CAPTURE 16" value="true"/>
+        <property key="INPUT CAPTURE 2" value="true"/>
+        <property key="INPUT CAPTURE 3" value="true"/>
+        <property key="INPUT CAPTURE 4" value="true"/>
+        <property key="INPUT CAPTURE 5" value="true"/>
+        <property key="INPUT CAPTURE 6" value="true"/>
+        <property key="INPUT CAPTURE 7" value="true"/>
+        <property key="INPUT CAPTURE 8" value="true"/>
+        <property key="INPUT CAPTURE 9" value="true"/>
+        <property key="INTERRUPT CONTROL" value="true"/>
+        <property key="OUTPUT COMPARE 1" value="true"/>
+        <property key="OUTPUT COMPARE 10" value="true"/>
+        <property key="OUTPUT COMPARE 11" value="true"/>
+        <property key="OUTPUT COMPARE 12" value="true"/>
+        <property key="OUTPUT COMPARE 13" value="true"/>
+        <property key="OUTPUT COMPARE 14" value="true"/>
+        <property key="OUTPUT COMPARE 15" value="true"/>
+        <property key="OUTPUT COMPARE 16" value="true"/>
+        <property key="OUTPUT COMPARE 2" value="true"/>
+        <property key="OUTPUT COMPARE 3" value="true"/>
+        <property key="OUTPUT COMPARE 4" value="true"/>
+        <property key="OUTPUT COMPARE 5" value="true"/>
+        <property key="OUTPUT COMPARE 6" value="true"/>
+        <property key="OUTPUT COMPARE 7" value="true"/>
+        <property key="OUTPUT COMPARE 8" value="true"/>
+        <property key="OUTPUT COMPARE 9" value="true"/>
+        <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
+        <property key="REAL TIME CLOCK" value="true"/>
+        <property key="REFERENCE CLOCK1" value="true"/>
+        <property key="REFERENCE CLOCK2" value="true"/>
+        <property key="REFERENCE CLOCK3" value="true"/>
+        <property key="REFERENCE CLOCK4" value="true"/>
+        <property key="SPI/I2S 1" value="true"/>
+        <property key="SPI/I2S 2" value="true"/>
+        <property key="SPI/I2S 3" value="true"/>
+        <property key="SPI/I2S 4" value="true"/>
+        <property key="SPI/I2S 5" value="true"/>
+        <property key="SPI/I2S 6" value="true"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
+        <property key="TIMER1" value="true"/>
+        <property key="TIMER2" value="true"/>
+        <property key="TIMER3" value="true"/>
+        <property key="TIMER4" value="true"/>
+        <property key="TIMER5" value="true"/>
+        <property key="TIMER6" value="true"/>
+        <property key="TIMER7" value="true"/>
+        <property key="TIMER8" value="true"/>
+        <property key="TIMER9" value="true"/>
+        <property key="ToolFirmwareFilePath"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="ToolFirmwareOption.UpdateOptions"
+                  value="ToolFirmwareOption.UseLatest"/>
+        <property key="ToolFirmwareToolPack"
+                  value="Press to select which tool pack to use"/>
+        <property key="UART1" value="true"/>
+        <property key="UART2" value="true"/>
+        <property key="UART3" value="true"/>
+        <property key="UART4" value="true"/>
+        <property key="UART5" value="true"/>
+        <property key="UART6" value="true"/>
+        <property key="bluetoothsetting" value="do.not.change"/>
+        <property key="communication.activationmode" value="nohv"/>
+        <property key="communication.interface" value=""/>
+        <property key="communication.interface.jtag" value="2wire"/>
+        <property key="communication.speed" value="${communication.speed.default}"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.debugger.behavior" value="Running"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
+        <property key="hwtoolclock.frcindebug" value="false"/>
+        <property key="lastid" value=""/>
+        <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="true"/>
+        <property key="memories.configurationmemory" value="true"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
+        <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
+        <property key="memories.flashdata" value="true"/>
+        <property key="memories.id" value="true"/>
+        <property key="memories.instruction.ram.ranges"
+                  value="${memories.instruction.ram.ranges}"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.ranges" value="1d000000-1d0fffff"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/Users/natsu217/MPLABXProjects/robocon2026/Main_2026.X/debug/default/Main_2026_ptg"/>
+        <property key="programmerToGoImageName" value="Main_2026_ptg"/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.ledbrightness" value="5"/>
+        <property key="programoptions.pgcconfig" value="pull down"/>
+        <property key="programoptions.pgcresistor.value" value="4.7"/>
+        <property key="programoptions.pgdconfig" value="pull down"/>
+        <property key="programoptions.pgdresistor.value" value="4.7"/>
+        <property key="programoptions.pgmentry.voltage" value="low"/>
+        <property key="programoptions.pgmspeed" value="Med"/>
+        <property key="programoptions.preservedataflash" value="false"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveeeprom.ranges" value=""/>
+        <property key="programoptions.preserveprogram.ranges" value=""/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.program.otpconfig" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.smart.program" value="When debugging only"/>
+        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="ptgProgramImage" value="true"/>
+        <property key="ptgSendImage" value="true"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
+        <property key="voltagevalue" value="3.25"/>
+      </PK5Tool>
       <Tool>
         <property key="ADC" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
@@ -460,6 +611,7 @@
         <property key="SPI/I2S 4" value="true"/>
         <property key="SPI/I2S 5" value="true"/>
         <property key="SPI/I2S 6" value="true"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="TIMER1" value="true"/>
         <property key="TIMER2" value="true"/>
         <property key="TIMER3" value="true"/>
@@ -481,6 +633,8 @@
         <property key="UART4" value="true"/>
         <property key="UART5" value="true"/>
         <property key="UART6" value="true"/>
+        <property key="bluetoothsetting" value="do.not.change"/>
+        <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value=""/>
         <property key="communication.interface.jtag" value="2wire"/>
         <property key="communication.speed" value="${communication.speed.default}"/>
@@ -492,6 +646,7 @@
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
         <property key="freeze.timers" value="false"/>
+        <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
@@ -506,8 +661,17 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d0fffff"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/Users/natsu217/MPLABXProjects/robocon2026/Main_2026.X/debug/default/Main_2026_ptg"/>
+        <property key="programmerToGoImageName" value="Main_2026_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.ledbrightness" value="5"/>
+        <property key="programoptions.pgcconfig" value="pull down"/>
+        <property key="programoptions.pgcresistor.value" value="4.7"/>
+        <property key="programoptions.pgdconfig" value="pull down"/>
+        <property key="programoptions.pgdresistor.value" value="4.7"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>
         <property key="programoptions.pgmspeed" value="Med"/>
         <property key="programoptions.preservedataflash" value="false"/>
@@ -517,13 +681,19 @@
         <property key="programoptions.preserveeeprom.ranges" value=""/>
         <property key="programoptions.preserveprogram.ranges" value=""/>
         <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.program.otpconfig" value="false"/>
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.smart.program" value="When debugging only"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="ptgProgramImage" value="true"/>
+        <property key="ptgSendImage" value="true"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.uselatestoolpack"/>
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
+        <property key="voltagevalue" value="3.25"/>
       </Tool>
       <pickitbasic>
         <property key="ADC" value="true"/>

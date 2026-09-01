@@ -92,6 +92,26 @@
 #define D1_GetLatch()          ((LATC >> 7) & 0x1U)
 #define D1_PIN                  GPIO_PIN_RC7
 
+/*** Macros for neopi2 pin ***/
+#define neopi2_Set()               (LATFSET = (1U<<1))
+#define neopi2_Clear()             (LATFCLR = (1U<<1))
+#define neopi2_Toggle()            (LATFINV= (1U<<1))
+#define neopi2_OutputEnable()      (TRISFCLR = (1U<<1))
+#define neopi2_InputEnable()       (TRISFSET = (1U<<1))
+#define neopi2_Get()               ((PORTF >> 1) & 0x1U)
+#define neopi2_GetLatch()          ((LATF >> 1) & 0x1U)
+#define neopi2_PIN                  GPIO_PIN_RF1
+
+/*** Macros for neopi1 pin ***/
+#define neopi1_Set()               (LATBSET = (1U<<11))
+#define neopi1_Clear()             (LATBCLR = (1U<<11))
+#define neopi1_Toggle()            (LATBINV= (1U<<11))
+#define neopi1_OutputEnable()      (TRISBCLR = (1U<<11))
+#define neopi1_InputEnable()       (TRISBSET = (1U<<11))
+#define neopi1_Get()               ((PORTB >> 11) & 0x1U)
+#define neopi1_GetLatch()          ((LATB >> 11) & 0x1U)
+#define neopi1_PIN                  GPIO_PIN_RB11
+
 /*** Macros for D2 pin ***/
 #define D2_Set()               (LATASET = (1U<<10))
 #define D2_Clear()             (LATACLR = (1U<<10))

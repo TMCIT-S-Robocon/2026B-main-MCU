@@ -65,11 +65,11 @@ void TMR2_Initialize(void)
     SIDL = 0
     SYNC = 0
     TGATE = 0
-    TCKPS =5
+    TCKPS =3
     T32   = 0
     TCS = 0
     */
-    T2CONSET = 0x50;
+    T2CONSET = 0x30;
 
     /* Clear counter */
     TMR2 = 0x0;
@@ -111,7 +111,7 @@ uint16_t TMR2_CounterGet(void)
 
 uint32_t TMR2_FrequencyGet(void)
 {
-    return (1875000);
+    return (7500000);
 }
 
 void __attribute__((used)) TIMER_2_InterruptHandler (void)

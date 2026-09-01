@@ -57,6 +57,7 @@
 // *****************************************************************************
 // *****************************************************************************
 void TIMER_2_InterruptHandler( void );
+void TIMER_3_InterruptHandler( void );
 void CAN2_InterruptHandler( void );
 void CAN4_InterruptHandler( void );
 void I2C4_BUS_InterruptHandler( void );
