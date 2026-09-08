@@ -2021,7 +2021,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '2048'
+            value: '6144'
           type: Dynamic
         type: Values
       type: Hex
@@ -2107,7 +2107,7 @@ data:
             id: enabled
           children:
           - type: Value
-            value: 'false'
+            value: 'true'
           type: Boolean
         type: Attributes
       type: File
@@ -2120,7 +2120,7 @@ data:
             id: enabled
           children:
           - type: Value
-            value: 'false'
+            value: 'true'
           type: Boolean
         type: Attributes
       type: File
@@ -2133,7 +2133,7 @@ data:
             id: enabled
           children:
           - type: Value
-            value: 'false'
+            value: 'true'
           type: Boolean
         type: Attributes
       type: File
@@ -2143,7 +2143,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -3169,7 +3169,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'true'
+            value: 'false'
           type: User
         type: Values
       type: Boolean
@@ -5210,7 +5210,7 @@ data:
       children:
       - children:
         - attributes:
-            value: INDX6
+            value: GPIO
           type: User
         type: Values
       type: String
@@ -5380,6 +5380,26 @@ data:
       - children:
         - attributes:
             value: T3CK
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_62_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_62_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: emergency_stop
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_62_DIR:
+      attributes:
+        id: BSP_PIN_62_DIR
+      children:
+      - children:
+        - attributes:
+            value: Out
           type: User
         type: Values
       type: String

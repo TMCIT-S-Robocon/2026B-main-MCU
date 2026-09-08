@@ -15,6 +15,8 @@ extern Omni4PID pid;
 
 volatile uint16_t pair_timer[6] = {0};
 volatile uint16_t delay_timer[6] = {0};
+volatile uint16_t first_solenoid_timer = 0;
+volatile uint8_t first_solenoid_index = 0;
 
 const uint8_t first_solenoid[6] = {1, 3, 5, 7, 9, 11};
 const uint8_t second_solenoid[6] = {2, 4, 6, 8, 10, 12};
@@ -75,15 +77,55 @@ void tmr3_isr(uint32_t status, uintptr_t context){
         }
     }
     
+    // 1,3,5,7,9,11の電磁弁を200msずつ閉じていく
+    if(first_solenoid_timer > 0){
+
+        first_solenoid_timer--;
+
+        if(first_solenoid_timer == 0){
+
+            // 現在の電磁弁をOFF
+            solenoid_kyou_individual(
+                first_solenoid[first_solenoid_index],
+                false
+            );
+
+            first_solenoid_index++;
+
+            // まだ残っている
+            if(first_solenoid_index < 6){
+
+                // 次の電磁弁まで200ms
+                first_solenoid_timer =
+                    FIRST_SOLENOID_INTERVAL_COUNT;
+            }
+        }
+    }
+    
     // neopixel
     neopixel_timer_update();
 }
 
 void tmr2_isr(uint32_t status, uintptr_t context){
     pid.update(
-        (int32_t)get_position(1),
-        (int32_t)get_position(2),
-        (int32_t)get_position(3),
-        (int32_t)get_position(4)
+        (int32_t)get_position(4), // MD1
+        (int32_t)get_position(3), // MD2
+        (int32_t)get_position(2), // MD3
+        (int32_t)get_position(1)  // MD4
     );
+}
+
+void first_solenoid_close_start(void){
+    // すでに動作中なら無視
+    if(first_solenoid_timer != 0){
+        return;
+    }
+
+    first_solenoid_index = 0;
+
+    // 1番を即座にOFF
+    solenoid_kyou_individual(first_solenoid[0], false);
+
+    first_solenoid_index = 1;
+    first_solenoid_timer = FIRST_SOLENOID_INTERVAL_COUNT;
 }

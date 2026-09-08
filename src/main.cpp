@@ -202,20 +202,21 @@ int main ( void ){
         }
         
         if(controller.data.U){ // 射出状態(初期状態)で保持
-            if(controller.data.F1){ // 左上
-                solenoid_kyou_individual(1, true);
-            } else if(controller.data.F2){ // 左中
-                solenoid_kyou_individual(3, true);
-            } else if(controller.data.F3){ // 左下
-                solenoid_kyou_individual(5, true);
-            } else if(controller.data.F4){ // 右上
-                solenoid_kyou_individual(7, true);
-            } else if(controller.data.F5){ // 右中
-                solenoid_kyou_individual(9, true);
-            } else if(controller.data.F6){ // 右下
-                solenoid_kyou_individual(11, true);
-            }
-        } else if(controller.data.X){ // 装填時の状態で保持
+            first_solenoid_close_start();
+//            if(controller.data.F1){ // 左上
+//                solenoid_kyou_individual(1, true);
+//            } else if(controller.data.F2){ // 左中
+//                solenoid_kyou_individual(3, true);
+//            } else if(controller.data.F3){ // 左下
+//                solenoid_kyou_individual(5, true);
+//            } else if(controller.data.F4){ // 右上
+//                solenoid_kyou_individual(7, true);
+//            } else if(controller.data.F5){ // 右中
+//                solenoid_kyou_individual(9, true);
+//            } else if(controller.data.F6){ // 右下
+//                solenoid_kyou_individual(11, true);
+//            }
+        } else if(controller.data.X){ // 射出前の状態で保持
             if(controller.data.F1){ // 左上
                 solenoid_kyou_individual(1, false);
             } else if(controller.data.F2){ // 左中
@@ -230,11 +231,11 @@ int main ( void ){
                 solenoid_kyou_individual(11, false);
             }
         }
-           
-//        OCMP2_CompareSecondaryValueSet(1875); // GWS S35 STD
-//        __delay_ms(1000);
-//        OCMP2_CompareSecondaryValueSet(2344);
-//        __delay_ms(1000);
+        
+        // 遠隔非常停止(RB12)
+        if(controller.data.F2 && controller.data.F4){
+            emergency_stop_Set();
+        }
         
         
 //        // RB7, RC13 圧力スイッチ(NPN)
@@ -264,6 +265,7 @@ int main ( void ){
 }
 
 void init(){
+    emergency_stop_Clear();
     Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
     CAN4.init();
     TMR2_CallbackRegister(tmr2_isr, 0);
@@ -274,6 +276,7 @@ void init(){
     QEI2_Start();
     QEI3_Start();
     QEI4_Start();
+    WDT_Enable();
 }
 
 void debug_pid(){

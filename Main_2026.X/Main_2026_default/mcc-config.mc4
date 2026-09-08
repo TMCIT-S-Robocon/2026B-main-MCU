@@ -21,7 +21,7 @@ modules:
 - uart1
 generatedFileHashHistoryMap:
 - file: ../src/config/default/definitions.h
-  hash: 631b1c6dcf735e04e90587c3122a31e40b64efb950b70fe68910545995038a73
+  hash: 70a5317683f3b136e12c7dfc4bbc35195985c674630971a58ff8d68af8288cd4
 - file: ../src/config/default/device.h
   hash: 4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442
 - file: ../src/config/default/exceptions.c
@@ -53,9 +53,9 @@ generatedFileHashHistoryMap:
 - file: ../src/config/default/peripheral/evic/plib_evic.h
   hash: 7ca2c90979d4e8932f07e4dc6bcea310c2a9404bb0eb5bcfb3712b362db61eac
 - file: ../src/config/default/peripheral/gpio/plib_gpio.c
-  hash: 2bd9779cd06313e3e17c6850f1e8203185c73f1c211c72a1e04c6c58b305f2e9
+  hash: f7ed05be1b3c04d8974f6b36ec4fba12d3ae2e0976f86c2b10afa31132fb0014
 - file: ../src/config/default/peripheral/gpio/plib_gpio.h
-  hash: 88f4625530b20e6e4e136e8b9ade94f6aab3c7183327e927f6c6011a3cbab83d
+  hash: 854e4550a86958edd1cb564bac3af60335d95d5d7d778ab225fd536369a3dc11
 - file: ../src/config/default/peripheral/i2c/master/plib_i2c4_master.c
   hash: eae3b58f61dbeae9b6a2ff0a24327b4f6c514b728bd07c4c768943e7508463f9
 - file: ../src/config/default/peripheral/i2c/master/plib_i2c4_master.h
@@ -100,6 +100,10 @@ generatedFileHashHistoryMap:
   hash: 7a1eb131a20e49ee5e46ba34845ec01b77fdcea9750992bbebccd3dec805b35a
 - file: ../src/config/default/peripheral/uart/plib_uart_common.h
   hash: 70213cd740b3ff9a591d93ad6aac9493335851db084dd862275effacdebf710d
+- file: ../src/config/default/peripheral/wdt/plib_wdt.c
+  hash: 1a6dae5cf6f789a4768d44fcee731f9aa1c505f26074eae8241748e61259d19b
+- file: ../src/config/default/peripheral/wdt/plib_wdt.h
+  hash: cb8dd5865885397dedcf11696f54ad5f8eca20c8a28d3c707b48efbf355e2812
 - file: ../src/config/default/stdio/xc32_monitor.c
   hash: 34c7efa285dd6778faf01a0097bf7bebc131e7a8a0ed97bb737ff3e0a39895d2
 - file: ../src/config/default/toolchain_specifics.h

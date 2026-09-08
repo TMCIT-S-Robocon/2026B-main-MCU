@@ -112,6 +112,16 @@
 #define neopi1_GetLatch()          ((LATB >> 11) & 0x1U)
 #define neopi1_PIN                  GPIO_PIN_RB11
 
+/*** Macros for emergency_stop pin ***/
+#define emergency_stop_Set()               (LATBSET = (1U<<12))
+#define emergency_stop_Clear()             (LATBCLR = (1U<<12))
+#define emergency_stop_Toggle()            (LATBINV= (1U<<12))
+#define emergency_stop_OutputEnable()      (TRISBCLR = (1U<<12))
+#define emergency_stop_InputEnable()       (TRISBSET = (1U<<12))
+#define emergency_stop_Get()               ((PORTB >> 12) & 0x1U)
+#define emergency_stop_GetLatch()          ((LATB >> 12) & 0x1U)
+#define emergency_stop_PIN                  GPIO_PIN_RB12
+
 /*** Macros for D2 pin ***/
 #define D2_Set()               (LATASET = (1U<<10))
 #define D2_Clear()             (LATACLR = (1U<<10))

@@ -111,6 +111,7 @@ void can4_rx_callback(uintptr_t){
     switch(CAN4.rx.id){
         case 0x602:
             controller.readCAN();
+            WDT_Clear();
             break;
         default:
 		    break;
