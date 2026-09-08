@@ -15,21 +15,19 @@ modules:
 - qei2
 - qei3
 - qei4
-- qei5
-- qei6
 - stdio
 - tmr2
 - tmr3
 - uart1
 generatedFileHashHistoryMap:
 - file: ../src/config/default/definitions.h
-  hash: 6dc3f78c11ec008718e4effe4cdb6de48d579563a14a67c6e9226d0839f3305c
+  hash: 631b1c6dcf735e04e90587c3122a31e40b64efb950b70fe68910545995038a73
 - file: ../src/config/default/device.h
   hash: 4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442
 - file: ../src/config/default/exceptions.c
   hash: 265c985839caadb2fa9e8fc76e7bc3c160e31e9b2c96dc4006add33e5d7ee212
 - file: ../src/config/default/initialization.c
-  hash: df437d0493e466edf6ae7774c6038d1c0a2afa2674c4dfff058c4d27e69dd21e
+  hash: 31cc0ca28fdad69ca415118044dd1160277ba173671d3bccc4aa59266c76de6a
 - file: ../src/config/default/interrupts.c
   hash: 46c377243ae75a2c3e580f44bbaa94df0d0bf40625fa23cb49b8c61dba565aad
 - file: ../src/config/default/interrupts.h
@@ -47,7 +45,7 @@ generatedFileHashHistoryMap:
 - file: ../src/config/default/peripheral/canfd/plib_canfd_common.h
   hash: fbf5091541d361f023f2c1fa3f04173ed84db75e64f475d14e1919856f1bf620
 - file: ../src/config/default/peripheral/clk/plib_clk.c
-  hash: 1adf65a520e12654e661b6e7fee6432183537482f64765ea1fbe573141737f33
+  hash: af721556e225ec2ada6fd64fec88383e7ea9e05a8c876de48316802a4b92dfe9
 - file: ../src/config/default/peripheral/clk/plib_clk.h
   hash: 35384f2e13e59b7190bf77f6996baf3ea2377ec42df94979a6f793326def5255
 - file: ../src/config/default/peripheral/evic/plib_evic.c
@@ -55,7 +53,7 @@ generatedFileHashHistoryMap:
 - file: ../src/config/default/peripheral/evic/plib_evic.h
   hash: 7ca2c90979d4e8932f07e4dc6bcea310c2a9404bb0eb5bcfb3712b362db61eac
 - file: ../src/config/default/peripheral/gpio/plib_gpio.c
-  hash: dd05f6d71b1caebec3f76b01de40054b762d20d946b97655a61584f493be1a44
+  hash: 2bd9779cd06313e3e17c6850f1e8203185c73f1c211c72a1e04c6c58b305f2e9
 - file: ../src/config/default/peripheral/gpio/plib_gpio.h
   hash: 88f4625530b20e6e4e136e8b9ade94f6aab3c7183327e927f6c6011a3cbab83d
 - file: ../src/config/default/peripheral/i2c/master/plib_i2c4_master.c
@@ -84,14 +82,6 @@ generatedFileHashHistoryMap:
   hash: 1668caa2682fec3effb5fe592e9aad450ed8fa6556a796a91767e1c150182b29
 - file: ../src/config/default/peripheral/qei/plib_qei4.h
   hash: 851cfa5e8f2ee59002c4af393a44c66521f2b25a7bd3b54cb26fd928abb3ef52
-- file: ../src/config/default/peripheral/qei/plib_qei5.c
-  hash: 8d40e83b52d7ae2f77f5810249ff80199b0b5dac0c620be81e1af6dbfe3f84d7
-- file: ../src/config/default/peripheral/qei/plib_qei5.h
-  hash: 36db14675f3c396d6246b4a485c2054c2edfbaf778e00ccfcfa3458d82f09ddf
-- file: ../src/config/default/peripheral/qei/plib_qei6.c
-  hash: cd802ada5d49f1da35fc393025c1be6a99479b90faed6977d4c49c669b6c9c03
-- file: ../src/config/default/peripheral/qei/plib_qei6.h
-  hash: ffa4e5426f094ee98d87a334f2535074c38c5dc3d8ee9ac581f05d35d8d0f3e1
 - file: ../src/config/default/peripheral/qei/plib_qei_common.h
   hash: 63f1cbf111841acd9bf226772787e71a176289defa26b5611cab6df28115187d
 - file: ../src/config/default/peripheral/tmr/plib_tmr2.c

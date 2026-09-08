@@ -1169,7 +1169,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '120000000'
+            value: '0'
           type: Dynamic
         type: Values
       type: Integer
@@ -1180,7 +1180,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '120000000'
+            value: '0'
           type: Dynamic
         type: Values
       type: Integer
@@ -2043,7 +2043,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '128'
           type: Dynamic
         type: Values
       type: Hex
@@ -2939,7 +2939,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'false'
+            value: 'true'
           type: User
         type: Values
       type: Boolean
@@ -2957,7 +2957,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: '16'
+            value: '29'
           type: User
         type: Values
       type: KeyValueSet
@@ -2975,7 +2975,7 @@ data:
         type: Attributes
       - children:
         - attributes:
-            value: INDX5
+            value: T3CK
           type: User
         type: Values
       type: Combo
@@ -3558,7 +3558,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '65536'
+            value: '851968'
           type: Dynamic
         type: Values
       type: Hex
@@ -5076,28 +5076,6 @@ data:
           type: Dynamic
         type: Values
       type: Boolean
-    QEI5_CLOCK_ENABLE:
-      attributes:
-        id: QEI5_CLOCK_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: qei5
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
-    QEI6_CLOCK_ENABLE:
-      attributes:
-        id: QEI6_CLOCK_ENABLE
-      children:
-      - children:
-        - attributes:
-            id: qei6
-            value: 'true'
-          type: Dynamic
-        type: Values
-      type: Boolean
     OUTPUT_COMPARE_2_INTERRUPT_ENABLE_UPDATE:
       attributes:
         id: OUTPUT_COMPARE_2_INTERRUPT_ENABLE_UPDATE
@@ -5382,6 +5360,26 @@ data:
       - children:
         - attributes:
             value: Out
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_5_MODE:
+      attributes:
+        id: BSP_PIN_5_MODE
+      children:
+      - children:
+        - attributes:
+            value: DIGITAL
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_5_FUNCTION_TYPE:
+      attributes:
+        id: BSP_PIN_5_FUNCTION_TYPE
+      children:
+      - children:
+        - attributes:
+            value: T3CK
           type: User
         type: Values
       type: String

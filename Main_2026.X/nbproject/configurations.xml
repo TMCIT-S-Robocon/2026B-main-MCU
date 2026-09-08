@@ -34,8 +34,6 @@
               <itemPath>../src/config/default/peripheral/qei/plib_qei2.h</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei3.h</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei4.h</itemPath>
-              <itemPath>../src/config/default/peripheral/qei/plib_qei5.h</itemPath>
-              <itemPath>../src/config/default/peripheral/qei/plib_qei6.h</itemPath>
             </logicalFolder>
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr_common.h</itemPath>
@@ -76,11 +74,9 @@
                      displayName="Main_2026_default"
                      projectFiles="true">
         <logicalFolder name="components" displayName="components" projectFiles="true">
-          <itemPath>Main_2026_default/components/qei5.yml</itemPath>
           <itemPath>Main_2026_default/components/qei2.yml</itemPath>
           <itemPath>Main_2026_default/components/qei3.yml</itemPath>
           <itemPath>Main_2026_default/components/core.yml</itemPath>
-          <itemPath>Main_2026_default/components/qei6.yml</itemPath>
           <itemPath>Main_2026_default/components/dfp.yml</itemPath>
           <itemPath>Main_2026_default/components/tmr2.yml</itemPath>
           <itemPath>Main_2026_default/components/qei4.yml</itemPath>
@@ -139,8 +135,6 @@
               <itemPath>../src/config/default/peripheral/qei/plib_qei2.c</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei3.c</itemPath>
               <itemPath>../src/config/default/peripheral/qei/plib_qei4.c</itemPath>
-              <itemPath>../src/config/default/peripheral/qei/plib_qei5.c</itemPath>
-              <itemPath>../src/config/default/peripheral/qei/plib_qei6.c</itemPath>
             </logicalFolder>
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.c</itemPath>

@@ -2,27 +2,51 @@
 #include "timer.hpp"
 #include "../src/solenoid_kyou.hpp"
 #include "../src/neopixel.hpp"
-//#include "../src/config/default/peripheral/qei/plib_qei1.h"
-//#include "../src/config/default/peripheral/qei/plib_qei2.h"
-//#include "../src/config/default/peripheral/qei/plib_qei3.h"
-//#include <math.h>
-//#define D_t 0.005f // 制御周期(s) 5ms
+#include "../src/qei.hpp"
+#include "../src/pid.hpp"
+#include "../src/config/default/peripheral/qei/plib_qei1.h"
+#include "../src/config/default/peripheral/qei/plib_qei2.h"
+#include "../src/config/default/peripheral/qei/plib_qei3.h"
+#include "../src/config/default/peripheral/qei/plib_qei4.h"
+#include <math.h>
+#define D_t 0.005f // 制御周期(s) 5ms
+
+extern Omni4PID pid;
 
 volatile uint16_t pair_timer[6] = {0};
 volatile uint16_t delay_timer[6] = {0};
 
 const uint8_t first_solenoid[6] = {1, 3, 5, 7, 9, 11};
 const uint8_t second_solenoid[6] = {2, 4, 6, 8, 10, 12};
+const uint16_t solenoid_delay_time[6] = {
+//    110,  // F1
+//    170,  // F2
+//    100,  // F3
+//    100,  // F4
+//    100,  // F5 70
+//    80   // F6
+    170,  // F1
+    170,  // F2
+    170,  // F3
+    170,  // F4
+    170,  // F5 70
+    170   // F6
+};
 
 void solenoid_syasyutu(uint8_t pair){
     if(pair >= 6) return;
-    
+
     uint8_t s1 = first_solenoid[pair];
+
+    // 1個目をON
     solenoid_kyou_individual(s1, true);
-    // 1000ms
+
+    // 1個目をONしてから1000ms後にOFF
     pair_timer[pair] = SOLENOID_OFF_COUNT;
-    // 230ms後にホールドON
-    delay_timer[pair] = SOLENOID_DELAY_COUNT;
+
+    // 機構ごとの時間後に2個目をON
+    delay_timer[pair] =
+        solenoid_delay_time[pair] / SOLENOID_TIMER_PERIOD_MS;
 }
 
 void tmr3_isr(uint32_t status, uintptr_t context){
@@ -53,4 +77,13 @@ void tmr3_isr(uint32_t status, uintptr_t context){
     
     // neopixel
     neopixel_timer_update();
+}
+
+void tmr2_isr(uint32_t status, uintptr_t context){
+    pid.update(
+        (int32_t)get_position(1),
+        (int32_t)get_position(2),
+        (int32_t)get_position(3),
+        (int32_t)get_position(4)
+    );
 }

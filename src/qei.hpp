@@ -13,8 +13,8 @@
 #include <stdbool.h>
 #include "definitions.h"
 
-float get_angle();
-uint32_t get_position();
+float get_angle(uint8_t num);
+uint32_t get_position(uint8_t num);
 
 #endif	/* QEI_HPP */
 

@@ -53,20 +53,19 @@ Chassis<Omni_4> Omni4_wheel;
 Shotacon controller(&CAN4);
 NEWHZWMD MD1(&CAN4, 0x516), MD2(&CAN4, 0x525), MD3(&CAN4, 0x524), MD4(&CAN4, 0x517);
 
-// pid
-//Omni4PID pid(
-//    0.05f,
-//    0.17f,
-//    2048*4
-//);
 // bno
 BNO055 bno;
+// pid
+Omni4PID pid(0.05f, 0.17f, 2048.0f*4.0f); // 車輪半径[m], 中心-車輪距離[m], CPR
 
 void init();
 void debug_pid();
 
 float angle = 0.0;
 float yaw = 0.0;
+float vx = 0.0;
+float vy = 0.0;
+float wz = 0.0;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -84,6 +83,11 @@ int main ( void ){
     D1_Set();
     
     init();
+    
+    pid.set_all_wheel_pid(4.0f, 0.0f, 0.0f);
+    pid.set_yaw_pid(2.0f, 0.0f, 0.0f);
+    pid.set_yaw_hold_deadband(0.08f);
+    
     init_neopixel();
     solenoid_kyou_all(false);
     solenoid_kyou_individual(9, false);
@@ -96,49 +100,30 @@ int main ( void ){
         D3_Set();
 //        while(1);
     }
-//    // pidモーター方向
-//    pid.set_motor_sign(0, 1);
-//    pid.set_motor_sign(1, 1);
-//    pid.set_motor_sign(2, 1);
-//    pid.set_motor_sign(3, 1);
-//    // 速度PID
-//    pid.set_all_wheel_pid(
-//        15.0f,
-//        40.0f,
-//        0.0f
-//    );
-//    // 姿勢PID
-//    pid.set_yaw_pid(
-//        0.5f,
-//        0.0f,
-//        0.0f
-//    );
-    
 
     while(1){
-        Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*80.0,-3*controller.data.Rstick.x);
+        Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*85.0,-3.5*controller.data.Rstick.x);
         
-//        // コントローラー読み取り
 //        controller.readCAN();
-//        
-//        // BNO055
-//        if(bno.read_quaternion_yaw(&yaw)){
-//            pid.set_yaw(yaw);
+//
+//        if (bno.read_quaternion_yaw(&yaw)) {
+//            pid.set_yaw(yaw, true);
+//        } else {
+//            pid.set_yaw(0.0f, false); // BNO異常時はヨー保持を止める
 //        }
 //        
+//        vx = controller.data.Lstick.x / 7.0f * 0.5f;
+//        vy = controller.data.Lstick.y / 7.0f * 0.5f;
+//        wz = -controller.data.Rstick.x / 7.0f * 1.5f;
+//        pid.set_velocity(vx, vy, wz);
+//
 //        debug_pid();
 //        
-//        // 操作入力
-//        float vx = controller.data.Lstick.x / 7.0f * 0.5f;
-//        float vy = controller.data.Lstick.y / 7.0f * 0.5f;
-//        float wz = -controller.data.Rstick.x / 7.0f * 1.5f;
-//        // PIDへ速度指令
-//        pid.set_velocity(vx, vy, wz);
-//        // PID出力をモーターへ
 //        MD1.Motors[0] = pid.get_output(0);
 //        MD2.Motors[0] = pid.get_output(1);
 //        MD3.Motors[0] = pid.get_output(2);
 //        MD4.Motors[0] = pid.get_output(3);
+        
         
         MD1.Transmit();
         __delay_ms(1);
@@ -215,6 +200,36 @@ int main ( void ){
                 solenoid_kyou_individual(12, true);
             }
         }
+        
+        if(controller.data.U){ // 射出状態(初期状態)で保持
+            if(controller.data.F1){ // 左上
+                solenoid_kyou_individual(1, true);
+            } else if(controller.data.F2){ // 左中
+                solenoid_kyou_individual(3, true);
+            } else if(controller.data.F3){ // 左下
+                solenoid_kyou_individual(5, true);
+            } else if(controller.data.F4){ // 右上
+                solenoid_kyou_individual(7, true);
+            } else if(controller.data.F5){ // 右中
+                solenoid_kyou_individual(9, true);
+            } else if(controller.data.F6){ // 右下
+                solenoid_kyou_individual(11, true);
+            }
+        } else if(controller.data.X){ // 装填時の状態で保持
+            if(controller.data.F1){ // 左上
+                solenoid_kyou_individual(1, false);
+            } else if(controller.data.F2){ // 左中
+                solenoid_kyou_individual(3, false);
+            } else if(controller.data.F3){ // 左下
+                solenoid_kyou_individual(5, false);
+            } else if(controller.data.F4){ // 右上
+                solenoid_kyou_individual(7, false);
+            } else if(controller.data.F5){ // 右中
+                solenoid_kyou_individual(9, false);
+            } else if(controller.data.F6){ // 右下
+                solenoid_kyou_individual(11, false);
+            }
+        }
            
 //        OCMP2_CompareSecondaryValueSet(1875); // GWS S35 STD
 //        __delay_ms(1000);
@@ -251,6 +266,7 @@ int main ( void ){
 void init(){
     Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
     CAN4.init();
+    TMR2_CallbackRegister(tmr2_isr, 0);
     TMR3_CallbackRegister(tmr3_isr, 0);
     TMR2_Start();
     TMR3_Start();

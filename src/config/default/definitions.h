@@ -55,15 +55,13 @@
 #include "peripheral/gpio/plib_gpio.h"
 #include "peripheral/evic/plib_evic.h"
 #include "peripheral/qei/plib_qei1.h"
-#include "peripheral/qei/plib_qei2.h"
 #include "peripheral/uart/plib_uart1.h"
-#include "peripheral/qei/plib_qei3.h"
+#include "peripheral/qei/plib_qei2.h"
 #include "peripheral/i2c/master/plib_i2c4_master.h"
+#include "peripheral/qei/plib_qei3.h"
 #include "peripheral/tmr/plib_tmr2.h"
 #include "peripheral/tmr/plib_tmr3.h"
 #include "peripheral/qei/plib_qei4.h"
-#include "peripheral/qei/plib_qei5.h"
-#include "peripheral/qei/plib_qei6.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

@@ -1,132 +1,94 @@
-///* 
-// * File:   pid.hpp
-// * Author: natsu217
-// *
-// * Created on August 24, 2026, 12:29 AM
-// */
-//
-//#ifndef PID_HPP_
-//#define	PID_HPP_
-//
-//#include <stdint.h>
-//#include <stdbool.h>
-//
-//class Omni4PID{
-//public:
-//    struct WheelSpeed{
-//        float w0;
-//        float w1;
-//        float w2;
-//        float w3;
-//    };
-//    struct MotorCommand{
-//        float m0;
-//        float m1;
-//        float m2;
-//        float m3;
-//    };
-//    
-//    Omni4PID();
-//    // 初期化
-//    void init();
-//    // tmr(5ms)周期処理
-//    void update();
-//    // 目標速度[m/s], [rad/s]
-//    void setVelocity(float vx, float vy, float wz);
-//    // 目標位置[m], [deg]
-//    void setTargetPosition(float x, float y);
-//    void setTargetyaw(float yaw);
-//    // 姿勢制御を使用するか
-//    void setAttitudeControl(bool enable);
-//    // 位置制御を使用するか
-//    void setPositionControl(bool enable);
-//    // 現在のyawを設定
-//    void setYaw(float yaw);
-//    // getter
-//    float getX() const;
-//    float getY() const;
-//    float getYaw() const;
-//    float getVxBody() const;
-//    float getVyBody() const;
-//    WheelSpeed getWheelSpeed() const;
-//    WheelSpeed getTargetWheelSpeed() const;
-//    MotorCommand getMotorCommand() const;
-//    // 個別ゲイン設定
-//    void setVelocityPID(float kp, float ki, float kd);
-//    void setYawPID(float kp, float ki, float kd);
-//    void setPositionGain(float kp, float kd);
-//    // タイマー割り込みから呼ぶ関数
-//    static void tmr2_isr();
-//    
-//private:
-//    static Omni4PID* instance;
-//    
-//    static constexpr float DT = 0.005f;
-//    static constexpr float PI = 3.14159265358979323846f;
-//    // エンコーダー
-//    static constexpr float PPR = 2048.0f;
-//    static constexpr float CPR = PPR * 4.0f;
-//    static constexpr float WHEEL_RADIUS = 0.05f;
-//    // 機体の中心から車輪まで
-//    static constexpr float L = 0.0f; // あとでかえる
-//    
-//    // エンコーダー
-//    uint32_t enc0;
-//    uint32_t enc1;
-//    uint32_t enc2;
-//    uint32_t enc3;
-//    uint32_t enc0_prev;
-//    uint32_t enc1_prev;
-//    uint32_t enc2_prev;
-//    uint32_t enc3_prev;
-//    // wheel velocity
-//    WheelSpeed wheelSpeed;
-//    WheelSpeed targetWheelSpeed;
-//    WheelSpeed wheelSpeedFiltered;
-//    // motor command
-//    MotorCommand motorCommand;
-//    // 速度PID
-//    float velocityKp;
-//    float velocityKi;
-//    float velocityKd;
-//    float integral[4];
-//    float prevMeasurement[4];
-//    // ロボットの速度
-//    float vx;
-//    float vy;
-//    float wz;
-//    float vxBody;
-//    float vyBody;
-//    // 位置
-//    float x;
-//    float y;
-//    float targetX;
-//    float targetY;
-//    // attitude
-//    float yaw;
-//    float targetYaw;
-//    float yawIntegral;
-//    float prevYawError;
-//    float yawKp;
-//    float yawKi;
-//    float yawKd;
-//    bool attitudeEnabled;
-//    bool positionEnabled;
-//    // 位置PID
-//    float positionKp;
-//    float positionKd;
-//    // 関数
-//    void readEncoder();
-//    void updateWheelSpeed();
-//    void updateOdometry();
-//    void updatePositionControl();
-//    void updateAttitudeControl();
-//    void inverseKinematics();
-//    void updateVelocityPID();
-//    float normalizeAngle(float angle);
-//    float clamp(float value, float minValue, float maxValue);
-//    void resetPID();
-//};
-//
-//#endif	/* PID_HPP */
-//
+/* 
+ * File:   pid.hpp
+ * Author: natsu217
+ *
+ * Created on August 24, 2026, 12:29 AM
+ */
+
+#ifndef PID_HPP_
+#define PID_HPP_
+
+#include <stdint.h>
+
+// 4輪オムニ用の速度PID + 手動操縦時のヨー保持。
+// update() は必ず一定周期のタイマ割り込みから呼ぶこと。
+class Omni4PID {
+public:
+    static constexpr uint8_t WHEEL_COUNT = 4;
+
+    struct WheelSpeed {
+        float w0, w1, w2, w3; // [rad/s]
+    };
+
+    // wheelRadius: 車輪半径 [m]
+    // rotationRadius: 機体中心から各車輪接地点までの有効距離 [m]
+    // cpr: 車輪1回転あたりのエンコーダカウント数（逓倍後）
+    Omni4PID(float wheelRadius, float rotationRadius, float cpr,
+             float controlPeriod = 0.005f);
+
+    // 操縦指令。vx, vy [m/s]、wz [rad/s]。毎回メインループから設定する。
+    void set_velocity(float vx, float vy, float wz);
+    void set_yaw(float yawDeg, bool valid = true);
+
+    // 目標角度を明示的に指定したいときのみ使う。通常の手動操縦では不要。
+    void set_target_yaw(float yawDeg);
+    void set_yaw_hold_enabled(bool enabled);
+    void set_yaw_hold_deadband(float wzDeadband);
+
+    void set_wheel_pid(uint8_t wheel, float kp, float ki, float kd);
+    void set_all_wheel_pid(float kp, float ki, float kd);
+    void set_yaw_pid(float kp, float ki, float kd);
+    void set_motor_sign(uint8_t wheel, int8_t sign);
+    void set_encoder_sign(uint8_t wheel, int8_t sign);
+
+    // timer ISRで呼ぶ。countはQEIの累積カウントをそのまま渡す。
+    void update(int32_t enc0, int32_t enc1, int32_t enc2, int32_t enc3);
+
+    float get_output(uint8_t wheel) const;       // -100.0 ～ +100.0
+    float get_wheel_omega(uint8_t wheel) const;  // [rad/s]
+    float get_target_omega(uint8_t wheel) const; // [rad/s]
+    float get_yaw_correction() const;            // [rad/s]
+
+private:
+    static constexpr float PI = 3.14159265358979323846f;
+    static constexpr float SQRT2_INV = 0.7071067811865475f;
+
+    float wheelRadius_;
+    float rotationRadius_;
+    float cpr_;
+    float dt_;
+
+    float vxCmd_ = 0.0f, vyCmd_ = 0.0f, wzCmd_ = 0.0f;
+    float yawDeg_ = 0.0f, targetYawDeg_ = 0.0f;
+    bool yawValid_ = false, yawHoldEnabled_ = true, yawTargetCaptured_ = false;
+    float yawDeadband_ = 0.08f; // [rad/s]
+    float yawKp_ = 2.0f, yawKi_ = 0.0f, yawKd_ = 0.0f;
+    float yawIntegral_ = 0.0f, previousYawError_ = 0.0f;
+    float yawCorrection_ = 0.0f;
+
+    int32_t encoderNow_[WHEEL_COUNT] = {};
+    int32_t encoderPrevious_[WHEEL_COUNT] = {};
+    bool encoderInitialized_ = false;
+    float wheelOmega_[WHEEL_COUNT] = {};
+    float filteredOmega_[WHEEL_COUNT] = {};
+    float targetOmega_[WHEEL_COUNT] = {};
+    float output_[WHEEL_COUNT] = {};
+    float kp_[WHEEL_COUNT] = {};
+    float ki_[WHEEL_COUNT] = {};
+    float kd_[WHEEL_COUNT] = {};
+    float integral_[WHEEL_COUNT] = {};
+    float previousMeasurement_[WHEEL_COUNT] = {};
+    int8_t motorSign_[WHEEL_COUNT] = {1, 1, 1, 1};
+    int8_t encoderSign_[WHEEL_COUNT] = {1, 1, 1, 1};
+
+    static float clamp(float value, float minimum, float maximum);
+    static float normalize_angle(float angleDeg);
+    void update_yaw_control();
+    void calculate_wheel_targets(float wz);
+    void calculate_wheel_velocity();
+    void calculate_wheel_pid();
+    void reset_yaw_pid();
+};
+
+#endif	/* PID_HPP */
+
