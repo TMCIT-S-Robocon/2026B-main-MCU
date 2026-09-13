@@ -219,13 +219,13 @@ void SYS_Initialize ( void* data )
 
     QEI1_Initialize();
 
-	UART1_Initialize();
-
     QEI2_Initialize();
 
-    I2C4_Initialize();
+	UART1_Initialize();
 
     QEI3_Initialize();
+
+    I2C4_Initialize();
 
     TMR2_Initialize();
 

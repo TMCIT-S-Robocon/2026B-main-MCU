@@ -43,20 +43,19 @@
 #define CCLK            (120000000L)            // system clock
 #define PBCLK           (CCLK / 2)              // peripheral bus clock
 #define SAMPLE_RATE     5000
-#define SOLENOID_TIMER_PERIOD_MS 5
-#define SOLENOID_OFF_TIME_MS 1000
-#define SOLENOID_TIMER_COUNT (SOLENOID_OFF_TIME_MS / SOLENOID_TIMER_PERIOD_MS)
+#define pi 3.14159265358979323846264338327950288
+#define rd (180.0/pi) //radian to degree
 
 // IK
 Chassis<Omni_4> Omni4_wheel;
 // can device
 Shotacon controller(&CAN4);
-NEWHZWMD MD1(&CAN4, 0x516), MD2(&CAN4, 0x525), MD3(&CAN4, 0x524), MD4(&CAN4, 0x517);
+NEWHZWMD MD1(&CAN4, 0x513), MD2(&CAN4, 0x525), MD3(&CAN4, 0x524), MD4(&CAN4, 0x517);
 
 // bno
 BNO055 bno;
-// pid
-Omni4PID pid(0.05f, 0.17f, 2048.0f*4.0f); // 車輪半径[m], 中心-車輪距離[m], CPR
+// pid 567.6
+Omni4PID pid(0.06f, 0.567f, 2048.0f*4.0f); // 車輪半径[m], 中心-車輪距離[m], CPR
 
 void init();
 void debug_pid();
@@ -73,9 +72,6 @@ float wz = 0.0;
 // *****************************************************************************
 // *****************************************************************************
 
-#define pi 3.14159265358979323846264338327950288
-#define rd (180.0/pi) //radian to degree
-
 int main ( void ){
     /* Initialize all modules */
     SYS_Initialize ( NULL );
@@ -84,9 +80,20 @@ int main ( void ){
     
     init();
     
-    pid.set_all_wheel_pid(4.0f, 0.0f, 0.0f);
-    pid.set_yaw_pid(2.0f, 0.0f, 0.0f);
-    pid.set_yaw_hold_deadband(0.08f);
+    // 左前と左後は前進するとデクリメント
+    pid.set_encoder_sign(0, -1);
+    pid.set_encoder_sign(1, -1);
+    pid.set_encoder_sign(2, -1);
+    pid.set_encoder_sign(3, -1);
+    
+    // PID番号は MD1, MD2, MD3, MD4 の順
+//    pid.set_wheel_pid(0, 2.0f, 0.0f, 0.0f);  // MD1: 0x513, QEI4 左前
+//    pid.set_wheel_pid(1, 3.0f, 0.0f, 0.0f);  // MD2: 0x525, QEI3 左後
+//    pid.set_wheel_pid(2, 3.0f, 0.0f, 0.0f);  // MD3: 0x524, QEI2
+//    pid.set_wheel_pid(3, 2.6f, 0.0f, 0.0f);  // MD4: 0x517, QEI1
+    
+//    pid.set_yaw_pid(2.0f, 0.0f, 0.0f);
+//    pid.set_yaw_hold_deadband(0.08f);
     
     init_neopixel();
     solenoid_kyou_all(false);
@@ -102,22 +109,22 @@ int main ( void ){
     }
 
     while(1){
-        Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*85.0,-3.5*controller.data.Rstick.x);
+        Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*95.0,-4.0*controller.data.Rstick.x);
         
 //        controller.readCAN();
 //
-//        if (bno.read_quaternion_yaw(&yaw)) {
-//            pid.set_yaw(yaw, true);
-//        } else {
-//            pid.set_yaw(0.0f, false); // BNO異常時はヨー保持を止める
-//        }
+////        if (bno.read_quaternion_yaw(&yaw)) {
+////            pid.set_yaw(yaw, true);
+////        } else {
+////            pid.set_yaw(0.0f, false); // BNO異常時はヨー保持を止める
+////        }
 //        
 //        vx = controller.data.Lstick.x / 7.0f * 0.5f;
 //        vy = controller.data.Lstick.y / 7.0f * 0.5f;
 //        wz = -controller.data.Rstick.x / 7.0f * 1.5f;
 //        pid.set_velocity(vx, vy, wz);
 //
-//        debug_pid();
+////        debug_pid();
 //        
 //        MD1.Motors[0] = pid.get_output(0);
 //        MD2.Motors[0] = pid.get_output(1);
@@ -202,21 +209,22 @@ int main ( void ){
         }
         
         if(controller.data.U){ // 射出状態(初期状態)で保持
-            first_solenoid_close_start();
-//            if(controller.data.F1){ // 左上
-//                solenoid_kyou_individual(1, true);
-//            } else if(controller.data.F2){ // 左中
-//                solenoid_kyou_individual(3, true);
-//            } else if(controller.data.F3){ // 左下
-//                solenoid_kyou_individual(5, true);
-//            } else if(controller.data.F4){ // 右上
-//                solenoid_kyou_individual(7, true);
-//            } else if(controller.data.F5){ // 右中
-//                solenoid_kyou_individual(9, true);
-//            } else if(controller.data.F6){ // 右下
-//                solenoid_kyou_individual(11, true);
-//            }
+//            first_solenoid_init();
+            if(controller.data.F1){ // 左上
+                solenoid_kyou_individual(1, true);
+            } else if(controller.data.F2){ // 左中
+                solenoid_kyou_individual(3, true);
+            } else if(controller.data.F3){ // 左下
+                solenoid_kyou_individual(5, true);
+            } else if(controller.data.F4){ // 右上
+                solenoid_kyou_individual(7, true);
+            } else if(controller.data.F5){ // 右中
+                solenoid_kyou_individual(9, true);
+            } else if(controller.data.F6){ // 右下
+                solenoid_kyou_individual(11, true);
+            }
         } else if(controller.data.X){ // 射出前の状態で保持
+//            first_solenoid_before_syasyutu();
             if(controller.data.F1){ // 左上
                 solenoid_kyou_individual(1, false);
             } else if(controller.data.F2){ // 左中
@@ -232,32 +240,18 @@ int main ( void ){
             }
         }
         
-        // 遠隔非常停止(RB12)
-        if(controller.data.F2 && controller.data.F4){
-            emergency_stop_Set();
+        // 遠隔非常停止(B6)
+        if(controller.data.L){
+            if(controller.data.A){
+                B6_Clear();
+                A6_Clear();
+            }
         }
-        
-        
-//        // RB7, RC13 圧力スイッチ(NPN)
-//        if(GPIO_PinRead(GPIO_PIN_RB7)){ // out2
-//            // 閾値の範囲外
-//            D2_Clear();
-//        } else{
-//            // 閾値の範囲内
-//            D2_Set();
-//        }
-//        if(GPIO_PinRead(GPIO_PIN_RC13)){ // out1
-//            // 閾値の範囲外
-//            D3_Clear();
-//        } else{
-//            // 閾値の範囲内
-//            D3_Set();
-//        }
         
         if(neopixel_is_ready()){
             neopixel();
         }
-        
+                
         D1_Toggle();
     };
     
@@ -265,7 +259,8 @@ int main ( void ){
 }
 
 void init(){
-    emergency_stop_Clear();
+    B6_Set();
+    A6_Set();
     Omni4_wheel.set_motor(0, MD1.GetMotor(0)).set_motor(1, MD2.GetMotor(0)).set_motor(2, MD3.GetMotor(0)).set_motor(3, MD4.GetMotor(0));
     CAN4.init();
     TMR2_CallbackRegister(tmr2_isr, 0);
@@ -276,7 +271,7 @@ void init(){
     QEI2_Start();
     QEI3_Start();
     QEI4_Start();
-    WDT_Enable();
+//    WDT_Enable();
 }
 
 void debug_pid(){

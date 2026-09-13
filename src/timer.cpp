@@ -12,6 +12,7 @@
 #define D_t 0.005f // 制御周期(s) 5ms
 
 extern Omni4PID pid;
+extern float angle;
 
 volatile uint16_t pair_timer[6] = {0};
 volatile uint16_t delay_timer[6] = {0};
@@ -108,14 +109,19 @@ void tmr3_isr(uint32_t status, uintptr_t context){
 
 void tmr2_isr(uint32_t status, uintptr_t context){
     pid.update(
-        (int32_t)get_position(4), // MD1
-        (int32_t)get_position(3), // MD2
-        (int32_t)get_position(2), // MD3
-        (int32_t)get_position(1)  // MD4
+//        (int32_t)get_position(3), // MD1
+//        (int32_t)get_position(4), // MD2
+//        (int32_t)get_position(2), // MD3
+//        (int32_t)get_position(1)  // MD4
+        get_position(3), // MD1
+        get_position(4), // MD2
+        get_position(2), // MD3
+        get_position(1)  // MD4
     );
+    angle = get_position(2);
 }
 
-void first_solenoid_close_start(void){
+void first_solenoid_init(void){ // 機構全て初期(射出後)状態
     // すでに動作中なら無視
     if(first_solenoid_timer != 0){
         return;
@@ -124,6 +130,21 @@ void first_solenoid_close_start(void){
     first_solenoid_index = 0;
 
     // 1番を即座にOFF
+    solenoid_kyou_individual(first_solenoid[0], true);
+
+    first_solenoid_index = 1;
+    first_solenoid_timer = FIRST_SOLENOID_INTERVAL_COUNT;
+}
+
+void first_solenoid_before_syasyutu(void){ // 機構全て射出前状態
+    // すでに動作中なら無視
+    if(first_solenoid_timer != 0){
+        return;
+    }
+
+    first_solenoid_index = 0;
+
+    // 1番を即座にON
     solenoid_kyou_individual(first_solenoid[0], false);
 
     first_solenoid_index = 1;

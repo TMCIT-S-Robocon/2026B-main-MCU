@@ -37,12 +37,16 @@ public:
 
     void set_wheel_pid(uint8_t wheel, float kp, float ki, float kd);
     void set_all_wheel_pid(float kp, float ki, float kd);
+    // kS: 静止摩擦を越える固定出力、kV: 目標角速度[rad/s]あたりの出力。
+    // どちらもモータ符号を反映する前の、正方向の正の値を渡す。
+    void set_wheel_feedforward(uint8_t wheel, float kS, float kV);
     void set_yaw_pid(float kp, float ki, float kd);
     void set_motor_sign(uint8_t wheel, int8_t sign);
     void set_encoder_sign(uint8_t wheel, int8_t sign);
 
     // timer ISRで呼ぶ。countはQEIの累積カウントをそのまま渡す。
-    void update(int32_t enc0, int32_t enc1, int32_t enc2, int32_t enc3);
+//    void update(int32_t enc0, int32_t enc1, int32_t enc2, int32_t enc3);
+    void update(uint32_t enc0, uint32_t enc1, uint32_t enc2, uint32_t enc3);
 
     float get_output(uint8_t wheel) const;       // -100.0 ～ +100.0
     float get_wheel_omega(uint8_t wheel) const;  // [rad/s]
@@ -66,8 +70,10 @@ private:
     float yawIntegral_ = 0.0f, previousYawError_ = 0.0f;
     float yawCorrection_ = 0.0f;
 
-    int32_t encoderNow_[WHEEL_COUNT] = {};
-    int32_t encoderPrevious_[WHEEL_COUNT] = {};
+//    int32_t encoderNow_[WHEEL_COUNT] = {};
+    uint32_t encoderNow_[WHEEL_COUNT] = {};
+//    int32_t encoderPrevious_[WHEEL_COUNT] = {};
+    uint32_t encoderPrevious_[WHEEL_COUNT] = {};
     bool encoderInitialized_ = false;
     float wheelOmega_[WHEEL_COUNT] = {};
     float filteredOmega_[WHEEL_COUNT] = {};
@@ -76,6 +82,8 @@ private:
     float kp_[WHEEL_COUNT] = {};
     float ki_[WHEEL_COUNT] = {};
     float kd_[WHEEL_COUNT] = {};
+    float kS_[WHEEL_COUNT] = {};
+    float kV_[WHEEL_COUNT] = {};
     float integral_[WHEEL_COUNT] = {};
     float previousMeasurement_[WHEEL_COUNT] = {};
     int8_t motorSign_[WHEEL_COUNT] = {1, 1, 1, 1};

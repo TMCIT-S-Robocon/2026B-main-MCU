@@ -62,6 +62,26 @@
 // *****************************************************************************
 
 
+/*** Macros for B6 pin ***/
+#define B6_Set()               (LATASET = (1U<<7))
+#define B6_Clear()             (LATACLR = (1U<<7))
+#define B6_Toggle()            (LATAINV= (1U<<7))
+#define B6_OutputEnable()      (TRISACLR = (1U<<7))
+#define B6_InputEnable()       (TRISASET = (1U<<7))
+#define B6_Get()               ((PORTA >> 7) & 0x1U)
+#define B6_GetLatch()          ((LATA >> 7) & 0x1U)
+#define B6_PIN                  GPIO_PIN_RA7
+
+/*** Macros for A6 pin ***/
+#define A6_Set()               (LATBSET = (1U<<14))
+#define A6_Clear()             (LATBCLR = (1U<<14))
+#define A6_Toggle()            (LATBINV= (1U<<14))
+#define A6_OutputEnable()      (TRISBCLR = (1U<<14))
+#define A6_InputEnable()       (TRISBSET = (1U<<14))
+#define A6_Get()               ((PORTB >> 14) & 0x1U)
+#define A6_GetLatch()          ((LATB >> 14) & 0x1U)
+#define A6_PIN                  GPIO_PIN_RB14
+
 /*** Macros for D4 pin ***/
 #define D4_Set()               (LATDSET = (1U<<8))
 #define D4_Clear()             (LATDCLR = (1U<<8))

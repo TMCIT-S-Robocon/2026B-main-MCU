@@ -1781,7 +1781,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'true'
+            value: 'false'
           type: User
         type: Values
       type: Boolean
@@ -1873,7 +1873,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'true'
+            value: 'false'
           type: User
         type: Values
       type: Boolean
@@ -1977,7 +1977,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '1024'
+            value: '1152'
           type: Dynamic
         type: Values
       type: Hex
@@ -2021,7 +2021,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '6144'
+            value: '22528'
           type: Dynamic
         type: Values
       type: Hex
@@ -4306,7 +4306,7 @@ data:
       - children:
         - attributes:
             id: core
-            value: '0'
+            value: '20480'
           type: Dynamic
         type: Values
       type: Hex
@@ -5190,7 +5190,7 @@ data:
       children:
       - children:
         - attributes:
-            value: QEB6
+            value: GPIO
           type: User
         type: Values
       type: String
@@ -5200,7 +5200,7 @@ data:
       children:
       - children:
         - attributes:
-            value: QEA6
+            value: GPIO
           type: User
         type: Values
       type: String
@@ -5400,6 +5400,76 @@ data:
       - children:
         - attributes:
             value: Out
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_62_LAT:
+      attributes:
+        id: BSP_PIN_62_LAT
+      children:
+      - children:
+        - attributes:
+            value: High
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_1_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_1_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: B6
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_2_FUNCTION_NAME:
+      attributes:
+        id: BSP_PIN_2_FUNCTION_NAME
+      children:
+      - children:
+        - attributes:
+            value: A6
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_1_DIR:
+      attributes:
+        id: BSP_PIN_1_DIR
+      children:
+      - children:
+        - attributes:
+            value: Out
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_2_DIR:
+      attributes:
+        id: BSP_PIN_2_DIR
+      children:
+      - children:
+        - attributes:
+            value: Out
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_1_LAT:
+      attributes:
+        id: BSP_PIN_1_LAT
+      children:
+      - children:
+        - attributes:
+            value: ''
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_2_LAT:
+      attributes:
+        id: BSP_PIN_2_LAT
+      children:
+      - children:
+        - attributes:
+            value: High
           type: User
         type: Values
       type: String

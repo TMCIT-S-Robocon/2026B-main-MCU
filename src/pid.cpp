@@ -44,6 +44,13 @@ void Omni4PID::set_all_wheel_pid(float kp, float ki, float kd) {
     for (uint8_t i = 0; i < WHEEL_COUNT; ++i) set_wheel_pid(i, kp, ki, kd);
 }
 
+void Omni4PID::set_wheel_feedforward(uint8_t wheel, float kS, float kV) {
+    if (wheel >= WHEEL_COUNT) return;
+    // kS/kVは通常正値。負値を渡しても意図しない正帰還にしない。
+    kS_[wheel] = (kS < 0.0f) ? -kS : kS;
+    kV_[wheel] = (kV < 0.0f) ? -kV : kV;
+}
+
 void Omni4PID::set_yaw_pid(float kp, float ki, float kd) {
     yawKp_ = kp;
     yawKi_ = ki;
@@ -59,7 +66,8 @@ void Omni4PID::set_encoder_sign(uint8_t wheel, int8_t sign) {
     if (wheel < WHEEL_COUNT) encoderSign_[wheel] = (sign < 0) ? -1 : 1;
 }
 
-void Omni4PID::update(int32_t enc0, int32_t enc1, int32_t enc2, int32_t enc3) {
+//void Omni4PID::update(int32_t enc0, int32_t enc1, int32_t enc2, int32_t enc3) {
+void Omni4PID::update(uint32_t enc0, uint32_t enc1, uint32_t enc2, uint32_t enc3) {
     encoderNow_[0] = enc0; encoderNow_[1] = enc1;
     encoderNow_[2] = enc2; encoderNow_[3] = enc3;
 
@@ -109,9 +117,10 @@ void Omni4PID::calculate_wheel_targets(float wz) {
 }
 
 void Omni4PID::calculate_wheel_velocity() {
-    constexpr float FILTER_ALPHA = 0.30f;
+    constexpr float FILTER_ALPHA = 0.6f;
     for (uint8_t i = 0; i < WHEEL_COUNT; ++i) {
-        const int32_t deltaCount = encoderNow_[i] - encoderPrevious_[i];
+//        const int32_t deltaCount = encoderNow_[i] - encoderPrevious_[i];
+        const int32_t deltaCount = (int32_t)(encoderNow_[i] - encoderPrevious_[i]);
         const float rawOmega = (float)(encoderSign_[i] * deltaCount) * 2.0f * PI / cpr_ / dt_;
         filteredOmega_[i] += FILTER_ALPHA * (rawOmega - filteredOmega_[i]);
         wheelOmega_[i] = filteredOmega_[i];
@@ -122,11 +131,21 @@ void Omni4PID::calculate_wheel_velocity() {
 void Omni4PID::calculate_wheel_pid() {
     constexpr float OUTPUT_LIMIT = 100.0f;
     constexpr float INTEGRAL_LIMIT = 20.0f;
+        constexpr float FEEDFORWARD_DEADBAND = 0.05f; // [rad/s]
     for (uint8_t i = 0; i < WHEEL_COUNT; ++i) {
         const float error = targetOmega_[i] - wheelOmega_[i];
         const float measurementDerivative = (wheelOmega_[i] - previousMeasurement_[i]) / dt_;
         const float candidateIntegral = clamp(integral_[i] + error * dt_, -INTEGRAL_LIMIT, INTEGRAL_LIMIT);
-        const float unsaturated = kp_[i] * error + ki_[i] * candidateIntegral - kd_[i] * measurementDerivative;
+//        const float unsaturated = kp_[i] * error + ki_[i] * candidateIntegral - kd_[i] * measurementDerivative;
+        float feedforward = kV_[i] * targetOmega_[i];
+        if (targetOmega_[i] > FEEDFORWARD_DEADBAND) {
+            feedforward += kS_[i];
+        } else if (targetOmega_[i] < -FEEDFORWARD_DEADBAND) {
+            feedforward -= kS_[i];
+        }
+        const float unsaturated = feedforward + kp_[i] * error
+                                + ki_[i] * candidateIntegral
+                                - kd_[i] * measurementDerivative;
         const float command = clamp(unsaturated, -OUTPUT_LIMIT, OUTPUT_LIMIT);
 
         // 飽和をさらに強める向きには積分しない。
