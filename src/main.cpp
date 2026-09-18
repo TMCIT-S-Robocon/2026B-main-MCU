@@ -80,11 +80,11 @@ int main ( void ){
     
     init();
     
-    // 左前と左後は前進するとデクリメント
-    pid.set_encoder_sign(0, -1);
-    pid.set_encoder_sign(1, -1);
-    pid.set_encoder_sign(2, -1);
-    pid.set_encoder_sign(3, -1);
+//    // 左前と左後は前進するとデクリメント
+//    pid.set_encoder_sign(0, -1);
+//    pid.set_encoder_sign(1, -1);
+//    pid.set_encoder_sign(2, -1);
+//    pid.set_encoder_sign(3, -1);
     
     // PID番号は MD1, MD2, MD3, MD4 の順
 //    pid.set_wheel_pid(0, 2.0f, 0.0f, 0.0f);  // MD1: 0x513, QEI4 左前
@@ -109,7 +109,7 @@ int main ( void ){
     }
 
     while(1){
-        Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*95.0,-4.0*controller.data.Rstick.x);
+        Omni4_wheel.calc(controller.data.Lstick.theta,controller.data.Lstick.r*80.0,-5.5*controller.data.Rstick.x);
         
 //        controller.readCAN();
 //
@@ -133,13 +133,13 @@ int main ( void ){
         
         
         MD1.Transmit();
-        __delay_ms(1);
+        __delay_ms(2);
         MD2.Transmit();
-        __delay_ms(1);
+        __delay_ms(2);
         MD3.Transmit();
-        __delay_ms(1);
+        __delay_ms(2);
         MD4.Transmit();
-        __delay_ms(1);
+        __delay_ms(2);
         
         // delay
         // 青木の射出機構：180ms
@@ -253,6 +253,7 @@ int main ( void ){
         }
                 
         D1_Toggle();
+        __delay_ms(2);
     };
     
     return ( EXIT_FAILURE );

@@ -35,7 +35,7 @@ data:
       - children:
         - attributes:
             id: can4
-            value: '1000'
+            value: '710'
           type: Dynamic
         type: Values
       type: Integer
@@ -46,7 +46,7 @@ data:
       - children:
         - attributes:
             id: can4
-            value: '0.000'
+            value: '0.008'
           type: Dynamic
         type: Values
       type: String
@@ -162,7 +162,7 @@ data:
       - children:
         - attributes:
             id: can4
-            value: '48'
+            value: '68'
           type: Dynamic
         - attributes:
             value: '48'
@@ -176,7 +176,7 @@ data:
       - children:
         - attributes:
             id: can4
-            value: '120'
+            value: '169'
           type: Dynamic
         type: Values
       type: Integer
@@ -187,7 +187,7 @@ data:
       - children:
         - attributes:
             id: can4
-            value: '71'
+            value: '100'
           type: Dynamic
         type: Values
       type: Integer
@@ -198,7 +198,7 @@ data:
       - children:
         - attributes:
             id: can4
-            value: '48'
+            value: '68'
           type: Dynamic
         type: Values
       type: Integer
@@ -208,7 +208,7 @@ data:
       children:
       - children:
         - attributes:
-            value: '1000'
+            value: '710'
           type: User
         type: Values
       type: Integer
@@ -398,7 +398,7 @@ data:
       children:
       - children:
         - attributes:
-            value: '8'
+            value: '16'
           type: User
         type: Values
       type: Integer

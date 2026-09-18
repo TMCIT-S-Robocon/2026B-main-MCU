@@ -21,13 +21,13 @@ modules:
 - uart1
 generatedFileHashHistoryMap:
 - file: ../src/config/default/definitions.h
-  hash: c5689ae4c71a2f53991aba65c430e8ace80cb23f9bc3098f91e4d2dae80a65e9
+  hash: d118846727ffd1b67d1de7bdfbf3227e1bd541bd8d74e8b11dfaafe738c3c1d7
 - file: ../src/config/default/device.h
   hash: 4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442
 - file: ../src/config/default/exceptions.c
   hash: 265c985839caadb2fa9e8fc76e7bc3c160e31e9b2c96dc4006add33e5d7ee212
 - file: ../src/config/default/initialization.c
-  hash: d6f4f2fc25a750d70110f73d83c84292d4450d12a5ad1444eb76ec470bfd3be3
+  hash: d7172add2169639e4804766fb5eb16f5a0d2d9291eeee223176c40f22185a157
 - file: ../src/config/default/interrupts.c
   hash: 46c377243ae75a2c3e580f44bbaa94df0d0bf40625fa23cb49b8c61dba565aad
 - file: ../src/config/default/interrupts.h
@@ -39,7 +39,7 @@ generatedFileHashHistoryMap:
 - file: ../src/config/default/peripheral/canfd/plib_canfd2.h
   hash: 554cc507b202345ad0146891f9f9ec18b4a2a20084855b40dc5c249a365ee218
 - file: ../src/config/default/peripheral/canfd/plib_canfd4.c
-  hash: ffdd3bb391a4e0c67ea598fb6180fd025ae14dd8184c062a16bb90a449b7de77
+  hash: 23b86ada9830dd6eb16a6b9879baba29fdedd6f79fc95c72dec0fc2752211f2b
 - file: ../src/config/default/peripheral/canfd/plib_canfd4.h
   hash: f4b60a9de25c3bdbd300c8b1d2e2d9af6d6bb2114075d36a2710ea0b2f36002c
 - file: ../src/config/default/peripheral/canfd/plib_canfd_common.h
