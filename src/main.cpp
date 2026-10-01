@@ -141,9 +141,6 @@ int main ( void ){
         MD4.Transmit();
         __delay_ms(2);
         
-        // delay
-        // 青木の射出機構：180ms
-        // 古川先輩の射出機構：222ms???
         if(controller.data.L1){ // 射出            
             if(controller.data.F1){
                 solenoid_syasyutu(0);
@@ -209,7 +206,6 @@ int main ( void ){
         }
         
         if(controller.data.U){ // 射出状態(初期状態)で保持
-//            first_solenoid_init();
             if(controller.data.F1){ // 左上
                 solenoid_kyou_individual(1, true);
             } else if(controller.data.F2){ // 左中
@@ -224,7 +220,6 @@ int main ( void ){
                 solenoid_kyou_individual(11, true);
             }
         } else if(controller.data.X){ // 射出前の状態で保持
-//            first_solenoid_before_syasyutu();
             if(controller.data.F1){ // 左上
                 solenoid_kyou_individual(1, false);
             } else if(controller.data.F2){ // 左中
